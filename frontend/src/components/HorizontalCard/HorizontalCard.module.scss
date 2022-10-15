@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 528px;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.img {
+    border-radius: 20px;
+    width: 70px;
+    height: 70px;
+}
+
+.name {
+    margin-left: 10px;
+}
+
+.location {
+    display: flex;
+}
+
+.icon {
+    color: #62bdfc;
+    margin-right: 5px;
+}
+
+.address {
+    font-size: 1.2rem;
+    color: #8f8f8f;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.night {
+    font-size: 1.2rem;
+    color: #8f8f8f;
+}
