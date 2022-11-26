@@ -3,9 +3,16 @@
     display: flex;
 }
 
+
+
 .content {
     position: absolute;
     right: 0;
-    width: 80%;
+    width: calc(80% + 170px);
+    transition: width 0.5s;
     // flex: 1; 
+}
+
+.toggle {
+    width: 80%;
 }

@@ -27,25 +27,24 @@
     cursor: pointer;
 }
 
-.popular {
-    width: 100%;
-    display: none;
-}
-
 .active-section {
     color: #000;
     font-weight: bold;
 }
 
 .popular {
+    // width: 100%;
     display: none;
-    justify-content: space-between;
-    max-width: 100%;
-    flex-wrap: wrap;
+    // justify-content: space-between;
+    // max-width: 100%;
+    // flex-wrap: wrap;
+    // display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
 }
 
 .active-pane-section {
-    display: flex;
+    display: grid;
 }
 
 .line {

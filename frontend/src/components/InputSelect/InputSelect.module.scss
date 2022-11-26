@@ -4,9 +4,9 @@
     border-radius: 20px;
     background-color: #fff;
     padding: 15px;
-    min-width: 200px;
-    font-size: 1.6rem;
-    cursor: pointer;
+    // min-width: 200px;
+    // font-size: 1.6rem;
+    // cursor: pointer;
 }
 
 .icon {
@@ -17,4 +17,26 @@
     width: 100%;
     color: #8f8f8f;
     margin: 0 20px;
+}
+
+/* Form */
+// .form {
+//     padding: 0 10px;
+//     display: flex;
+//     justify-content: space-between;
+//     height: 50px;
+// }
+
+.form-select {
+    // width: 70%;
+    // border-radius: 20px;
+    outline: none;
+    font-size: 1.6rem;
+    color: #8f8f8f;
+    border: none;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    // font-size: 2.5rem;
+    // font-weight: 200;
+    // padding: 0 10px;
 }

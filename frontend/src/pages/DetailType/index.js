@@ -1,31 +1,37 @@
 import { faHeart, faStar, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faBed, faShareNodes, faVectorSquare } from '@fortawesome/free-solid-svg-icons';
+import { faBed, faShareNodes, faVectorSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Comment from '~/components/Comment/Comment';
 import Image from '~/components/Image';
 import InputSelect from '~/components/InputSelect';
-import styles from './Detail.module.scss'; 
+import styles from './DetailType.module.scss'; 
 
 const cx = classNames.bind(styles)
 
-function Detail() {
+function DetailType() {
 
-    useEffect(() => {
-        const scores = document.querySelectorAll('.' + cx('user-score'))
-        const evaluation = document.querySelectorAll('.' + cx('user-evaluation'))
-        scores.forEach((score, index) => {
-            if (score.innerText >= 7 && score.innerText < 8) {
-                evaluation[index].innerText = 'Very good'
-            }
-            else if (score.innerText >= 8 && score.innerText < 9) {
-                evaluation[index].innerText = ' Awesome'
-            }
-            else if (score.innerText >= 9 && score.innerText < 10) {
-                evaluation[index].innerText = ' Above awesome'
-            }
-        })
-    })
+    // useEffect(() => {
+    //     const checkboxes = document.querySelectorAll('.' + cx('checkbox'))[5].childNodes[0]
+    //     // console.log(checkboxes)
+    //     if (checkboxes.checked === true) {
+    //         console.log('hello')
+    //     }
+    // },[])
+
+    const handleChange = (e) => {
+        if (e.target.checked === true) {
+            const modal = document.querySelectorAll('.' + cx('modal'))
+            modal[2].style.display = 'flex';
+        }
+    }
+
+    const handleClose = () => {
+        const modal = document.querySelectorAll('.' + cx('modal'))
+        modal[2].style.display = 'none';
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -172,6 +178,49 @@ function Detail() {
                                 </div>
                                 <span className={cx('')}>Free</span> 
                             </div>
+                            <div className={cx('checkbox-item')}>
+                                <div className={cx('checkbox')}>
+                                    <input type="checkbox" id="extra6" name="extra6" value="car" onChange={handleChange}/>
+                                    <label className={cx('label')} htmlFor="extra6"> Car service</label>
+                                </div>
+                                <span className={cx('')}></span> 
+                            </div>
+                        </div>
+
+                        <div className={cx('modal')}>
+                            <div className={cx('modal__overlay')}></div>
+                            <div className={cx('modal__body')}>
+                                <div className={cx('close-btn')} onClick={handleClose}>
+                                    <FontAwesomeIcon icon={faXmark}/>
+                                </div>
+                                <div className={cx('wrapper-inner')}>
+                                    <h2>Car types</h2>
+                                    <div className={cx('payment__method')}>
+                                        <div className={cx('payment__method-item')}>
+                                            <input id="card" name="method" type="radio" value="CARD" />
+                                            <label className={cx('label')} htmlFor="card"> 4-seats</label>
+                                        </div>
+                                        <div className={cx('payment__method-item')}>
+                                            <input id="banking" name="method" type="radio" value="BANKING"/>
+                                            <label className={cx('label')} htmlFor="banking"> 7-seats</label>
+                                        </div>
+                                        <div className={cx('payment__method-item')}>
+                                            <input id="wallet" name="method" type="radio" value="WALLET"/>
+                                            <label className={cx('label')} htmlFor="wallet"> 16-seats</label>
+                                        </div>
+                                        <div className={cx('payment__method-item')}>
+                                            <input id="banking" name="method" type="radio" value="BANKING"/>
+                                            <label className={cx('label')} htmlFor="banking"> Van</label>
+                                        </div>
+                                        <div className={cx('payment__method-item')}>
+                                            <input id="wallet" name="method" type="radio" value="WALLET"/>
+                                            <label className={cx('label')} htmlFor="wallet"> Limousine</label>
+                                        </div>
+                                        <span className={cx('form-message')}></span>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                         <div className={cx('total')}>
@@ -182,9 +231,11 @@ function Detail() {
                             <span className={cx('')}>$84</span>
                         </div>
 
-                        <div className={cx('booking-btn')}>
-                            Book now
-                        </div>
+                        <Link to='/checkout'>
+                            <div className={cx('booking-btn')}>
+                                Book now
+                            </div>
+                        </Link>
 
                         <div className={cx('extra-sentence')}>You will not get charged yet</div>
                     </div>
@@ -201,41 +252,12 @@ function Detail() {
                     <h2 className={cx('overall-score')}>8.2</h2>
                     (65 reviews)
                 </div>
-                <div className={cx('comment')}>
-                    <div className={cx('comment-header')}>
-                        <div className={cx('user')}>
-                            <Image className={cx('user-avatar')} src='' alt=''/>
-                            <div className={cx('comment-user')}>
-                                <h3 className={cx('comment-name')}>Phillip Martin</h3>
-                                <div className={cx('date')}>6 days ago</div>
-                            </div>
-                        </div>
-                        <h2 className={cx('user-score')}>9</h2>
-                        <h4 className={cx('user-evaluation')}></h4>
-                    </div>
-                    <div className={cx('comment-content')}>
-                        Great people, friendly, you can ask for anything you want and they will help you, great view and great place.
-                    </div>
-                </div>
-                <div className={cx('comment')}>
-                    <div className={cx('comment-header')}>
-                        <div className={cx('user')}>
-                            <Image className={cx('user-avatar')} src='' alt=''/>
-                            <div className={cx('comment-user')}>
-                                <h3 className={cx('comment-name')}>Phillip Martin</h3>
-                                <div className={cx('date')}>6 days ago</div>
-                            </div>
-                        </div>
-                        <h2 className={cx('user-score')}>8</h2>
-                        <h4 className={cx('user-evaluation')}></h4>
-                    </div>
-                    <div className={cx('comment-content')}>
-                        Great people, friendly, you can ask for anything you want and they will help you, great view and great place.
-                    </div>
-                </div>
+                
+                <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
+                <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
             </div>
         </div>
     );
 }
 
-export default Detail;
+export default DetailType;

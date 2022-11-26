@@ -1,7 +1,7 @@
-import { faCompass, faGear, faHeart, faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faClose, faCompass, faEdit, faGear, faHeart, faHouse, faRightFromBracket, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
 import config from '~/config';
@@ -9,18 +9,31 @@ import styles from './Sidebar.module.scss';
 
 const cx = classNames.bind(styles)
 
-function Sidebar() {
+function Sidebar({ toggle }) {
 
+    const [flag, setFlag] = useState(false)
+    const user = true
     useEffect(() => {
-        const tabs = document.querySelectorAll('.' + cx('user-info-item'));
-        tabs.forEach((tab, index) => {
-            tab.onclick = function () {
-                const tabActive = document.querySelector('.' + cx('active-tab'));
-                tabActive.classList.remove(cx('active-tab'));
-    
-                this.classList.add(cx('active-tab'));
-            };
-        })
+        let menuToggle = document.querySelector('.' + cx('toggle'))
+        let navigation = document.querySelector('.' + cx('wrapper'))
+        
+        menuToggle.onclick = function() {
+            setFlag(!flag)
+            toggle(flag)
+            menuToggle.classList.toggle(cx('active'))
+            navigation.classList.toggle(cx('active'))
+        }
+        // if (!user) {
+            const tabs = document.querySelectorAll('.' + cx('user-info-item'));
+            tabs.forEach((tab, index) => {
+                tab.onclick = function () {
+                    const tabActive = document.querySelector('.' + cx('active-tab'));
+                    tabActive.classList.remove(cx('active-tab'));
+        
+                    this.classList.add(cx('active-tab'));
+                };
+            })
+        // }
     })
 
     return (
@@ -35,30 +48,57 @@ function Sidebar() {
                         <b></b>
                         <b></b>
                         <FontAwesomeIcon icon={faCompass} className={cx('item-icon')}/>
-                        Browse
+                        <span className={cx('title')}>Browse</span>
                     </li>
 
-                    <li className={cx('user-info-item')}>
-                        <b></b>
-                        <b></b>
-                        <FontAwesomeIcon icon={faHeart} className={cx('item-icon')}/>
-                        Favorite
-                    </li>
+                    {user ?
+                        <li className={cx('user-info-item')}>
+                            <b></b>
+                            <b></b>
+                            <FontAwesomeIcon icon={faHeart} className={cx('item-icon')}/>
+                            <span className={cx('title')}>Favorite</span>
+                        </li> : 
+                        <Link to='/signin'>
+                            <li className={cx('user-info-item')}>
+                                <b></b>
+                                <b></b>
+                                <FontAwesomeIcon icon={faRightToBracket} className={cx('item-icon')}/>
+                                <span className={cx('title')}>Login</span>
+                            </li>
+                        </Link>
+                    }
 
-                    <li className={cx('user-info-item')}>
-                        <b></b>
-                        <b></b>
-                        <FontAwesomeIcon icon={faGear} className={cx('item-icon')}/>
-                        Settings
-                    </li>
+                    {user ? 
+                        <li className={cx('user-info-item')}>
+                            <b></b>
+                            <b></b>
+                            <FontAwesomeIcon icon={faGear} className={cx('item-icon')}/>
+                            <span className={cx('title')}>Settings</span>
+                        </li> :
+                        <Link to='/signup'>
+                            <li className={cx('user-info-item')}>
+                                <b></b>
+                                <b></b>
+                                <FontAwesomeIcon icon={faEdit} className={cx('item-icon')}/>
+                                <span className={cx('title')}>Sign up</span>
+                            </li>
+                        </Link>
+                    }
 
-                    <li className={cx('user-info-item')}>
-                        <b></b>
-                        <b></b>
-                        <FontAwesomeIcon icon={faRightFromBracket} className={cx('item-icon')}/>
-                        Log Out
-                    </li>
+                    {user && 
+                        <li className={cx('user-info-item')}>
+                            <b></b>
+                            <b></b>
+                            <FontAwesomeIcon icon={faRightFromBracket} className={cx('item-icon')}/>
+                            <span className={cx('title')}>Log Out</span>
+                        </li>
+                    }
                 </ul>
+            </div>
+
+            <div className={cx('toggle')}>
+                <FontAwesomeIcon icon={faBars} className={cx('open', 'icon')}/>
+                <FontAwesomeIcon icon={faClose} className={cx('close', 'icon')}/>
             </div>
         </div>
     );
