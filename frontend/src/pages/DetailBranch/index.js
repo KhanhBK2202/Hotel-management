@@ -56,6 +56,7 @@ function DetailBranch() {
             <div style={{ height: '400px', width: '60%', margin: '20px auto' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API }}
+                    // bootstrapURLKeys={{ key:"AIzaSyCTLyOVi_n81tpqxP_0LrIzyRv61LK3D2c" }}
                     defaultCenter={defaultProps.center}
                     defaultZoom={defaultProps.zoom}
                 >

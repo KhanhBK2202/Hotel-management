@@ -48,7 +48,8 @@ function DetailType() {
             </div>
             <div className={cx('imgs')}>
                 <div className={cx('imgs-left')}>
-                    <img className={cx('img-left')} src='https://pix8.agoda.net/hotelImages/4410268/-1/bff02d02a18c745d5de65c55c9025d4e.jpg?ca=12&ce=1&s=1024x768' alt=''/>
+                    {/* <img className={cx('img-left')} src='https://pix8.agoda.net/hotelImages/4410268/-1/bff02d02a18c745d5de65c55c9025d4e.jpg?ca=12&ce=1&s=1024x768' alt=''/> */}
+                    <iframe title="first" className={cx('img-left')} src="https://windy-order.surge.sh/"></iframe>
                 </div>
                 <div className={cx('imgs-right')}>
                     <img className={cx('img-right')} src='https://pix8.agoda.net/hotelImages/4410268/-1/9b73dfdc922c0ac9b84c0789a5a96993.jpg?ca=12&ce=1&s=1024x768' alt=''/>
