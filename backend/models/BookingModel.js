@@ -5,13 +5,9 @@ const bookingSchema = new mongoose.Schema({
       type: mongoose.Schema.ObjectId,
       ref: "User",
     },
-    roomId: [{
+    roomId: {
       type: mongoose.Schema.ObjectId,
       ref: "Room",
-    }],
-    hotelId: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Hotel",
     },
     servicePrice:{
          type: Number,
@@ -33,11 +29,10 @@ const bookingSchema = new mongoose.Schema({
     from: Date,
     to: Date,
     numOfDays: Number,
-    numOfRooms: Number,
     
     
     
   
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Booking", bookingSchema);

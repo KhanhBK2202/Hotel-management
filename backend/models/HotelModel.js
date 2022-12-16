@@ -7,9 +7,18 @@ const hotelSchema = new mongoose.Schema({
 }],
 
     address: {
-      type: String,
+
+     type: String, 
       required: true,
    
+    },
+    lat : {
+      type: Number, 
+      required: true,
+    },
+    lng : {
+      type: Number, 
+      required: true,
     },
     floor: {
        type: Number,
@@ -17,7 +26,7 @@ const hotelSchema = new mongoose.Schema({
     },
     totalRoom: {
         type: Number
-    },
+    }, 
     room: [
         {
             type: mongoose.Schema.ObjectId,
@@ -30,7 +39,7 @@ const hotelSchema = new mongoose.Schema({
              type: Number,
              required: true,
            },
-           time:  {
+           time  :  {
               type: Date,
               required: true,
            }        
@@ -66,6 +75,13 @@ const hotelSchema = new mongoose.Schema({
           }       
         }
     },
+    services: [
+        {
+          price: Number,
+          info: String,
+          
+        }
+    ],
     branchId : {
       type: mongoose.Schema.ObjectId,
       ref: "Branch",
@@ -82,7 +98,7 @@ const hotelSchema = new mongoose.Schema({
     ], 
     
     
-  });
+  }, { timestamps: true });
 
   module.exports = mongoose.model("Hotel", hotelSchema); 
   

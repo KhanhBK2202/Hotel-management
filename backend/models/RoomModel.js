@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 
 const roomSchema = new mongoose.Schema({
 
-roomNumber: {
-    type: String,
-    required: true,
+roomNumber : {
+      type: Number,
+      required: true
 },
 images: [ {
      url: {
-      type: String
+      type: String,
+      required: true
      }
 }],
 type: {
@@ -20,15 +21,19 @@ priceHour: {
     type: Number,
     required: true,
 }, 
+priceNextHour: {
+    type: Number,
+    required: true,
+},
 priceOverNight: {
     type: Number,
     required: true,
 },
-isAvailable: {
-    type: Boolean,
+
+size: {
+    type: Number,
     required: true,
 },
-
 numOfBed: {
             type: Number,
             required: true,
@@ -41,6 +46,10 @@ adult: {
         type: Number,
         required: true,
   
+}, 
+information: {
+       type: String,
+       required: true,
 }
         
 ,
@@ -55,6 +64,26 @@ commentId: [
       ref: "Comment"
     },
 ],
+isAvailable: {
+     type: Boolean
+},
+
+dayBooked: [
+    {   
+        fromDate: {
+              type: Date,
+               required: true
+           },
+        toDate: {
+          type: Date,
+          required: true
+       }
+    }
+],
+
+
+
+
 
 
 

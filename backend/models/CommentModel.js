@@ -5,6 +5,10 @@ const commentSchema = new mongoose.Schema({
            type: mongoose.Schema.ObjectId,
            ref: "Comment"
     },
+    hotelId: {
+           type: mongoose.Schema.ObjectId,
+           ref: "Room"
+    }, 
     comment: {
         type: String,
         required: true

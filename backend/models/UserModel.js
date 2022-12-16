@@ -19,8 +19,18 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "user",
-    
   },
+  hotelId : {
+     type: mongoose.Schema.Types.ObjectId ,
+     ref: "Hotel",
+     default: 0,
+     required: true
+  },
+  favRoomId: {
+    type: mongoose.Schema.Types.ObjectId ,
+    ref: "Room",
+  }
+
 
 
   

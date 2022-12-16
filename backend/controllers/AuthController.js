@@ -12,7 +12,8 @@ export const AuthController ={
            const newUser = await new User({
                username: req.body.username,
                email: req.body.email,
-               password: hashed
+               password: hashed,
+               role: req.body.role
            });
 
            //Save to DB
@@ -45,7 +46,7 @@ export const AuthController ={
                 },
                 process.env.SECRETKEY,
                 {
-                    expiresIn: "30s"
+                    expiresIn: "60s"
                 }
 
                 
