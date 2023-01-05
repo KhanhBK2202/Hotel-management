@@ -1,4 +1,19 @@
 const mongoose = require("mongoose");
+const commentSchema = new mongoose.Schema({
+  userId: {
+         type: mongoose.Schema.ObjectId,
+         ref: "Comment"
+  },
+  comment: {
+      type: String,
+      required: true
+  },
+  rating: { type: Number, 
+            required: true
+  },
+
+
+},  { timestamps: true })
 const hotelSchema = new mongoose.Schema({
   images: [ {
     url: {
@@ -27,75 +42,23 @@ const hotelSchema = new mongoose.Schema({
     totalRoom: {
         type: Number
     }, 
-    room: [
-        {
+    rooms: [{
+       roomId: {
             type: mongoose.Schema.ObjectId,
             ref: "Room",
         }
-    ],
-    services:{
-        rentCar: {
-           price : {
-             type: Number,
-             required: true,
-           },
-           time  :  {
-              type: Date,
-              required: true,
-           }        
-        },
-        bar: {
-          price : {
-            type: Number,
-            required: true,
-          },
-          time:  {
-             type: Date,
-             required: true,
-          }       
-        },
-        yoga: {
-          price : {
-            type: Number,
-            required: true,
-          },
-          time:  {
-             type: Date,
-             required: true,
-          }       
-        },
-        cleanRoom: {
-          price : {
-            type: Number,
-            required: true,
-          },
-          time:  {
-             type: Date,
-             required: true,
-          }       
-        }
-    },
-    services: [
+}],
+   services: [
         {
           price: Number,
           info: String,
-          
         }
     ],
-    branchId : {
-      type: mongoose.Schema.ObjectId,
-      ref: "Branch",
-    },
     managerId: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
     },
-    commentId: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Comment",
-      }
-    ], 
+    reviews: [commentSchema], 
     
     
   }, { timestamps: true });

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const {Schema} = mongoose;
 
-const branchSchema = new Schema({
+
+const branchSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true
@@ -11,12 +11,13 @@ const branchSchema = new Schema({
       type: String,
       required: true,
     },
-    hotelId: [{
-      type: Schema.Types.ObjectId,
+    hotels: [{
+      hotelId: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Hotel",
-    }],
+    }}],
     managerId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     }
 

@@ -2,40 +2,34 @@
 
 const Room = require('../models/RoomModel');
 const Branch = require('../models/BranchModel');
+const Booking = require('../models/BookingModel');
 export const SearchController = {
        searchByOverNight: async(req, res) => {
-
+     // get list room id from branch
+     // get list room matches number of people
+    // 
         try{
 
-           var list = [];
+          // ./api/hotel/search/?cityName=   &fromDate=  &toDate=  &num=
+       //     const cityName  = req.query.cityName;
+       //     const fromDate = req.query.fromDate;
+       //     const toDate = req.query.toDate;
+           const num = req.query.num;
+           const rooms = await Room.find({numberOfGuest: num}).populate('branch booking');
+           return res.status(200).json(rooms);
 
-           const {cityName, fromDate, toDate, numberOfPeople} = req.body;
-           
-           const room = await Room.find({
-             $and:[{
-
-             },
-
-             {
-               numberOf
-             }
-
-             ]
-           })
-           const branch = Branch.find({
-               
-           })
+        
         }catch(err){
             res.status(500).json(err);
         }   
        },
-       seacrhByHour: async(req, res)=>{
-        try{
+       // seacrhByHour: async(req, res)=>{
+       //  try{
 
-        }catch(err){
+       //  }catch(err){
 
-        }
-       }
+       //  }
+       // }
 };
 // {
 //   cityName: "Ha Noi",

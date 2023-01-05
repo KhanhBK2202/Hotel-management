@@ -38,48 +38,32 @@ numOfBed: {
             type: Number,
             required: true,
 },
-children:  {
-            type: Number,
-            required: true,
+numOfGuest: {
+         type: Number,
+         required: true
 },
-adult: {
-        type: Number,
-        required: true,
-  
-}, 
 information: {
        type: String,
        required: true,
-}
-        
-,
-hotelId: {
-  type: mongoose.Schema.ObjectId,
-  ref: "Hotel"
-}
-,
-commentId: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Comment"
-    },
-],
-isAvailable: {
-     type: Boolean
 },
-
-dayBooked: [
-    {   
-        fromDate: {
-              type: Date,
-               required: true
-           },
-        toDate: {
-          type: Date,
-          required: true
+features: [
+       {
+         type: String,
+         required: true
        }
-    }
 ],
+branch: {
+   type: mongoose.Schema.Types.ObjectId,
+   ref: "Branch"
+},
+booking: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Booking"   
+}]
+
+
+
+
 
 
 

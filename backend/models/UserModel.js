@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+
   },
   email: {
     type: String,
@@ -20,16 +20,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
-  hotelId : {
-     type: mongoose.Schema.Types.ObjectId ,
-     ref: "Hotel",
-     default: 0,
-     required: true
-  },
-  favRoomId: {
+  // hotelId : {
+  //    type: mongoose.Schema.Types.ObjectId ,
+  //    ref: "Hotel",
+  //    default: 0,
+  //    required: true
+  // },
+  favRooms: [{
+ 
     type: mongoose.Schema.Types.ObjectId ,
     ref: "Room",
   }
+]
 
 
 

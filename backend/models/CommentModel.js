@@ -13,10 +13,10 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now,
-    }
+    rating: { type: Number, 
+              required: true
+    },
+
 
 },  { timestamps: true })
 
