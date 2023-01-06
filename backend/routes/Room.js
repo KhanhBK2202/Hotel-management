@@ -4,10 +4,10 @@ const SearchController = require('../controllers/SearchController.js');
 const router = express.Router();
 
 //search by date
-router.get('/search', SearchController.searchbyOverNight);
+router.get('/search/date', SearchController.searchByDate);
 
 //search by hour
-//router.get('/search/hour', SearchController.searchByHour);
+router.get('/search/hour', SearchController.searchByHour);
 
 
 //upload

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
   userId: {
          type: mongoose.Schema.ObjectId,
-         ref: "Comment"
+         ref: "User"
   },
   comment: {
       type: String,
@@ -40,13 +40,14 @@ const hotelSchema = new mongoose.Schema({
        required: true,  
     },
     totalRoom: {
-        type: Number
+        type: Number,
+        required: true,
     }, 
     rooms: [{
-       roomId: {
+      
             type: mongoose.Schema.ObjectId,
             ref: "Room",
-        }
+        
 }],
    services: [
         {
@@ -54,10 +55,14 @@ const hotelSchema = new mongoose.Schema({
           info: String,
         }
     ],
-    managerId: {
-        type: mongoose.Schema.ObjectId,
+    hotelManagerId: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Branch",
+  },
     reviews: [commentSchema], 
     
     

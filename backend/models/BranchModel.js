@@ -11,12 +11,12 @@ const branchSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    hotels: [{
-      hotelId: {
+    hotels: [
+    {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hotel",
-    }}],
-    managerId: {
+    }],
+    branchManagerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     }

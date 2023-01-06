@@ -1,21 +1,30 @@
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema({
-    userId: {
+    bookedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    rooms: [
-      
-      {
+    room: 
+    {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Room",
-}],
+    },
+    roomNumbers: [Number],
     numberOfGuest:{
          type: Number,
+         required: true,
          
     },
-    servicePrice:{
+    hotel: {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: "Hotel",
+    },
+    branch: {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: "Branch",
+    },
+    servicePrice: {
          type: Number,
          required: true,
     },
@@ -23,17 +32,12 @@ const bookingSchema = new mongoose.Schema({
           type: Boolean,
           required: true
     },
-    totalPrice: {
-         type: Number,
-         required: true,
-
-    },
     isOverNight: {
-          type: Boolean,
-          required: true,  
+          type: Boolean, 
     },
-    from: Date,
-    to: Date,
+    fromDate: Date,
+    toDate: Date,
+    numOfHours: Number,
     numOfDays: Number,
     
     

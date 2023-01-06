@@ -2,26 +2,29 @@ const Branch = require("../models/BranchModel");
 
 
 export const BranchController = {
-      uploadInfo: async (req,res)=> {
+      uploadBranch: async (req,res)=> {
             try{
                 
                    
-                const newBranch = await new Branch({
-                          image: req.body.image,
-                          cityName: req.body.cityName,
-                          hotelId: req.body.hotelId._id,
-                          managerId: req.body.managerId._id
-                });
+                const newBranch = new Branch(req.body);
      
                 //Save to DB
-                const branch = await newBranch.save();
-                res.status(200).json(branch);
+                const savedBranch = await newBranch.save();
+                res.status(200).json(savedBranch);
             }
             catch(err){
                 res.status(500).json(err);
             }
        },
-       getInfo: async (req,res)=>{
+       updateBranch: async (req,res)=>{
+             try{
+
+             }
+             catch(err){
+               
+             }
+       },
+       getAllBranch: async (req,res)=>{
         
             try{
                   const branch = await Branch.find();
@@ -32,6 +35,18 @@ export const BranchController = {
             }
     
        },
+       getBranch: async (req,res)=>{
+        
+          try{
+                const branch = await Branch.findById(req.params.id);
+                res.status(200).json(branch);
+  
+          }catch(err){
+               res.status(500).json(err);
+          }
+  
+     },
+     
        
 
 
