@@ -1,5 +1,5 @@
 const Booking = require("../models/BookingModel");
-
+const User = require("../models/UserModel");
 const BookingController = {
        createBooking: async (req,res) => {
                try {
@@ -29,6 +29,16 @@ const BookingController = {
            res.status(500).json(err);
         }
       },
+      getBookingByUser: async (req,res)=> {
+            try{
+                  const userId = await User.findOne({ username: req.body.username});
+                  const booking = await Booking.findById(userId);
+                  res.status(200).json(booking);
+        
+              }catch(err){
+                 res.status(500).json(err);
+              }
+      }
 
 }
 module.exports = BookingController;

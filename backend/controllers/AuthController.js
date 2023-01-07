@@ -41,12 +41,12 @@ const AuthController ={
             }
             if (user && validPassword){
                 const accessToken = jwt.sign({
-                    id: user.id,
-                    role: user.role
+                    id: user._id,
+                    
                 },
                 process.env.SECRETKEY,
                 {
-                    expiresIn: "60s"
+                    expiresIn: "60d"
                 }
 
                 

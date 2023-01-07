@@ -28,9 +28,12 @@ const bookingSchema = new mongoose.Schema({
          type: Number,
          required: true,
     },
-    MoMoPayment: {
-          type: Boolean,
-          required: true
+    statusPayment: {
+          type: String,
+          
+    },
+    responseCode: {
+         type: Number
     },
     isOverNight: {
           type: Boolean, 

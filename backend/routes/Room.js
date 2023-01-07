@@ -1,26 +1,28 @@
 const express = require("express");
 const RoomController = require('../controllers/RoomController');
 const SearchController = require('../controllers/SearchController');
+const MiddlewareController = require("../controllers/MiddlewareController.js");
+
 const router = express.Router();
 
 //search by date
-router.get('/search/date', SearchController.searchByDate);
+router.get('/search/date', MiddlewareController.verifyToken,SearchController.searchByDate);
 
 //search by hour
 //router.get('/search/hour', SearchController.searchByHour);
 
 
 //upload
-router.post('/post', RoomController.uploadRoom);
+router.post('/post',  MiddlewareController.verifyToken, MiddlewareController.checkManager, RoomController.uploadRoom);
 
 //update
-router.put('/update/:id', RoomController.updateRoom);
+router.put('/update/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager,  RoomController.updateRoom);
 
 //get all room
-router.get('/', RoomController.getAllRoom);
+router.get('/',  MiddlewareController.verifyToken,  MiddlewareController.checkManager, RoomController.getAllRoom);
 
 //get
-router.get('/:id', RoomController.getRoom);
+router.get('/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager, RoomController.getRoom);
 
 
 
