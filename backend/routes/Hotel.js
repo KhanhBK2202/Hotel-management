@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require("express");
 const HotelController = require('../controllers/HotelController');
 
 
@@ -26,3 +26,4 @@ router.get('/', HotelController.getAllHotel);
 router.get('/:id', HotelController.getHotel);
 
 
+module.exports =  router

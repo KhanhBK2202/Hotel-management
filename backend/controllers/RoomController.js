@@ -1,7 +1,7 @@
 const Room = require("../models/RoomModel");
 const Hotel = require("../models/HotelModel");
 
-export const HotelController = {
+const RoomController = {
     uploadRoom: async (req, res)=> {
           try{
               const newRoom = new Room(req.body);
@@ -47,3 +47,4 @@ export const HotelController = {
    
 
 };
+module.exports = RoomController;

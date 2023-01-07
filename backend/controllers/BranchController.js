@@ -1,7 +1,5 @@
 const Branch = require("../models/BranchModel");
-
-
-export const BranchController = {
+const BranchController = {
       uploadBranch: async (req,res)=> {
             try{
                 
@@ -53,3 +51,4 @@ export const BranchController = {
 
 
 };
+module.exports = BranchController;

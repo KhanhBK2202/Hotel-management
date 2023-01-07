@@ -1,4 +1,4 @@
-import express from 'express'
+const express = require("express");
 const BranchController = require('../controllers/BranchController.js');
 
 
@@ -20,4 +20,4 @@ router.get('/', BranchController.getAllBranch);
 router.get('/:id', BranchController.getBranch);
 
 
-export default router
+module.exports =  router

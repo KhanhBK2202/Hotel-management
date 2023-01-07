@@ -4,7 +4,7 @@ const Room = require('../models/RoomModel');
 const Branch = require('../models/BranchModel');
 const Booking = require('../models/BookingModel');
 const Hotel = require('../models/HotelModel');
-export const SearchController = {
+const SearchController = {
        searchByDate: async(req, res) => {
    
 
@@ -90,3 +90,4 @@ export const SearchController = {
       //   }
       //  }
 };
+module.exports = SearchController;

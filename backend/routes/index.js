@@ -1,9 +1,9 @@
-import authRouter from './Auth'
-import userRouter from './User'
-import branchRouter from './Branch'
-import hotelRouter from './Hotel'
-import roomRouter from './Room'
-import bookingRouter from './Booking'
+const authRouter =  require("./Auth")
+const userRouter =  require("./User")
+const branchRouter =  require('./Branch')
+const hotelRouter =  require("./Hotel")
+const roomRouter = require("./Room")
+const bookingRouter =  require("./Booking")
 
 
 
@@ -20,4 +20,4 @@ const initRoutes = (app) => {
     })
 }
 
-export default initRoutes
+module.exports = initRoutes

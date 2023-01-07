@@ -1,7 +1,7 @@
 const Hotel = require("../models/HotelModel");
 const Branch = require("../models/BranchModel");
 
-export const HotelController = {
+const HotelController = {
     uploadHotel: async (req, res)=> {
           try{
             const newHotel = new Hotel(req.body);
@@ -71,3 +71,4 @@ export const HotelController = {
     },
 
 };
+module.exports = HotelController;

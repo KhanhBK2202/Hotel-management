@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-export const MiddlwareController = {
+const MiddlewareController = {
     //verifyToken
 
     verifyToken: (req, res, next)=>{
@@ -20,3 +20,4 @@ export const MiddlwareController = {
         }
     }
 }
+module.exports = MiddlewareController;

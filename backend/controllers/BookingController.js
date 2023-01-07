@@ -1,6 +1,6 @@
 const Booking = require("../models/BookingModel");
 
-export const BookingController = {
+const BookingController = {
        createBooking: async (req,res) => {
                try {
                 const newBooking = new Booking(req.body);
@@ -31,3 +31,4 @@ export const BookingController = {
       },
 
 }
+module.exports = BookingController;

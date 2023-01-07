@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-export const AuthController ={
+const AuthController ={
     register : async (req, res) => {
        try{
            const salt = await bcrypt.genSalt(10);
@@ -58,6 +58,7 @@ export const AuthController ={
         }
 }
 }
+module.exports = AuthController;
 // export const logout = async (req, res) => {
     
 // }

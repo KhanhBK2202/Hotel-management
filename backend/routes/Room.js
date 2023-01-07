@@ -1,13 +1,13 @@
-import express from 'express';
-const RoomController = require('../controllers/Room.js');
-const SearchController = require('../controllers/SearchController.js');
+const express = require("express");
+const RoomController = require('../controllers/RoomController');
+const SearchController = require('../controllers/SearchController');
 const router = express.Router();
 
 //search by date
 router.get('/search/date', SearchController.searchByDate);
 
 //search by hour
-router.get('/search/hour', SearchController.searchByHour);
+//router.get('/search/hour', SearchController.searchByHour);
 
 
 //upload
@@ -24,4 +24,4 @@ router.get('/:id', RoomController.getRoom);
 
 
 
-export default router;
+module.exports =  router
