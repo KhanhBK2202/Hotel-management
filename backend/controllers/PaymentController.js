@@ -1,4 +1,5 @@
-var dateFormat = require('dateformat');
+// const dateFormat = require("dateformat") ;
+const moment = require("moment");
 const Booking = require("../models/BookingModel");
 
 
@@ -35,9 +36,10 @@ const PaymentController = {
         var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
         var returnUrl = 'https://localhost:3000/order/vnpay_return';
     
-        var date = new Date();
+      //  var date = new Date();
     
-        var createDate = dateFormat(date, 'yyyymmddHHmmss');
+     //   var createDate = dateFormat(date, 'yyyymmddHHmmss');
+        var createDate = moment().format('YYYYMMDDHHmmss');
         var orderId = req.body.id;
         var amount = req.body.amount;
         var bankCode = req.body.bankCode;

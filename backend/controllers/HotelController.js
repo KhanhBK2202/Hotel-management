@@ -1,5 +1,6 @@
 const Hotel = require("../models/HotelModel");
 const Branch = require("../models/BranchModel");
+const Room = require("../models/RoomModel");
 
 const HotelController = {
     uploadHotel: async (req, res)=> {
@@ -25,14 +26,17 @@ const HotelController = {
           res.status(500).json(err);
        }
     },
-   //  deleteHotel:  async (req, res)=> {
-   //    try{
-          
-   //    }catch(err){
-   //       res.status.json(err);
-   //    }
+    deleteHotel:  async (req, res)=> {
+      try{
+          await Room.updateMany({  hotel: req.params.id}, { hotel : null})
+          await Branch.updateMany({ hotels: req.params.id}, { $pull: { hotels: req.params.id}})
+          await Hotel.findByIdAndDelete(req.params.id);
+          res.status(200).json("Deleted successfully");
+      }catch(err){
+         res.status(500).json(err);
+      }
    
-   // },
+   },
     getService:  async (req, res)=> {
       try{
           const result = await Hotel.find({ _id: req.params.id},{ services: 1  });

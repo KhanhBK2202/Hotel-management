@@ -19,11 +19,12 @@ router.post('/post',  MiddlewareController.verifyToken, MiddlewareController.che
 router.put('/update/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager,  RoomController.updateRoom);
 
 //get all room
-router.get('/',  MiddlewareController.verifyToken,  MiddlewareController.checkManager, RoomController.getAllRoom);
+router.get('/',  MiddlewareController.verifyToken, RoomController.getAllRoom);
 
 //get
-router.get('/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager, RoomController.getRoom);
+router.get('/:id',  MiddlewareController.verifyToken, RoomController.getRoom);
 
-
+// delete 1 type of room
+router.delete('/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager, RoomController.deleteRoom)
 
 module.exports =  router

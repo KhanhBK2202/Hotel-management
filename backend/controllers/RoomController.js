@@ -1,5 +1,6 @@
 const Room = require("../models/RoomModel");
 const Hotel = require("../models/HotelModel");
+const User = require("../models/UserModel");
 
 const RoomController = {
     uploadRoom: async (req, res)=> {
@@ -44,6 +45,17 @@ const RoomController = {
          res.status(500).json(err);
       }
     },
+    deleteRoom:  async (req, res)=> {
+      try{
+          await User.updateMany({ favRooms: req.params.id}, { $pull: { favRooms: req.params.id}})
+          await Hotel.updateMany({ rooms: req.params.id}, { $pull: { rooms: req.params.id}})
+          await Room.findByIdAndDelete(req.params.id);
+          res.status(200).json("Deleted successfully");
+      }catch(err){
+         res.status(500).json(err);
+      }
+   
+   } 
    
 
 };

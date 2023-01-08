@@ -15,6 +15,8 @@ router.get('/:id', MiddlewareController.verifyToken, MiddlewareController.checkM
 // Get booking by user
 router.get('/user', MiddlewareController.verifyToken, MiddlewareController.checkManager,BookingController.getBookingByUser);
 
+//Delete by id
+router.delete('/:id', MiddlewareController.verifyToken, BookingController.deleteBooking);
 
 // Create payment and redirect to VNPay
 router.post('/create_payment_url', PaymentController.createPayment);

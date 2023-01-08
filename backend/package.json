@@ -20,6 +20,7 @@
     "https": "^1.0.0",
     "inspector": "^0.5.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
     "mongoose": "^6.7.3",
     "nodemon": "^2.0.20",
     "os": "^0.1.2",

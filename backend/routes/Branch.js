@@ -20,5 +20,6 @@ router.get('/', MiddlewareController.verifyToken, MiddlewareController.checkMana
 //get Branch
 router.get('/:id', MiddlewareController.verifyToken, MiddlewareController.checkManager, BranchController.getBranch);
 
-
+//delete 1 Branch
+router.delete('/:id', MiddlewareController.verifyToken, MiddlewareController.checkManager, BranchController.deleteBranch);
 module.exports =  router

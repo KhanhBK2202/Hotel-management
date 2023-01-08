@@ -41,7 +41,8 @@ const AuthController ={
             }
             if (user && validPassword){
                 const accessToken = jwt.sign({
-                    id: user._id,
+                    _id: user._id,
+                  
                     
                 },
                 process.env.SECRETKEY,
@@ -59,9 +60,6 @@ const AuthController ={
 }
 }
 module.exports = AuthController;
-// export const logout = async (req, res) => {
-    
-// }
 
 
 

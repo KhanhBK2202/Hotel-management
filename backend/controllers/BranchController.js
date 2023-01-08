@@ -1,4 +1,6 @@
 const Branch = require("../models/BranchModel");
+const User = require("../models/UserModel");
+const Hotel = require("../models/HotelModel");
 const BranchController = {
       uploadBranch: async (req,res)=> {
             try{
@@ -47,6 +49,15 @@ const BranchController = {
           }
   
      },
+     deleteBranch: async(req, res)=> {
+          try{
+               await Hotel.updateMany({ branch: req.params.id}, { branch: null})
+               await Branch.findByIdAndDelete(req.params.id);
+               res.status(200).json("Deleted successfully");
+          }catch(err){
+
+          }
+     }
      
        
 
