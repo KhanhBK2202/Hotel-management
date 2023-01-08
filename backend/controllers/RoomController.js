@@ -5,6 +5,15 @@ const User = require("../models/UserModel");
 const RoomController = {
     uploadRoom: async (req, res)=> {
           try{
+            //   const newRoom = new Room({
+            //    roomNumbers: req.body.roomNumbers,
+            //    images: req.body.images,
+            //    priceHour: req.body.priceHour,
+            //    priceNextHour: req.body.priceNextHour,
+            //    priceOverNight: req.body.priceOverNight,
+            //    numOfPeople: req.body.numOfPeople
+
+            //   });
               const newRoom = new Room(req.body);
               const savedRoom = await newRoom.save();
               if (req.body.hotel){

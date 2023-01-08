@@ -47,12 +47,13 @@ const AuthController ={
                 },
                 'khanhquan',
                 {
-                    expiresIn: "60s"
+                    expiresIn: "20d"
                 }
 
                 
                 );
-                res.status(200).json(user, accessToken);
+          
+                res.status(200).json({accessToken: accessToken});
             }
         }catch(err){
            

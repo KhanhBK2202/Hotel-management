@@ -5,9 +5,11 @@ const MiddlewareController = {
     //verifyToken
 
     verifyToken: (req, res, next)=>{
-        const token = req.header.token;
+       // const token = req.header.token;
+       const token = req.headers.token;
+      
         if(token){
-            const accessToken = token.split(" ")[1];
+            
             // jwt.verify(accessToken, process.env.SECRETKEY, (err, user)=> {
             //     if (err){
             //         res.status(403).json("Token is not valid");
@@ -21,7 +23,8 @@ const MiddlewareController = {
             //     req.user = user;
             //     next();
             // })
-            const idUser = jwt.verify(accessToken, process.env.SECRETKEY);
+            const accessToken = token.split(' ')[1];
+            const idUser = jwt.verify(accessToken, 'khanhquan');
             User.findOne(
                 {
                     _id: idUser
@@ -37,7 +40,7 @@ const MiddlewareController = {
                 }
             )
         }else{
-            res.status(401).json("You're not authenticated")
+            res.status(401).json("You're not authenticated!")
         }
     },
     checkManager: (req,res,next)=> {

@@ -78,7 +78,7 @@ const PaymentController = {
         var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
         vnp_Params['vnp_SecureHash'] = signed;
         vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
-    
+       // res.status(200).json({code: '00', data: vnpUrl})
         res.redirect(vnpUrl)
          }
          
