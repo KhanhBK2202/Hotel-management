@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
   userId: {
-         type: mongoose.Schema.ObjectId,
+         type: mongoose.Schema.Types.ObjectId,
          ref: "User"
   },
   comment: {
@@ -45,7 +45,7 @@ const hotelSchema = new mongoose.Schema({
     }, 
     rooms: [{
       
-            type: mongoose.Schema.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Room",
         
 }],

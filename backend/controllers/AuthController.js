@@ -45,9 +45,9 @@ const AuthController ={
                   
                     
                 },
-                process.env.SECRETKEY,
+                'khanhquan',
                 {
-                    expiresIn: "60d"
+                    expiresIn: "60s"
                 }
 
                 
@@ -55,7 +55,8 @@ const AuthController ={
                 res.status(200).json(user, accessToken);
             }
         }catch(err){
-             res.status(500).json(err);
+           
+             res.status(501).json(err);
         }
 }
 }
