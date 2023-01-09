@@ -40,6 +40,7 @@ const bookingSchema = new mongoose.Schema({
     },
     fromDate: Date,
     toDate: Date,
+    
     numOfHours: Number,
     numOfDays: Number,
     

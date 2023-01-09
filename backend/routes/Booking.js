@@ -3,7 +3,7 @@ const BookingController = require('../controllers/BookingController');
 const PaymentController = require('../controllers/PaymentController');
 const MiddlewareController = require('../controllers/MiddlewareController.js');
 const router = express.Router()
-// Create booking
+// Create booking  req.body.date = "YYYY-MM-DDTHH:MM:SSZ"
 router.post('/post', MiddlewareController.verifyToken,BookingController.createBooking);
 
 // Get All booking
@@ -21,7 +21,10 @@ router.delete('/:id', MiddlewareController.verifyToken, BookingController.delete
 // Create payment and redirect to VNPay
 router.post('/create_payment_url', PaymentController.createPayment);
 
+
 router.get('/vnpay_ipn', PaymentController.getPayment);
+
+
 
 
 module.exports =  router

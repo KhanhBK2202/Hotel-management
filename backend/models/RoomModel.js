@@ -4,7 +4,8 @@ const roomSchema = new mongoose.Schema({
 
 roomNumbers : [{
       type: Number,
-      required: true
+      required: true  // each room of each hotel contain distinct different number
+                      // for checking available rooms
 }],
 images: [ {
    
@@ -31,7 +32,7 @@ size: {
 },
 numOfPeople: {
          type: Number,
-         required: true
+         required: true // Just 2 or 4 or 6 
 },
 description: {
        type: String,

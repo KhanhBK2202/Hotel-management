@@ -3,7 +3,23 @@ const User = require("../models/UserModel");
 const BookingController = {
       createBooking: async (req,res) => {
                try {
-                const newBooking = new Booking(req.body);
+
+                // req.body.fromDate="YYYY-MM-DDTHH:MM:SSZ"  
+                // năm, tháng, ngày, giờ, phút, giây
+                let from = req.body.fromDate;
+                let to = req.body.toDate;
+            //     let [ fromYear, fromMonth, fromDay, fromHours] = from.split('-');
+            //     let [ toYear, toMonth, toDay, toHours] = to.split('-');
+            //     let fromD = new Date(fromYear, fromMonth, fromDay, fromHours);
+            //     let toD = new Date(toYear, toMonth, toDay, toHours);
+                let fromD = new Date(from);
+                let toD = new Date(to);
+                req.body.fromDate= fromD;
+                req.body.toDate= toD;
+                const newBooking = new Booking(
+
+                    req.body
+                );
      
                 //Save to DB
                 const savedBooking = await newBooking.save();

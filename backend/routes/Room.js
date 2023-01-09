@@ -6,6 +6,8 @@ const MiddlewareController = require("../controllers/MiddlewareController.js");
 const router = express.Router();
 
 //search by date
+// fromDate="yyyy-mm-dd-hh"
+// toDate="yyyy-mm-dd-hh"
 router.get('/search/date', MiddlewareController.verifyToken,SearchController.searchByDate);
 
 //search by hour

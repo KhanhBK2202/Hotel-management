@@ -9,11 +9,13 @@ const SearchController = {
    
 
         try{
-
+     
           //   /api/v1/hotel/search/date?cityName=   &fromDate=  &toDate=  &num=
            const cityName  = req.query.cityName;
-           const fromDate = req.query.fromDate;
-           const toDate = req.query.toDate;
+           const from = req.query.fromDate;
+           const to = req.query.toDate;
+           const fromDate = new Date(from);
+           const toDate = new Date(to);
            const num = req.query.num;
            const br = await Branch.findOne({ cityName: cityName});
            let bookings = await Booking.find({
@@ -22,25 +24,33 @@ const SearchController = {
                 { to: { $gte: fromDate, $lte: toDate } }
             ],
             branch: br._id,
-            numOfPeople: { $gte: num }
+            numOfPeople: num//{ $gte: num }
         })
 
         let result = []
-
-        let hotel = await Hotel.findOne({ branch: br._id});
+        
+        //list of hotel of 1 branch based on cityName
+        let hotel = await Hotel.find({ branch: br._id});
+        
 
         // If there are no bookings for these dates, 
         // return all rooms
    
         if (bookings.length === 0) {
             let result = []
-            result = hotel.rooms.map(async r => {
-                let room = await Room.findById(r)
-                return {
-                    room: room,
-                    roomNumbers: room.roomNumbers
-                }
+            for(let i = 0; i<hotel.length;i++){
+
+                let listHotel = []
+                listHotel = hotel[i].rooms.map(async r => {
+                     let room = await Room.findById(r)
+                     return {
+                         room: room,
+                         roomNumbers: room.roomNumbers
+                     }
             })
+                result = result.concat(listHotel);
+
+        }
             res.status(200).json(result);
             
         }else{
@@ -55,9 +65,16 @@ const SearchController = {
               map.set(k, c)
               return b.hotel
           })
-
-          result = hotel.rooms.map(async r => {
+          for(let i =0; i<hotel.length;i++){
+            let lis = [];
+            lis = hotel[i].rooms.map(async r => {
               let room = await Room.findById(r)
+              if (room.numOfPeople != num){
+                      return{
+                        room:room,
+                        roomNumbers: []
+                      }
+              }else{
               let rnArr = []
               room.roomNumbers.forEach(r => {
                   if(!occRooms.includes(r)) {
@@ -68,7 +85,12 @@ const SearchController = {
                   room: room,
                   roomNumbers: rnArr
               }
-          })
+             }   
+            })
+        
+              result = result.concat(lis);
+          }
+
            res.status(200).json(result);
         }
         
