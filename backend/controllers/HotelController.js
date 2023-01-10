@@ -7,9 +7,9 @@ const HotelController = {
           try{
             const newHotel = new Hotel(req.body);
             const savedHotel = await newHotel.save();
-            if (req.body.hotel){
+            if (req.body.branch){
                 const branch = await Branch.findById(req.body.branch);
-                await branch.updateOne( {$push: { rooms: savedHotel._id }});
+                await branch.updateOne( {$push: { hotels: savedHotel._id }});
             }
             res.status(200).json(savedHotel);
           }catch(err){

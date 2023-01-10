@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
   userId: {
          type: mongoose.Schema.Types.ObjectId,
-         ref: "User"
+         ref: "User"          
   },
   comment: {
       type: String,
-      required: true
+      required: true        // "Good service"  "Nice view"  "Food taste bad"    
   },
   rating: { type: Number, 
-            required: true
+            required: true  // 1 , 2, 3, 4, 5
   },
 
 

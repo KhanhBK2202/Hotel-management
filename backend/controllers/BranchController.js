@@ -6,7 +6,9 @@ const BranchController = {
             try{
                 
                    
-                const newBranch = new Branch(req.body);
+                const newBranch = new Branch(
+                  req.body
+                );
      
                 //Save to DB
                 const savedBranch = await newBranch.save();

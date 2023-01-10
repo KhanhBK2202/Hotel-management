@@ -78,8 +78,8 @@ const PaymentController = {
         var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
         vnp_Params['vnp_SecureHash'] = signed;
         vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
-       // res.status(200).json({code: '00', data: vnpUrl})
-        res.redirect(vnpUrl)
+        res.status(200).json({code: '00', data: vnpUrl})
+     //  res.redirect(vnpUrl)
          }
          
    ,
@@ -117,7 +117,39 @@ const PaymentController = {
       }  
 
     
-
+    , 
+    getPaymentReturn: async(req,res)=> {
+        var vnp_Params = req.query;
+        var secureHash = vnp_Params['vnp_SecureHash'];
+    
+        delete vnp_Params['vnp_SecureHash'];
+        delete vnp_Params['vnp_SecureHashType'];
+    
+        vnp_Params = sortObject(vnp_Params);
+       
+        var secretKey ='UKHUGOZAFGZGJTNBBJBRTOVWHPAKJNUD';
+        var querystring = require('qs');
+        var signData = querystring.stringify(vnp_Params, { encode: false });
+        var crypto = require("crypto");     
+        var hmac = crypto.createHmac("sha512", secretKey);
+        var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");     
+         
+    
+        if(secureHash === signed){
+            // var orderId = vnp_Params['vnp_TxnRef'];
+            // var rspCode = vnp_Params['vnp_ResponseCode'];
+            // const booking = await Booking.findById(orderId);
+            // await booking.updateOne({ statusPayment: 'success', responseCode: rspCode });
+            res.status(200).json({RspCode: '00', Message: 'success'})
+        }
+        else {
+            // var orderId = vnp_Params['vnp_TxnRef'];
+            // var rspCode = vnp_Params['vnp_ResponseCode'];
+            // const booking = await Booking.findById(orderId);
+            // await booking.updateOne({ statusPayment: 'Fail checksum', responseCode: rspCode });
+            res.status(200).json({RspCode: '97', Message: 'Fail checksum'})
+        }
+      }  
 
 };
 module.exports = PaymentController;

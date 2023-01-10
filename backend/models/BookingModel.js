@@ -29,17 +29,22 @@ const bookingSchema = new mongoose.Schema({
          required: true,
     },
     statusPayment: {
-          type: String,
-          
+          type: String, // Not paid or success or Fail checksum
     },
     responseCode: {
-         type: Number
+         type: Number // 100 or list of response code in VNPay
     },
     isOverNight: {
           type: Boolean, 
     },
-    fromDate: Date,
-    toDate: Date,
+    fromDate: {
+     type:Date,
+     required: true
+    }, // required true
+    toDate: {
+      type: Date,
+      required: true
+     }, // required true
     
     numOfHours: Number,
     numOfDays: Number,

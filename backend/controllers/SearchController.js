@@ -9,7 +9,8 @@ const SearchController = {
    
 
         try{
-     
+            //2023-10-01T14:00:00Z
+            //2023-10-01T17:00:00Z
           //   /api/v1/hotel/search/date?cityName=   &fromDate=  &toDate=  &num=
            const cityName  = req.query.cityName;
            const from = req.query.fromDate;
@@ -70,7 +71,8 @@ const SearchController = {
             lis = hotel[i].rooms.map(async r => {
               let room = await Room.findById(r)
               if (room.numOfPeople != num){
-                      return{
+                     // no number of people match 
+                     return{
                         room:room,
                         roomNumbers: []
                       }

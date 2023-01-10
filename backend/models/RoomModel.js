@@ -6,6 +6,7 @@ roomNumbers : [{
       type: Number,
       required: true  // each room of each hotel contain distinct different number
                       // for checking available rooms
+                      // city-quan1-vip-01
 }],
 images: [ {
    

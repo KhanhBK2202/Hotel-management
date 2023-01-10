@@ -7,6 +7,7 @@ const MiddlewareController = {
     verifyToken: (req, res, next)=>{
        // const token = req.header.token;
        const token = req.headers.token;
+    //    const token = req.header["authorization"]
       
         if(token){
             

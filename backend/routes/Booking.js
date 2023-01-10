@@ -23,6 +23,7 @@ router.post('/create_payment_url', PaymentController.createPayment);
 
 
 router.get('/vnpay_ipn', PaymentController.getPayment);
+router.get('/vnpay_return', PaymentController.getPaymentReturn);
 
 
 

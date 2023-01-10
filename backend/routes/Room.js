@@ -6,8 +6,8 @@ const MiddlewareController = require("../controllers/MiddlewareController.js");
 const router = express.Router();
 
 //search by date
-// fromDate="yyyy-mm-dd-hh"
-// toDate="yyyy-mm-dd-hh"
+// fromDate="yyyy-mm-ddThh:mm:ssZ"
+// toDate="yyyy-mm-ddThh:mm:ssZ"
 router.get('/search/date', MiddlewareController.verifyToken,SearchController.searchByDate);
 
 //search by hour
@@ -15,7 +15,7 @@ router.get('/search/date', MiddlewareController.verifyToken,SearchController.sea
 
 
 //upload
-router.post('/post',  MiddlewareController.verifyToken, MiddlewareController.checkManager, RoomController.uploadRoom);
+router.post('/post/',  MiddlewareController.verifyToken, MiddlewareController.checkManager, RoomController.uploadRoom);
 
 //update
 router.put('/update/:id',  MiddlewareController.verifyToken,  MiddlewareController.checkManager,  RoomController.updateRoom);
