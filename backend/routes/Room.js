@@ -2,13 +2,17 @@ const express = require("express");
 const RoomController = require('../controllers/RoomController');
 const SearchController = require('../controllers/SearchController');
 const MiddlewareController = require("../controllers/MiddlewareController.js");
-
+// const Branch = require('../models/BranchModel')
+// const Booking = require('../models/BookingModel')
+// const Hotel = require('../models/HotelModel')
+// const Room =  require('../models/RoomModel')
+ 
 const router = express.Router();
 
 //search by date
 // fromDate="yyyy-mm-ddThh:mm:ssZ"
 // toDate="yyyy-mm-ddThh:mm:ssZ"
-router.get('/search/date', MiddlewareController.verifyToken,SearchController.searchByDate);
+router.get('/search/date',MiddlewareController.verifyToken,SearchController.searchByDate);
 
 //search by hour
 //router.get('/search/hour', SearchController.searchByHour);

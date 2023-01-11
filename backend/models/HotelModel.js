@@ -63,6 +63,18 @@ const hotelSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Branch",
   },
+
+  //No need
+  availableRoom: [
+     {
+      room: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Room",
+      },
+      roomNumbers: [Number]
+     }
+  ],
+  //No need
     reviews: [commentSchema], 
     
     
