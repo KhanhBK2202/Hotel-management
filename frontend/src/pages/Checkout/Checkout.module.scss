@@ -9,14 +9,14 @@
 
 .detail {
     position: relative;
-    flex: 1;
-    // width: 55%;
-    margin-right: 30px;
+    // flex: 1;
+    width: 38%;
+    // margin-left: 20px;
 }
 
 .detail__info {
     // font-size: 1.4rem;
-    padding: 30px;
+    padding: 20px 30px;
     border: 1px solid #dbdbdb;
     border-radius: 20px;
     /* width: 80%; */
@@ -24,35 +24,80 @@
 }
 
 .detail__info-auth {
-    display: block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
 }
 
-.detail__auth:hover {
-    text-decoration: underline;
+.detail__auth {
+    margin: 0 6px;
+    &:hover {
+        text-decoration: underline;
+    }   
+}
+
+.policy-content {
+    margin-top: 10px;
+}
+
+.rules {
+    // margin-top: 10px;
+}
+
+.rules-content {
+    font-size: 1.2rem;
+    color: #8e8e8e;
+}
+
+.book-button {
+    // font-size: 1.5rem;
+    border-radius: 35px;
+    background-color: var(--primary);
+    padding: 10px 15px;
+    color: var(--white);
+    // display: flex;
+    // justify-content: center;
+    // text-align: center;
+    width: max-content;
+    margin: 20px auto 0 auto;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
 .detail__info-item-name {
     display: flex;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
 .detail__info-name {
-    margin-right: 260px;
+    width: 50%;
+    // margin-right: 260px;
 }
 
 .detail__info-item {
     margin-top: 20px;
 }
 
+.title-summary {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.summary-color {
+    color: #1db274;
+}
 /* Payment method */
 .payment__label {
     /* width: 80%; */
     background-color: var(--primary);
     border-radius: 20px;
     padding: 5px 20px;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .payment__heading {
@@ -61,7 +106,7 @@
 
 .payment__method {
     display: flex;
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
     flex-direction: column;
 }
 
@@ -110,13 +155,18 @@
 }
 
 /* detail order */
+.reservation {
+    // position: relative;
+    width: 60%;
+    height: 100%;
+}
+
 .order {
     position: relative;
-    width: 30%;
     // height: 100%;
     // min-height: 500px;
-    margin-left: 5px;
-    // margin-bottom: 80px;
+    // margin-left: 5px;
+    margin-bottom: 20px;
     border: 1px solid #dbdbdb;
     border-radius: 20px;
     padding: 30px;
@@ -147,8 +197,11 @@
 }
 
 .order__empty {
-    margin: 20px 130px;
-    display: none;
+    // margin: 20px 130px;
+    display: flex;
+    justify-content: center;
+    // margin: 0 auto;
+    width: 100%;
 }
 
 .order__empty-img {
@@ -160,7 +213,8 @@
 
 .order__empty-text {
     font-size: 2rem;
-    margin: 20px 0 20px 10px;
+    margin: 20px 0;
+    text-align: center;
 }
 
 .order__item {

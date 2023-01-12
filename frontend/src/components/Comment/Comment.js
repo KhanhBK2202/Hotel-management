@@ -30,7 +30,7 @@ function Comment({ img, createdAt, name, score, content }) {
         <div className={cx('comment')}>
             <div className={cx('comment-header')}>
                 <div className={cx('user')}>
-                    <Image className={cx('user-avatar')} src={img} alt=''/>
+                    <Image className={cx('user-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1658854518/avatar/mjg7ffwnx3c2vhwpgmbv.webp' alt=''/>
                     <div className={cx('comment-user')}>
                         <h3 className={cx('comment-name')}>{name}</h3>
                         <div className={cx('date')}>{createdAt}</div>

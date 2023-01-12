@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 40px 0;
+    margin: 30px 0;
 }
 
 .comment-header {
@@ -11,12 +11,12 @@
 }
 
 .user-score {
-    color: #62bdfc;
+    color: var(--primary);
     text-align: center;
 }
 
 .user-evaluation {
-    color: #62bdfc;
+    color: var(--primary);
     text-align: center;
 }
 
@@ -42,9 +42,24 @@
 }
 
 .comment-content {
+    position: relative;
     width: 70%;
     border-radius: 20px;
     padding: 20px;
-    background-color: #62bdfc;
-    color: #fff;
+    font-size: 1.4rem;
+    // background-color: var(--search-btn-color);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: var(--sidebar-color);
+    // color: #fff;
+
+    &::before {
+        content: "";
+        border-width: 20px 27px;
+        border-style: solid;
+        border-color: transparent var(--sidebar-color) transparent transparent;
+        // box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        left: -40px;
+        top: 6px;
+    }
 }

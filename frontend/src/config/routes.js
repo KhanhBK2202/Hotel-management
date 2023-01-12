@@ -1,14 +1,15 @@
 const routes = {
     home: '/',
-    detailType: '/detailType',
-    detailBranch: '/detailBranch',
+    detailType: '/type/:roomId/:hotelId',
+    detailHotel: '/hotel/:id',
+    detailBranch: '/branch/:id',
     checkout: '/checkout',
     signin: '/signin',
     signup: '/signup',
-    profile: '/profile',
-    // profile: '/@:nickname',
-    // upload: '/upload',
-    // search: '/search',
-    // live: '/live',
+    profile: '/profile/:id',
+    setting: '/setting/:id',
+    upload: '/upload',
+    services: '/services',
+    dashboard: '/dashboard',
 };
 export default routes

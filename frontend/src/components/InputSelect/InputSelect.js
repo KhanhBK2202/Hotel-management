@@ -3,7 +3,7 @@ import { faCalendar, faLocation } from '@fortawesome/free-regular-svg-icons';
 import { faAngleDown, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './InputSelect.module.scss';
 // import flatpickr from 'flatpickr'
 // import rangePlugin from 'flatpickr/dist/plugins/rangePlugin'
@@ -22,11 +22,16 @@ const cx = classNames.bind(styles)
 //     "plugins": [new rangePlugin({ input: "#secondRangeInput"})]
 // });
 
-function InputSelect({ order, icon, placeholder, option }) {
+function InputSelect({ data, order, icon, placeholder, option }) {
 
     // const [value, setValue] = useState();
 
+    // useEffect(() => {
+        
+    // }
+    // const [searchItem, setSearchItem] = useState();
     const handleChange = (e) => {
+        // setSearchItem(e.target.value)
         option(e.target.value, order)
         // console.log(e.target.value)
         // setValue(e.target.value);
@@ -35,6 +40,10 @@ function InputSelect({ order, icon, placeholder, option }) {
         // }
         // else console.log('Overnight!!!')
     };
+
+    // useEffect(() => {
+    //     option(searchItem, order)
+    // },[searchItem, order])
 
     return (
         <>
@@ -53,8 +62,9 @@ function InputSelect({ order, icon, placeholder, option }) {
                         {placeholder}
                     </option>
                     
-                    <option value='Hourly'>Hourly</option>
-                    <option value='Overnight'>Overnight</option>
+                    {data.map((item, index) => (
+                        <option key={index} value={item.name ? item.name : item}>{item.name ? item.name : item}</option>
+                    ))}
                 </select>
             </div>
             {/* </form> */}

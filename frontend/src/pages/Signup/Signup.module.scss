@@ -112,7 +112,7 @@ $transition: 1.25s;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-    user-select: none;
+    // user-select: none;
 }
 /* Generic */
 .body{
@@ -123,7 +123,8 @@ $transition: 1.25s;
     align-items: center;
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
-	background-color: $neu-1;
+	// background-color: $neu-1;
+	// background-color: var(--background-color);
 	color: $gray;
 }
 /**/
@@ -241,8 +242,11 @@ $transition: 1.25s;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 1.15px;
-
-	background-color: $purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	// background-color: $purple;
+	background-color: var(--search-btn-color);
 	color: $white;
 	box-shadow:
 		8px 8px 16px $neu-2,
@@ -251,6 +255,10 @@ $transition: 1.25s;
 	border: none;
     outline: none;
     cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
 /**/
 

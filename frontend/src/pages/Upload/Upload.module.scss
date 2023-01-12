@@ -1,0 +1,295 @@
+.wrapper {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.sub-heading {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    &__order {
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: var(--white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+}
+
+.title {
+    margin: 20px 0 10px 0;
+}
+
+.form-input {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    line-height: 2.05rem;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+
+    // &:focus {
+    //     border: 1px solid var(--primary);
+    // }
+}
+
+.input-inner {
+    width: 100%;
+    // margin-left: 10px;
+    line-height: 2.05rem;
+    text-align: center;
+}
+
+.form-select {
+    // width: 70%;    
+    outline: none;
+    // font-size: 1.4rem;
+    
+    color: #8f8f8f;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+.type-and-num {
+    width: 24.5%;
+}
+
+.type-and-price {
+    width: 33%;
+}
+
+.text-area {
+    height: 200px;
+    white-space: pre-wrap;
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-form {
+    // position: relative;
+    margin-bottom: 440px;
+}
+
+.label-upload-cover {
+    position: absolute;
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    // height: 696px;
+    // padding-top: 42.86%;
+    aspect-ratio: 16 / 9;
+    display: block;
+    cursor: copy;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='grey' stroke-width='2' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 20px;
+
+    &:hover {
+        // background-color: var(--primary);
+        background: rgba(22, 41, 126, 0.1)
+    }
+}
+
+.cover {
+    // transform: translate(-50%, -50%);
+    // border: dashed 1px blue;
+    position: absolute;
+    border-radius: 20px;
+    // margin: 50px auto;
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    // height: 696px;
+    // padding-top: 42.86%;
+    aspect-ratio: 16 / 9;
+    // padding: 6px 12px;
+    // display: none;
+    cursor: copy;
+}
+
+.display-none {
+    display: none;
+}
+
+.upload-icon {
+    // transform: translateY(-50%) scale(5);
+    // margin: 0 auto;
+    // color: rgba(9, 9, 154, 0.747);
+    color: #4477c8;
+    font-size: 4rem;
+    margin-top: 50px;
+}
+
+.upload-label {
+    // width: 100%;
+    // margin: 0 auto;
+    // text-align: center;
+    // font-size: 1.4rem;
+    // font-weight: bold;
+    // color: rgba(9, 9, 154, 0.747);
+    // position: absolute;
+}
+
+.upload-criteria {
+    // display: flex;
+    // justify-content: space-between;
+    // width: 100%;
+    margin-top: 50px;
+}
+
+.upload-criteria-item {
+    color: #888;
+    font-size: 1.4rem;
+    margin-right: 20px;
+}
+
+// Upload photos
+.upload-photo-form {
+    // margin-bottom: 240px;
+    display: grid;
+    grid-template-columns: 32.44% 32.44% 32.44%;
+    gap: 10px;
+}
+
+.label-upload-photo {
+    // position: absolute;
+    width: 100%;
+    height: 200px;
+    display: block;
+    cursor: copy;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='grey' stroke-width='2' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 20px;
+
+    &:hover {
+        // background-color: var(--primary);
+        background: rgba(22, 41, 126, 0.1)
+    }
+}
+
+.photo {
+    // transform: translate(-50%, -50%);
+    // border: dashed 1px blue;
+    // position: relative;
+    border-radius: 20px;
+    // margin: 50px auto;
+    width: 100%;
+    height: 200px;
+    // padding: 6px 12px;
+    // display: flex;
+}
+
+.badge-remove {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    // padding: 0px 6px;
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    // font-weight: 600;
+    // color: var(--white);
+    text-align: center;
+    background-color: var(--clear-btn-color);
+}
+
+.badge-remove-cover {
+    position: absolute;
+    top: -10px;
+    // right: -10px;
+    // padding: 0px 6px;
+    left: 79%;
+    // transform: translateX(-50%);
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    // font-weight: 600;
+    // color: var(--white);
+    text-align: center;
+    background-color: var(--clear-btn-color);
+}
+
+.upload-photo-icon {
+    // transform: translateY(-50%) scale(5);
+    // margin: 0 auto;
+    // color: rgba(9, 9, 154, 0.747);
+    color: #4477c8;
+    font-size: 3rem;
+    // margin-top: 50px;
+}
+
+.upload-photo-label {
+    // width: 100%;
+    // margin: 0 auto;
+    // text-align: center;
+    // font-size: 1.4rem;
+    // font-weight: bold;
+    // color: rgba(9, 9, 154, 0.747);
+    // position: absolute;
+    font-size: 1.4rem;
+}
+
+// Amenities
+
+
+// Services
+.checkbox-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.label {
+    margin-left: 6px;
+    color: var(--text-color);
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.cancel-btn {
+    border: 1px solid var(--primary);
+    margin-right: 10px;
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary);
+        opacity: 0.2;
+        color: var(--white);
+    }
+}
+
+.submit-btn {
+    border-radius: 8px;
+    padding: 4px 10px;
+    background-color: var(--primary);
+    color: var(--white);
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}

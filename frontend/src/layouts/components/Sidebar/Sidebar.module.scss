@@ -3,10 +3,12 @@
     height: 100%;
     position: fixed;
     // left: 0;
-    background-color: #fff;
+    background-color: var(--sidebar-color);
     box-sizing: initial;
     transition: width 0.5s;
     overflow-x: hidden;
+    // box-shadow: 0px 12px 18px -6px rgba(0,0,0,0.3);
+    z-index: 3;
 }
 
 .active {
@@ -35,34 +37,36 @@
 .item-icon {
     text-align: center;
     border-radius: 10px;
-    background-color: var(--white);
-    box-shadow: 0 1px 5px #e0e0e0;
+    background-color: var(--light-grey);
+    box-shadow: 0 1px 5px var(--box-shadow-color);
     padding: 10px;
     margin-right: 40px;
-    color: #62bdfc;
+    color: var(--primary);
 }
 
 .title {
     // flex: 1;
     white-space: nowrap;
+    // color: #8f8f8f;
 }
 
 .auth {
     color: #8f8f8f;
 }
 
-.active-tab {
-    color: #62bdfc;
-    background: #f3f5f7;
-    font-weight: bold;
-}
+// .active-tab {
+//     color: var(--primary);
+//     // background: #f3f5f7;
+//     background: var(--background-color);
+//     font-weight: bold;
+// }
 
 b:nth-child(1) {
     position: absolute;
     top: -20px;
     height: 20px;
     width: 100%;
-    background: #f3f5f7;
+    background: var(--background-color);
     display: none;
 }
 
@@ -74,7 +78,7 @@ b:nth-child(1)::before {
     height: 100%;
     width: calc(100% - var(--padding-left));
     border-bottom-right-radius: 50px;
-    background: #fff;
+    background: var(--sidebar-color);
 }
 
 b:nth-child(2) {
@@ -82,7 +86,7 @@ b:nth-child(2) {
     bottom: -20px;
     height: 20px;
     width: 100%;
-    background: #f3f5f7;
+    background: var(--background-color);
     display: none;
 }
 
@@ -94,7 +98,7 @@ b:nth-child(2)::before {
     height: 100%;
     width: calc(100% - var(--padding-left));
     border-top-right-radius: 50px;
-    background: #fff;
+    background: var(--sidebar-color);
 }
 
 .active-tab b:nth-child(1),
@@ -102,6 +106,65 @@ b:nth-child(2)::before {
     display: block;
 }
 
+.active-tab .user-info-item {
+    color: var(--primary);
+    // background: #f3f5f7;
+    background: var(--background-color);
+    font-weight: bold;
+}
+
+// Dark mode
+.line {
+    border-bottom: 1px solid #ccc;
+    margin: 0 40px 0 20px;
+    padding-bottom: 20px;
+}
+
+.user-dark-mode {
+    position: relative;
+    display: flex;
+    align-items: center;
+    line-height: 60px;
+    margin-top: 40px;
+    color: #8f8f8f;
+    cursor: pointer;
+    list-style: none;
+    width: 100%;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    padding: 0 var(--padding-left);
+}
+
+.dark-btn {
+    background: #092c3e;
+    width: 50px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px #e0e0e0;
+    padding: 2px 3px;
+    display: flex;
+    transition: padding-left 0.5s, background 0.5s;
+    cursor: pointer;
+}
+
+.dark-btn span {
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dark-on {
+    padding-left: 25px;
+    background: #ccc;
+    box-shadow: none;
+}
+
+.dark-on span {
+    background: var(--white);
+}
+
+// Expand sidebar
 .toggle {
     position: fixed;
     bottom: 10px;

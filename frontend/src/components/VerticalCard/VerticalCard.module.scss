@@ -1,8 +1,8 @@
 .wrapper {
-    width: 200px;
+    // width: 200px;
     // flex-basis: 20%;
     border-radius: 20px;
-    background-color: #fff;
+    background-color: var(--sidebar-color);
     padding: 10px;
     cursor: pointer;
 }
@@ -15,6 +15,7 @@
 
 .name {
     margin: 5px 0;
+    color: var(--text-color);
 }
 
 .location {
@@ -22,13 +23,13 @@
 }
 
 .icon {
-    color: #62bdfc;
+    color: var(--primary);
     margin-right: 5px;
 }
 
 .address {
     font-size: 1.2rem;
-    color: #8f8f8f;
+    color: var(--grey);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;

@@ -4,7 +4,7 @@
     align-items: center;
     // width: 528px;
     border-radius: 20px;
-    background-color: #fff;
+    background-color: var(--sidebar-color);
     padding: 10px;
     // margin-bottom: 10px;
     cursor: pointer;
@@ -17,7 +17,7 @@
 
 .img {
     border-radius: 20px;
-    width: 70px;
+    width: 80px;
     height: 70px;
 }
 
@@ -30,13 +30,14 @@
 }
 
 .icon {
-    color: #62bdfc;
+    color: var(--primary);
     margin-right: 5px;
 }
 
 .address {
     font-size: 1.2rem;
     color: #8f8f8f;
+    width: 80%;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
