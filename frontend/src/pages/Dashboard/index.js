@@ -53,22 +53,94 @@ function Dashboard() {
     }
 
     const [bookings, setBookings] = useState([])
-    const [userBookings, setUserBookings] = useState([])
+    // const [userBookings, setUserBookings] = useState([])
     const [searchResult, setSearchResult] = useState('')
     const [flag, setFlag] = useState(false)
     // const tag = ['A', 'B', 'C', 'D', 'E', 'F'] // danh sách tất cả reservation
-    // useEffect(() => {
-    //     for (const item of bookings) {
-    //         if (item.bookedBy.username.toLowerCase() === searchResult.toLowerCase()) {
-    //             setFlag(true)
-    //             if (getAll)
-    //                 console.log('get các reservation theo tên')
-    //             else console.log('get các reservation theo tên và ngày đến trong khoảng của lịch')
-    //             break
-    //         }
-    //         setFlag(false)
-    //     }
-    // },[searchResult, getAll])
+    useEffect(() => {
+        // for (const item of bookings) {
+        //     // console.log(getAll)
+        //     if (item.bookedBy.username.toLowerCase() === searchResult.toLowerCase()) {
+        //         console.log(searchResult)
+        //         setFlag(true)
+        //         if (getAll) {
+        //             console.log('get các reservation theo tên')
+        //             request 
+        //                 .get(`/api/v1/booking/@${searchResult}`, { headers: {token: `Beaer ${accessToken}`} })
+        //                 .then(res => setBookings(res))
+        //                 .catch(err => console.log(err))
+        //         }
+        //         else console.log('get các reservation theo tên và ngày đến trong khoảng của lịch')
+        //         break
+        //     }
+        //     setFlag(false)
+        // }
+        if (getAll && searchResult) {
+            // console.log('get các reservation theo tên')
+            request 
+                .get(`/api/v1/booking/@${searchResult}`, { headers: {token: `Beaer ${accessToken}`} })
+                .then(res => {
+                    // console.log(res)
+                    setBookings(res)
+                    if (res.length === 0) {
+                        setFlag(false)
+                    }
+                    else {
+                        setFlag(true)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+        else if (getAll && !searchResult)  {
+            request
+                .get('/api/v1/booking', { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => {
+                    setBookings(res)
+                    setFlag(true)
+                })
+                .catch(err => console.log(err))
+        }
+        else if (!getAll && searchResult) {
+            // console.log('get các reservation theo tên và ngày đến trong khoảng của lịch')
+            const checkIn = dateCheckIn.toISOString()
+            const checkOut = dateCheckOut.toISOString()
+            // console.log(checkIn, checkOut)
+            request
+                .get(`/api/v1/booking/byDate/@${searchResult}/${checkIn}/${checkOut}`, { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => {
+                    setBookings(res)
+                    // console.log(res)
+                    if (res.length === 0) {
+                        setFlag(false)
+                    }
+                    else {
+                        setFlag(true)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+        else {
+            // Không lấy tất cả booking, chỉ lấy các booking trong khoàng được chọn
+            // console.log(dateCheckIn)
+            const checkIn = dateCheckIn.toISOString()
+            const checkOut = dateCheckOut.toISOString()
+            // console.log(checkIn, checkOut)
+            request
+                .get(`/api/v1/booking/byDate/${checkIn}/${checkOut}`, { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => {
+                    // console.log(res)
+                    setBookings(res)
+                    if (res.length === 0) {
+                        setFlag(false)
+                    }
+                    else {
+                        setFlag(true)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+
+    },[searchResult, getAll, dateCheckIn, dateCheckOut])
 
     const handleCreateReservation = () => {
         const modal = document.querySelectorAll('.' + cx('modal')) 
@@ -134,8 +206,8 @@ function Dashboard() {
 
     }
 
-    const [x, setX] = useState([])
-    const [y, setY] = useState([])
+    // const [x, setX] = useState([])
+    // const [y, setY] = useState([])
     // useEffect(() => {
     //     if (userBookings && userBookings.length !== 0) {
     //         for (const booking of userBookings) {
@@ -148,17 +220,44 @@ function Dashboard() {
     //         }
     //     }
     // },[x, y, userBookings])
+    
 
-    useEffect(() => {
-        request
-            .get('/api/v1/booking', { headers: {token: `Beaer ${accessToken}`}})
-            .then(res => setBookings(res))
-            .catch(err => console.log(err))
-        // request
-        //     .get(`/api/v1/booking/${searchResult}`, { headers: {token: `Beaer ${accessToken}`}})
-        //     .then(res => setUserBookings(res))
-        //     .catch(err => console.log(err))
-    },[])
+    // useEffect(() => {
+    //     request
+    //         .get('/api/v1/booking', { headers: {token: `Beaer ${accessToken}`}})
+    //         .then(res => setBookings(res))
+    //         .catch(err => console.log(err))
+    //     // request
+    //     //     .get(`/api/v1/booking/${searchResult}`, { headers: {token: `Beaer ${accessToken}`}})
+    //     //     .then(res => setUserBookings(res))
+    //     //     .catch(err => console.log(err))
+    // },[])
+
+    let fromDate = []
+    let toDate = []
+    let dateBooking = []
+    let x, y, z
+    // useEffect(() => {
+    // }, [bookings])
+    if (bookings.length !== 0) {
+        // console.log(bookings)
+        // const text = document.querySelector('.' + cx('booking-no-reservation'))
+        // text.style.display = 'none'
+        bookings.forEach((booking, index) => {
+            // console.log('hello')
+            x = new Date(booking.fromDate)
+            y = new Date(booking.toDate)
+            z = new Date(booking.createdAt)
+            fromDate.push(x.toString().slice(4, 15))
+            toDate.push(y.toString().slice(4, 15))
+            dateBooking.push(z.toString().slice(4, 15))
+        })
+    }
+    else if (bookings.length === 0) {
+        // console.log(bookings.length)
+        // const text = document.querySelector('.' + cx('booking-no-reservation'))
+        // text.style.display = 'flex'
+    }
 
     if (user.role === 'user') {
         return <Navigate to='/'/>
@@ -170,7 +269,7 @@ function Dashboard() {
                 <div className={cx('all-bookings__heading')}>
                     
                     <h2 className={cx('')}>
-                        {getAll ? 'All Bookings' : fullDate }
+                        {getAll ? 'All Bookings' : fullDate}
                     </h2>
                     <div style={{display: 'flex'}}>
                         <div className={cx('get-all-bookings')} onClick={() => setGetAll(true)}>
@@ -199,49 +298,54 @@ function Dashboard() {
                     <span className={cx('booking-heading__item')}></span>
                 </div>
 
-                {searchResult ? (
-                    <>
-                        {flag ? (
-                            // map các reservation của guest đó
-                            // {userBookings.map((booking, index) => (
-                                <div className={cx('booking')}>
+                <h2 className={cx('booking-no-reservation')}>
+                    No reservation today
+                </h2>
+                        {flag ? <>
+                            {/* map các reservation của guest đó */}
+                            {bookings.map((booking, index) => (
+                                <div key={index} className={cx('booking')}>
                                     <div className={cx('line')}></div>
                                     <div className={cx('booking-detail')}>
                                         <div className={cx('booking-time')}>
-                                            <FontAwesomeIcon icon={faCloudMoon} className={cx('booking-icon')}/>
+                                            {booking.isOverNight ? 
+                                                <FontAwesomeIcon icon={faCloudMoon} className={cx('booking-icon')}/>
+                                            : 
+                                                <FontAwesomeIcon icon={faClock} className={cx('booking-icon')}/>
+                                            }
                                             
                                             <div className={cx('booking-time-detail')}>
-                                                <h3>14:00</h3>
-                                                <div className={cx('booking-time-place')}>
-                                                    KQ Vung Tau
-                                                </div>
+                                                <h3>{booking.fromTime}</h3>
+                                                {/* <div className={cx('booking-time-place')}>
+                                                    {booking.hotel.name}
+                                                </div> */}
                                             </div>
     
                                             <div className={cx('booking-time-duration')}>
-                                                Duration: 2 days
+                                                Duration: {booking.numOfHours > 0 ? (booking.numOfHours > 1 ? booking.numOfHours + ' hours' : booking.numOfHours + ' hour') :  (booking.numOfDays > 1 ? booking.numOfDays + ' days' : booking.numOfDays + ' day')}
                                                 <ul className={cx('booking-time-duration-bar')}>
-                                                    <li className={cx('booking-time-duration-point')}>Dec 17, 2022</li>
-                                                    <li className={cx('booking-time-duration-point')}>Dec 19, 2022</li>
+                                                    <li className={cx('booking-time-duration-point')}>{fromDate[index]}</li>
+                                                    <li className={cx('booking-time-duration-point')}>{toDate[index]}</li>
                                                 </ul>
                                             </div>
     
                                             <div className={cx('booking-time-detail')}>
-                                                <h3>12:00</h3>
-                                                <div className={cx('booking-time-place')}>
-                                                    KQ Vung Tau
-                                                </div>
+                                                <h3>{booking.toTime}</h3>
+                                                {/* <div className={cx('booking-time-place')}>
+                                                    {booking.hotel.name}
+                                                </div> */}
                                             </div>
     
                                         </div>
     
                                         <div className={cx('booking-date')}>
-                                            Dec 12, 2022
+                                            {dateBooking[index]}
                                         </div>
     
                                         <div className={cx('booking-guest')}>
                                             {/* Xử lý nếu khách hàng này không có trong db thì chỉ hiện tippy tên thôi, vì họ có thể đặt phòng trực tiếp nên không có tài khoản */}
-                                            <Link to='/profile'>
-                                                <Image className={cx('booking-guest-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1535713875002-d1d0cf377fde_jeawcn.jpg' alt="avatar"/>
+                                            <Link to={`/profile/${booking.bookedBy._id}`}>
+                                                <Image className={cx('booking-guest-avatar')} src={booking.bookedBy.avatar} alt="avatar"/>
                                             </Link>
                                         </div>
     
@@ -250,63 +354,13 @@ function Dashboard() {
                                         </div>
                                     </div>
                                 </div>
-                            // ))}
-                        ) : (
+                            ))}
+                        </> : (
                             <h2 className={cx('booking-no-result')}>
                                 No result
                             </h2>
                         )}
-                    </>
-                ) : (
-                    <>
-                        {/* map các reservation theo lịch */}
-                        {bookings.map((booking, index) => (
-                            <div key={index} className={cx('booking')}>
-                                <div className={cx('line')}></div>
-                                <div className={cx('booking-detail')}>
-                                    <div className={cx('booking-time')}>
-                                        <FontAwesomeIcon icon={faCloudMoon} className={cx('booking-icon')}/>
-                                        
-                                        <div className={cx('booking-time-detail')}>
-                                            <h3>{booking.fromTime}</h3>
-                                            <div className={cx('booking-time-place')}>
-                                                {booking.hotel.name}
-                                            </div>
-                                        </div>
-
-                                        <div className={cx('booking-time-duration')}>
-                                            Duration: {booking.numOfDays} days
-                                            <ul className={cx('booking-time-duration-bar')}>
-                                                <li className={cx('booking-time-duration-point')}>{x[index]}</li>
-                                                <li className={cx('booking-time-duration-point')}>{y[index]}</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className={cx('booking-time-detail')}>
-                                            <h3>{booking.toTime}</h3>
-                                            <div className={cx('booking-time-place')}>
-                                                {booking.hotel.name}
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div className={cx('booking-date')}>
-                                        {booking.createdAt}
-                                    </div>
-
-                                    <div className={cx('booking-guest')}>
-                                        <Link to={`/profile/${booking.bookedBy._id}`}>
-                                            <Image className={cx('booking-guest-avatar')} src='' alt="avatar"/>
-                                        </Link>
-                                    </div>
-
-                                    <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
-                                        More detail
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                    
 
                         {/* <div className={cx('booking')}>
                             <div className={cx('line')}></div>
@@ -445,8 +499,8 @@ function Dashboard() {
                                 </div>
                             </div>
                         </div> */}
-                    </>
-                )}
+                    
+                
                 
                 {/* <h4 className={cx('booking-see-more')}>See more</h4> */}
 

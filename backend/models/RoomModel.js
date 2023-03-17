@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
+const slug = require('mongoose-slug-generator')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const roomSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true
+    },
+    slug: {
+        type: String,
+        slug: 'type',
     },
     roomNumbers: [{
         type: Number,   // VIP-01
@@ -57,5 +63,9 @@ const roomSchema = new mongoose.Schema({
     //     ref: "Booking"   
     // }]
 }, { timestamps: true });
+
+// Add plugin
+mongoose.plugin(slug)
+roomSchema.plugin(AutoIncrement, {inc_field: 'roomId', collection_name: 'roomCounter'})
 
 module.exports = mongoose.model("Room", roomSchema);

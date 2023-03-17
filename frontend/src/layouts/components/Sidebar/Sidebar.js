@@ -1,5 +1,5 @@
 
-import { faBars, faClose, faCompass, faEdit, faGear, faHeart, faRightFromBracket, faRightToBracket, faMoon, faUpload, faSackDollar, faBellConcierge, faChalkboard, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faClose, faCompass, faEdit, faGear, faHeart, faRightFromBracket, faRightToBracket, faMoon, faUpload, faSackDollar, faBellConcierge, faChalkboard, faChartLine, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react';
@@ -114,7 +114,7 @@ function Sidebar() {
                                     <span className={cx('title')}>Sevices &amp; Features</span>
                                 </div>
                             </NavLink> */}
-                            <NavLink to='/earnings' className={({ isActive }) => isActive ? activeClassName : undefined}>
+                            <NavLink to='/earning' className={({ isActive }) => isActive ? activeClassName : undefined}>
                                 <div className={cx('user-info-item')}>
                                     <b></b>
                                     <b></b>
@@ -157,6 +157,14 @@ function Sidebar() {
                                             <b></b>
                                             <FontAwesomeIcon icon={faHeart} className={cx('item-icon')}/>
                                             <span className={cx('title')}>Favorite</span>
+                                        </div>
+                                    </NavLink>
+                                    <NavLink to={`/history/${id}`} className={({ isActive }) => isActive ? activeClassName : undefined}>
+                                        <div className={cx('user-info-item')}>
+                                            <b></b>
+                                            <b></b>
+                                            <FontAwesomeIcon icon={faHistory} className={cx('item-icon')}/>
+                                            <span className={cx('title')}>History</span>
                                         </div>
                                     </NavLink>
                                     <NavLink to='/setting' className={({ isActive }) => isActive ? activeClassName : undefined}>

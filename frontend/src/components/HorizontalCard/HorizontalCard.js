@@ -9,19 +9,19 @@ const cx = classNames.bind(styles)
 
 function HorizontalCard({ info }) {
     return (
-        <Link to={`/type/${info?._id}/${info?.hotel._id}`} className={cx('wrapper')}>
+        <Link to={`/type/${info._id}/${info.hotel._id}`} className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <img className={cx('img')} src={info?.thumbnail} alt={info?.type}/>
+                <img className={cx('img')} src={info.thumbnail} alt={info.type}/>
                 <div className={cx('name')}>
-                    <h4 className={cx('type')}>{info?.type}</h4>
+                    <h4 className={cx('type')}>{info.type}</h4>
                     <div className={cx('location')}>
                         <FontAwesomeIcon icon={faLocationDot} className={cx('icon')}/>
-                        <span className={cx('address')}>{info?.hotel.address}</span>
+                        <span className={cx('address')}>{info.hotel.address}</span>
                     </div>
                 </div>
             </div>
             <div className={cx('price')}>
-                <strong>{info?.priceOverNight}</strong>
+                <strong>{info.priceOverNight}</strong>
                 <span className={cx('night')}>/night</span>
             </div>
         </Link>

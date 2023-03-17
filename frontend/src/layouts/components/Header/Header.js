@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import InputSelect from '~/components/InputSelect';
 import Image from '~/components/Image';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import Calendar from '~/components/Calendar';
 import { useState } from 'react';
@@ -18,6 +18,7 @@ const cx = classNames.bind(styles);
 function Header() {
 
     const user = useSelector((state) => state.auth.login.currentUser);
+    const id = user?._id
     // const accessToken = user?.accessToken
     // const id = user?._id
     // const dispatch = useDispatch()
@@ -34,6 +35,7 @@ function Header() {
         else setLength(0)
     },[])
 
+    const { userId } = useParams()
     // if (!user) {
     //     // not logged in so redirect to login page with the return url
     //     return <Navigate to="/signin" />
@@ -59,7 +61,7 @@ function Header() {
                             <span className={cx('badge')}>{length}</span>
                         </Link>
                     )}
-                    <Link to='/profile'>
+                    <Link to={`/profile/${id}`}>
                         <div className={cx('user')}>
                             <Image className={cx('avatar')} src='' alt=''/>
                             <h4 className={cx('user-name')}>{user.username}</h4>

@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const slug = require('mongoose-slug-generator')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const branchSchema = new mongoose.Schema({
     image: {
@@ -8,6 +10,11 @@ const branchSchema = new mongoose.Schema({
     cityName: {
         type: String,
         required: true,
+    },
+    slug: {
+        type: String,
+        slug: 'cityName',
+        unique: true
     },
     hotels: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -19,5 +26,9 @@ const branchSchema = new mongoose.Schema({
     }
 
 },{ timestamps: true })
+
+// Add plugin
+mongoose.plugin(slug)
+branchSchema.plugin(AutoIncrement, {inc_field: 'branchId', collection_name: 'branchCounter'})
 
 module.exports = mongoose.model("Branch", branchSchema);

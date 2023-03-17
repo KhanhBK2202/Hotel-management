@@ -8,22 +8,22 @@ import styles from './VerticalTypeCard.module.scss';
 
 const cx = classNames.bind(styles)
 
-function VerticalTypeCard({ img, name, price, rating }) {
+function VerticalTypeCard({ room }) {
     return (
-        <Link to='/type' className={cx('wrapper')}>
+        <Link to={`/type/${room._id}/${room.hotel}`} className={cx('wrapper')}>
             {/* <div className={cx('wrapper')}> */}
-                <img className={cx('img')} src={img} alt='lodging'/>
+                <img className={cx('img')} src={room.thumbnail} alt='lodging'/>
 
                 <div className={cx('container')}>
-                    <h4 className={cx('type__name')}>{name}</h4>
+                    <h4 className={cx('type__name')}>{room.type}</h4>
                     <div className={cx('type')}>
-                        <div className={cx('type__price')}>${price}/night</div>
+                        <div className={cx('type__price')}>${room.priceOverNight}/night</div>
                         <FontAwesomeIcon className={cx('')} icon={faHeart}/>
                     </div>
                     <div className={cx('line')}></div>
                     <div className={cx('rating')}>
                         <FontAwesomeIcon className={cx('rating__icon')} icon={faStar}/>
-                        <h4 className={cx('rating__score')}>{rating}</h4>
+                        <h4 className={cx('rating__score')}>8.8</h4>
                     </div>
                 </div>
             {/* </div> */}

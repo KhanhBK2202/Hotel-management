@@ -88,7 +88,7 @@ const HotelController = {
    },
    getHotel: async (req, res)=> {
       try {
-         const hotel = await Hotel.findById(req.params.id);
+         const hotel = await Hotel.findById(req.params.id).populate('rooms');
          res.status(200).json(hotel);
       }catch(err){
          res.status(500).json(err);

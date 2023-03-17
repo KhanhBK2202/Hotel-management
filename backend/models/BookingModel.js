@@ -9,6 +9,25 @@ const bookingSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "Room",
      },
+     bookingCode: {
+          type: String,
+          required: true
+     },
+     qr: {
+          type: String,
+          required: true
+     },
+     qrURL: {
+          type: String,
+          required: true
+     },
+     imageCheckin: {
+          type: String,
+     },
+     isCheckin: {
+          type: Boolean,
+          default: false
+     },
      roomNumbers: [Number],
      numberOfGuest:{
           type: Number,
@@ -21,6 +40,10 @@ const bookingSchema = new mongoose.Schema({
      branch: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Branch",
+     },
+     price: {
+          type: Number,
+          required: true,
      },
      servicePrice: {
           type: Number,
@@ -36,11 +59,11 @@ const bookingSchema = new mongoose.Schema({
           type: Boolean, 
      },
      fromDate: {
-          type:Date,
+          type: Date,
           required: true
      },
      toDate: {
-          type:Date,
+          type: Date,
           required: true
      },
      fromTime: {
@@ -51,7 +74,6 @@ const bookingSchema = new mongoose.Schema({
           type: String,
           required: true
      },
-     
      numOfHours: Number,
      numOfDays: Number,
 }, { timestamps: true });

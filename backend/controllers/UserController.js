@@ -14,8 +14,7 @@ const UserController = {
     // Get user by id
     getUser: async(req, res) => {
         try{
-            const id = req.params.id;
-            const user = await User.findById(id);
+            const user = await User.findById(req.params.id);
             res.status(200).json(user)
         }
         catch(err){
@@ -36,10 +35,8 @@ const UserController = {
     },
     getAllBookingOfUser: async(req, res) => {
         try{
-         
-            const bookings = await User.find({ _id: req.params.id},{ bookings: 1  });
-           
-            res.status(200).json(bookings);
+            const user = await User.findOne({ username: req.params.username }).populate('bookings');
+            res.status(200).json(user);
         }
         catch(err){
             res.status(500).json(err);

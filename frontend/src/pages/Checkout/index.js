@@ -1,5 +1,5 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faCreditCard, faGlobe, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faGlobe, faMoneyBill, faWallet, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import classNames from 'classnames/bind'
@@ -8,6 +8,8 @@ import { useMemo } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import QRCode from "qrcode";
+import { AES } from "crypto-js";
 
 import images from '~/assets/images';
 import { useStore } from '~/store';
@@ -114,11 +116,16 @@ function Checkout() {
 
     const [dateIn, setDateIn] = useState()
     const [dateOut, setDateOut] = useState()
+    const [xDate, setXDate] = useState()
+    const [yDate, setYDate] = useState()
     useEffect(() => {
         let x,y
         if (cart && cart.length !== 0) {
             x = new Date(cart[0].dateCheckIn)
             y = new Date(cart[0].dateCheckOut)
+            setXDate(x.toString())
+            setYDate(y.toString())
+            // console.log(x.toString().slice(4, 15))
             setDateIn(x.toString().slice(4, 15))
             setDateOut(y.toString().slice(4, 15))
         }
@@ -136,19 +143,77 @@ function Checkout() {
         getData()
     },[])
 
-    const handleBook = () => {
+    // const [encrptedData, setEncrptedData] = useState("");
+    // const [decrptedData, setDecrptedData] = useState("");
+
+    const [url, setUrl] = useState('')
+	const [qr, setQr] = useState('')
+    // const [filesCover, setFilesCover] = useState([])
+    const handleBook = async () => {
+        const modal = document.querySelector('.' + cx('modal'))
+        modal.classList.add(cx('appear')) 
+        modal.classList.remove(cx('disappear'))
+
+        const text = '' + user.userId + Date.now()
+        const data = AES.encrypt(
+            text,
+            process.env.REACT_APP_SECRET_PASS
+        ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l')
+
+        let qrCode = ''
+		QRCode.toDataURL(`http://192.168.0.10:3000/checkin/${data}`, {
+			width: 400,
+			margin: 2,
+			color: {
+				dark: '#335383FF',
+				light: '#EEEEEEFF'
+			}
+		}, (err, url) => {
+			if (err) return console.error(err)
+            qrCode = url
+			// console.log(url)
+			setQr(url)
+		})
+
+        // setFilesCover(qr)
+        
+        // var reader = new FileReader();
+		// reader.readAsDataURL(e.target.files[0]);
+		// reader.onload = function (e) {
+        //     var img = new Image();
+        //     img.src = e.target.result;
+        //     img.onload = function () {
+        //         setCover(img.src);
+		//     };
+        // }
+        
+        // if (!filesCover[0])
+        //     return
+        // const data = new FormData();
+        // data.append('upload_preset', 'qr image')
+        // data.append('file', filesCover[0])
+        // const res = await fetch('https://api.cloudinary.com/v1_1/des13gsgi/image/upload',{
+        //     method: 'POST',
+        //     body: data,
+        // })
+        // const file = await res.json()
+
         const result = request
-            .post(`/api/v1/booking/post`, 
+            .post('/api/v1/booking/post', 
             {   
                 bookedBy: id, 
                 room: cart[0]?.roomId, 
+                bookingCode: text,
+                qr: qrCode,
+                qrURL: `http://192.168.0.10:3000/checkin/${data}`,
                 roomNumbers: ['01'], 
                 numberOfGuest: cart[0]?.traveller, 
                 hotel: cart[0]?.hotelId, 
+                price: totalPrice,
                 servicePrice: servicesPrice, 
                 isOverNight: cart[0]?.typeOfTime === 'Overnight' ? true : false,  
-                fromDate: dateIn,
-                toDate: dateOut,
+                fromDate: cart[0]?.dateCheckIn,
+                toDate: cart[0]?.dateCheckOut,
                 fromTime: cart[0]?.timeCheckIn,
                 toTime: cart[0]?.timeCheckOut,
                 numOfHours: timeInterval,
@@ -156,10 +221,12 @@ function Checkout() {
             }, {
                 headers: {token: `Bearer ${accessToken}`}
             })
-            .then(res => console.log(res))
+            .then(localStorage.removeItem('cart'))
             .catch(err => console.log(err))
-
-        localStorage.removeItem('cart')
+        // if (result) {
+        //     console.log(result)
+        //     localStorage.removeItem('cart')
+        // }
         const radios = document.querySelector('input[name="method"]:checked')
         if (radios?.value === 'VNPAY-WALLET') {
             const payment = request
@@ -170,10 +237,22 @@ function Checkout() {
                 .catch(err => console.log(err))
     
             window.location.replace(payment.data)
-        }
-        
+        } 
     }
-    
+
+    const handleClose = () => {
+        const modal = document.querySelector('.' + cx('modal'))
+        modal.classList.remove(cx('appear'))
+        modal.classList.add(cx('disappear'))
+        // for (const item of modal) {
+        //     if (item.classList.value.includes(cx('appear')))
+        //     {
+        //         item.classList.remove(cx('appear'))
+        //         item.classList.add(cx('disappear'))
+        //     }
+        // }
+    }
+
     return (
         <>
             <Link to='/' className={cx('logo-link')}>
@@ -308,6 +387,11 @@ function Checkout() {
                                 <div className={cx('payment__method')}>
                                     <div className={cx('payment__method-item')}>
                                         <input id="card" name="method" type="radio" value="CARD"/>
+                                        <FontAwesomeIcon className={cx('label')} icon={faMoneyBill}/>
+                                        <label className={cx('label')} htmlFor="card"> Cash</label>
+                                    </div>
+                                    <div className={cx('payment__method-item')}>
+                                        <input id="card" name="method" type="radio" value="CARD"/>
                                         <FontAwesomeIcon className={cx('label')} icon={faCreditCard}/>
                                         <label className={cx('label')} htmlFor="card"> Debit/Credit Card</label>
                                     </div>
@@ -354,7 +438,21 @@ function Checkout() {
                         <h3 className={cx('book-button')} onClick={handleBook}>Request to book</h3>
                     </div>
                     
-
+                    {/* <button onClick={GenerateQRCode}>Generate</button> */}
+                    <div className={cx('modal')}>
+                        <div className={cx('modal__overlay')}></div>
+                        <div className={cx('modal__body')}>
+                            {/* <div className={cx('close-btn')} onClick={handleClose}>
+                                <FontAwesomeIcon icon={faXmark}/>
+                            </div> */}
+                            {qr && <>
+                                <img src={qr} />
+                                <br/>
+                                <a href={qr} download="qrcode.png" style={{display: 'flex', justifyContent: 'center'}}>Download</a>
+                            </>}
+                            <h3 className={cx('book-button')} onClick={handleClose}>OK</h3>
+                        </div>
+                    </div>
                     {/* <div className={cx('detail__login')}>
                         LOGIN
                         <div className={cx('detail__login-input')}>

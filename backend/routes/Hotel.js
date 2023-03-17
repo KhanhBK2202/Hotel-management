@@ -28,14 +28,14 @@ router.post('/post-services', HotelController.uploadService);
 //get reviews
 router.get('/reviews/:id', MiddlewareController.verifyToken, HotelController.getComment);
 
-//get hotel
+//get most popular hotel
 router.get('/most-popular', HotelController.mostPopular);
+
+//get hotel
+router.get('/:id', HotelController.getHotel);
 
 //get all hotel
 router.get('/', HotelController.getAllHotel);
-
-//get hotel
-router.get('/:id', MiddlewareController.verifyToken, HotelController.getHotel);
 
 //delete 1 hotel
 router.delete('/delete/:id', MiddlewareController.checkManager, HotelController.deleteHotel);

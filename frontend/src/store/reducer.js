@@ -4,8 +4,8 @@ import { SET_STORAGE_DATE, SET_STORAGE_TIME_IN, SET_STORAGE_TIME_OUT, SET_STORAG
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 let currDate = new Date()
 let nextDate = addDays(new Date(), 1)
-currDate = months[currDate.getMonth()] + ' ' + currDate.getDate() + ', ' + currDate.getFullYear()
-nextDate = months[nextDate.getMonth()] + ' ' + nextDate.getDate() + ', ' + nextDate.getFullYear()
+// currDate = months[currDate.getMonth()] + ' ' + currDate.getDate() + ', ' + currDate.getFullYear()
+// nextDate = months[nextDate.getMonth()] + ' ' + nextDate.getDate() + ', ' + nextDate.getFullYear()
 
 const initState = {
     hotel: 'Thành phố Hồ Chí Minh',

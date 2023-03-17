@@ -356,3 +356,21 @@
     padding: 10px 20px;
     color: #8b93a5;
 }
+
+.close-btn {
+    // position: fixed;
+    // right: 240px;
+    // right: 20.3%;
+    padding-left: 13.5px;
+    padding-top: 6px;
+    // margin: 0 auto;
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(240, 239, 239);
+    }
+}
+

@@ -1,17 +1,19 @@
 import { faLocationDot, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Comment from '~/components/Comment';
 import VerticalTypeCard from '~/components/VerticalTypeCard';
 import styles from './DetailHotel.module.scss'; 
 import GoogleMapReact from 'google-map-react';
+import * as request from '~/utils/request';
 
 const cx = classNames.bind(styles)
 const Position = ({ text }) => <div>{text}</div>;
 function DetailHotel() {
 
+    const { id } = useParams()
     useEffect(() => {
         const scores = document.querySelectorAll('.' + cx('user-score'))
         const evaluation = document.querySelectorAll('.' + cx('user-evaluation'))
@@ -38,19 +40,29 @@ function DetailHotel() {
         zoom: 18
     };
 
+    const [hotel, setHotel] = useState()
+    useEffect(() => {
+        request
+            .get(`/api/v1/hotel/${id}`)
+            .then(res => setHotel(res))
+            .catch(err => console.log(err))
+    }, [])
+
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('heading')}>KQ Da Nang</h2>
+            <h2 className={cx('heading')}>{hotel?.name}</h2>
             <h2 className={cx('sub-heading-1')}>Go somewhere</h2>
             <span className={cx('sub-heading-2')}>Let's go on an adventure</span>
 
             <div className={cx('listings')}>
-                <VerticalTypeCard img='https://a0.muscache.com/im/pictures/79bb4170-87d1-4de3-89b0-c809dc67c185.jpg?im_w=1200' name='Bungalow Double' price='20' rating='8.8'/>
-                <VerticalTypeCard img='https://a0.muscache.com/im/pictures/miso/Hosting-589471189814609390/original/afc7ef3c-b4de-4d95-9c80-3ba6a78024b0.jpeg?im_w=1440' name={'Superior King Room'} price='70' rating='8.9'/>
+                {hotel?.rooms.map((room, index) => (
+                    <VerticalTypeCard key={index} room={room}/>
+                ))}
+                {/* <VerticalTypeCard img='https://a0.muscache.com/im/pictures/miso/Hosting-589471189814609390/original/afc7ef3c-b4de-4d95-9c80-3ba6a78024b0.jpeg?im_w=1440' name={'Superior King Room'} price='70' rating='8.9'/>
                 <VerticalTypeCard img='https://pix8.agoda.net/hotelImages/13571664/-1/cac881c856c991ecfd29716cccbe0b27.jpg?ca=28&ce=0&s=1024x768' name='Deluxe Corner Room' price='76' rating='8.5'/>
                 <VerticalTypeCard img='https://pix8.agoda.net/hotelImages/13571664/-1/a28a5aa9bd0e5c4ab942d7148f089047.jpg?ca=28&ce=0&s=1024x768' name='Deluxe Twin Room' price='66' rating='9.4'/>
                 <VerticalTypeCard img='https://pix8.agoda.net/hotelImages/408750/-1/94efbfab473340d3e512826c3f674149.jpg?ca=10&ce=1&s=1024x768' name='Balcony Suite Room' price='125' rating='9.1'/>
-                <VerticalTypeCard img='https://pix8.agoda.net/hotelImages/6944959/-1/c5b185a0e283bdcbead72faa6f34dc77.jpg?ca=13&ce=1&s=1024x768' name='Studio Room' price='25' rating='8.7'/>
+                <VerticalTypeCard img='https://pix8.agoda.net/hotelImages/6944959/-1/c5b185a0e283bdcbead72faa6f34dc77.jpg?ca=13&ce=1&s=1024x768' name='Studio Room' price='25' rating='8.7'/> */}
             </div>
 
             <h2 className={cx('sub-heading-1')}>Where you'll be</h2>

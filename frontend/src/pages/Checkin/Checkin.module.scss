@@ -1,0 +1,197 @@
+.wrapper {
+    // position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    // padding: 10px;
+}
+
+// .upload-photo-form {
+//     // margin-bottom: 240px;
+//     display: grid;
+//     grid-template-columns: 32.44% 32.44% 32.44%;
+//     gap: 10px;
+// }
+
+.heading,
+.sub-heading {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sub-heading2 {
+    margin: 30px 0 20px 0;
+}
+
+.input {
+    display: block;
+    margin: 20px auto;
+    width: 50%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+// .upload-photo-form {
+//     display: grid;
+//     justify-content: center;
+//     width: 100vw;
+//     grid-template-columns: 32% 32% 32%;
+//     gap: 10px;
+// }
+
+.label-upload-photo {
+    // width: 100%;
+    // height: 200px;
+    // display: block;
+    // cursor: copy;
+    // background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='grey' stroke-width='2' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    // border-radius: 20px;
+
+    // &:hover {
+    //     // background-color: var(--primary);
+    //     background: rgba(22, 41, 126, 0.1)
+    // }
+    position: relative;
+    width: 100%;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // height: 696px;
+    // padding-top: 42.86%;
+    aspect-ratio: 16 / 9;
+    display: block;
+    cursor: copy;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='grey' stroke-width='2' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 20px;
+
+    &:hover {
+        // background-color: var(--primary);
+        background: rgba(22, 41, 126, 0.1)
+    }
+}
+
+.photo {
+    // transform: translate(-50%, -50%);
+    // border: dashed 1px blue;
+    // position: relative;
+    border-radius: 20px;
+    // margin: 50px auto;
+    width: 100%;
+    // aspect-ratio: 16 / 9;
+    // display: block;
+    // height: 200px;
+    object-fit: cover;
+    // padding: 6px 12px;
+    // display: flex;
+    
+    position: absolute;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // height: 696px;
+    // padding-top: 42.86%;
+    aspect-ratio: 16 / 9;
+    // padding: 6px 12px;
+    // display: none;
+    cursor: copy;
+}
+
+.badge-remove {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    // padding: 0px 6px;
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    // font-weight: 600;
+    // color: var(--white);
+    text-align: center;
+    background-color: var(--clear-btn-color);
+}
+
+.badge-remove-cover {
+    position: absolute;
+    top: -10px;
+    // right: -10px;
+    // padding: 0px 6px;
+    left: 79%;
+    // transform: translateX(-50%);
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    // font-weight: 600;
+    // color: var(--white);
+    text-align: center;
+    background-color: var(--clear-btn-color);
+}
+
+.upload-photo-icon {
+    // transform: translateY(-50%) scale(5);
+    // margin: 0 auto;
+    // color: rgba(9, 9, 154, 0.747);
+    color: #4477c8;
+    font-size: 3rem;
+    // color: #4477c8;
+    // font-size: 4rem;
+    // margin-top: 50px;
+    // margin-top: 50px;
+}
+
+// .upload-photo-label {
+//     // width: 100%;
+//     // margin: 0 auto;
+//     // text-align: center;
+//     // font-size: 1.4rem;
+//     // font-weight: bold;
+//     // color: rgba(9, 9, 154, 0.747);
+//     // position: absolute;
+//     font-size: 1.4rem;
+// }
+
+.upload-criteria {
+    // display: flex;
+    // justify-content: space-between;
+    // width: 100%;
+    margin-top: 50px;
+}
+
+.upload-criteria-item {
+    color: #888;
+    font-size: 1.4rem;
+    margin-right: 20px;
+}
+
+.btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 10px;
+    width: max-content;
+    border-radius: 10px;
+
+    &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+}
+
+.display-none {
+    display: none;
+}

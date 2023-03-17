@@ -46,13 +46,13 @@ function Home() {
     })
 
     const [hotels, setHotels] = useState([])
-    const [popularHotels, setPopularHotels] = useState([])
+    // const [popularHotels, setPopularHotels] = useState([])
     const [rooms, setRooms] = useState([])
     useEffect(() => {
         request
             .get('/api/v1/hotel')
             .then(res => setHotels(res))
-            .catch((err => console.log(err)))
+            .catch(err => console.log(err))
 
         // request
         //     .get('/api/v1/hotel/most-popular')
@@ -62,7 +62,7 @@ function Home() {
         request 
             .get('/api/v1/room/')
             .then(res => setRooms(res))
-            .catch((err => console.log(err)))
+            .catch(err => console.log(err))
     },[])
 
     return (

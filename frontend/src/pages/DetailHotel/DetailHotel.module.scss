@@ -16,9 +16,12 @@
 }
 
 .listings {
+    // display: grid;
+    // grid-template-columns: auto auto auto auto;
+    // gap: 30px;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    gap: 30px;
+    grid-template-columns: 23.75% 23.75% 23.75% 23.75%;
+    gap: 20px;
     // width: 100%;
     // display: flex;
     // justify-content: space-between;

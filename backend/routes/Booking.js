@@ -6,14 +6,32 @@ const router = express.Router()
 // Create booking  req.body.date = "YYYY-MM-DDTHH:MM:SSZ"
 router.post('/post', MiddlewareController.verifyToken, BookingController.createBooking);
 
+// Upload booking id card/passport
+router.put('/image/:bookingCode', MiddlewareController.verifyToken, BookingController.uploadImage);
+
 // Get All booking
 router.get('/', MiddlewareController.checkManager, BookingController.getAllBooking);
 
-// Get booking by user
-router.get('/:username', MiddlewareController.checkManager, BookingController.getBookingByUser);
+// Get booking by date and name
+router.get('/byDate/@:username/:from/:to', MiddlewareController.checkManager, BookingController.getBookingByDateByName);
 
-// Get booking
-router.get('/:id', MiddlewareController.checkManager, BookingController.getBooking);
+// Get booking by date
+router.get('/byDate/:from/:to', MiddlewareController.checkManager, BookingController.getBookingByDate);
+
+// Get past booking
+router.get('/:id/past', MiddlewareController.verifyToken, BookingController.getPastBooking);
+
+// Get future booking
+router.get('/:id/upcoming', MiddlewareController.verifyToken, BookingController.getUpcomingBooking);
+
+// Get present booking
+router.get('/:id/present', MiddlewareController.verifyToken, BookingController.getPresentBooking);
+
+// Get booking by user (dùng để search)
+router.get('/@:username', MiddlewareController.checkManager, BookingController.getBookingByUser);
+
+// Get booking (dùng để hiện trong history của user)
+router.get('/:id', MiddlewareController.verifyToken, BookingController.getBooking);
 
 //Delete by id
 router.delete('/:id', MiddlewareController.verifyToken, BookingController.deleteBooking);

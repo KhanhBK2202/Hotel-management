@@ -832,7 +832,7 @@ function DetailType() {
                         </select> */}
 
                     {/* </div> */}
-                    <h3 style={{textAlign: 'center', marginTop: '10px'}}>{dateArrive}</h3>
+                    {/* <h3 style={{textAlign: 'center', marginTop: '10px'}}>{dateArrive}</h3> */}
                     <DatePicker getDate={getDate}/>
                     {/* {dateForHourly} */}
                     <h2 className={cx('')}>Choose time arrive</h2>

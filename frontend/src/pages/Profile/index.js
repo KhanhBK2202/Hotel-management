@@ -76,6 +76,15 @@ function Profile() {
             .then(res => setGuest(res))
             .catch(err => console.log(err))
     },[])
+
+    const [dateJoin, setDateJoin] = useState()
+    useEffect(() => {
+        let x
+        if (guest){
+            x = new Date(guest.createdAt)
+            setDateJoin(x.toString().slice(8, 10) + '/' + x.toString().slice(11, 15))
+        }
+    })
     
     return (
         <div className={cx('wrapper')}>
@@ -85,8 +94,8 @@ function Profile() {
                 </div>
 
                 <div className={cx('general-info')}>
-                    <h1 className={cx('name')}>{guest.username}</h1>
-                    <span className={cx('join')}>Joined in 2022</span>
+                    <h1 className={cx('name')}>{guest?.username}</h1>
+                    <span className={cx('join')}>Joined in {dateJoin}</span>
 
                     <h1 className={cx('total-bookings')}>
                         4

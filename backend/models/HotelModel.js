@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const slug = require('mongoose-slug-generator')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
+
 const commentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +21,11 @@ const hotelSchema = new mongoose.Schema({
     name: {
         type: String, 
         required: true,
+    },
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
     },
     images: [{
         type: String
@@ -61,6 +69,10 @@ const hotelSchema = new mongoose.Schema({
     reviews: [commentSchema], 
     
 }, { timestamps: true });
+
+// Add plugin
+mongoose.plugin(slug)
+hotelSchema.plugin(AutoIncrement, {inc_field: 'hotelId', collection_name: 'hotelCounter'})
 
 module.exports = mongoose.model("Hotel", hotelSchema); 
   
