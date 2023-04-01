@@ -12,6 +12,8 @@ const routes = {
     setting: '/setting/:id',
     upload: '/upload',
     earning: '/earning',
+    rooms: '/rooms',
+    roomTypes: '/room-types',
     services: '/services',
     dashboard: '/dashboard',
 };

@@ -266,7 +266,7 @@ function DetailType() {
 
     useEffect(() => {
         request 
-            .get(`/api/v1/room/${roomId}/${hotelId}`)
+            .get(`/api/v1/roomType/${roomId}/${hotelId}`)
             .then(res => {
                 setRoom(res)
                 setHotelName(res.hotel.name)

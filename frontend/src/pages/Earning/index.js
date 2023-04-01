@@ -154,6 +154,7 @@ function Earning() {
                 <Tooltip />
             </LineChart> */}
 
+            <h2>Revenue Analytics</h2>
             <Chart 
                 options={{
                     colors: ['#01565B'],
@@ -184,7 +185,7 @@ function Earning() {
                     }
                 ]}
                 type='area'
-                width='500'
+                width='700'
             />
 
             {/* {bookings.map((item, index) => (

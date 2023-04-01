@@ -1,4 +1,4 @@
-const Room = require('../models/RoomModel');
+const RoomType = require('../models/RoomTypeModel');
 const Branch = require('../models/BranchModel');
 const Booking = require('../models/BookingModel');
 const Hotel = require('../models/HotelModel');
@@ -37,7 +37,7 @@ const SearchController = {
        //1
         async function getAvRoom(temp){
             let promises = Promise.all(temp.map( async (r) => {   
-                     let room = await Room.findById(r);
+                     let room = await RoomType.findById(r);
                   //   if (room.numberOfPeople != num){
                     //        return {
                     //         room: room,

@@ -1,11 +1,13 @@
 import classNames from 'classnames/bind'
-
-import styles from './History.module.scss'
 import * as request from '~/utils/request';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import styles from './History.module.scss'
+import moment from 'moment'
+
+moment().format()
 const cx = classNames.bind(styles)
 
 function History() {
@@ -33,12 +35,12 @@ function History() {
             .catch(err => console.log(err))
     },[])
 
-    let dateBooking = []
-    let x
-    upcomingBookings.forEach((booking, index) => {
-        x = new Date(booking.createdAt)
-        dateBooking.push(x.toString().slice(4, 15))
-    })
+    // let dateBooking = []
+    // let x
+    // upcomingBookings.forEach((booking, index) => {
+    //     x = new Date(booking.createdAt)
+    //     dateBooking.push(x.toString().slice(4, 15))
+    // })
     
     return (
         <div className={cx('wrapper')}>
@@ -68,21 +70,25 @@ function History() {
                     <div className={cx('title-item')}>{booking.createdAt}</div>
                 </div>
             ))} */}
-            <h3>Past</h3>
+            <h3>Upcoming</h3>
             <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
                 <h4 className={cx('title-item')}>QR</h4>
                 <h4 className={cx('title-item')}>QR URL</h4>
-                <h4 className={cx('title-item')}>Booking date</h4>
+                <h4 className={cx('title-item')}>Arrival date</h4>
+                <h4 className={cx('title-item')}>Arrival time</h4>
+                <h4 className={cx('title-item')}>Created date</h4>
             </div>
             {upcomingBookings.map((booking, index) => (
                 <div key={index} className={cx('booking')}>
-                    <h3 className={cx('bookingCode-item')}>#{booking.bookingCode}</h3>
-                    <div style={{width: '30%'}}>
+                    <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
+                    <div className={cx('booking-item')}>
                         <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
                     </div>
-                    <div className={cx('date-item')}>{booking?.qrURL}</div>
-                    <div className={cx('date-item')}>{dateBooking[index]}</div>
+                    <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link>
+                    <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
+                    <div className={cx('booking-item')}>{booking.fromTime}</div>
+                    <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>
                 </div>
             ))}
         </div>

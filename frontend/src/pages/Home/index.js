@@ -60,7 +60,7 @@ function Home() {
         //     .catch((err => console.log(err)))
 
         request 
-            .get('/api/v1/room/')
+            .get('/api/v1/roomType/')
             .then(res => setRooms(res))
             .catch(err => console.log(err))
     },[])

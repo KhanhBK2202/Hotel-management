@@ -1,8 +1,9 @@
 import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
-import { faCloudMoon, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCloudMoon, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 // import { faHotel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
+import moment from 'moment';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,6 +18,7 @@ import { useStore } from '~/store';
 import * as request from '~/utils/request';
 import styles from './Dashboard.module.scss'; 
 
+moment().format()
 const cx = classNames.bind(styles)
 
 function Dashboard() {
@@ -35,7 +37,9 @@ function Dashboard() {
         else setFullDate(dateCheckIn.toString().slice(0, 3) + ', ' + dateCheckIn.toString().slice(4, 15) + ' - ' + dateCheckOut.toString().slice(0, 3) + ', ' + dateCheckOut.toString().slice(4, 15))
     }, [dateCheckIn, dateCheckOut])
 
-    const handleSeeDetail = () => {
+    const [index, setIndex] = useState()
+    const handleSeeDetail = (i) => {
+        setIndex(i)
         const modal = document.querySelectorAll('.' + cx('modal'))
         modal[0].classList.remove(cx('disappear'))
         modal[0].classList.add(cx('appear'))
@@ -56,7 +60,6 @@ function Dashboard() {
     // const [userBookings, setUserBookings] = useState([])
     const [searchResult, setSearchResult] = useState('')
     const [flag, setFlag] = useState(false)
-    // const tag = ['A', 'B', 'C', 'D', 'E', 'F'] // danh sách tất cả reservation
     useEffect(() => {
         // for (const item of bookings) {
         //     // console.log(getAll)
@@ -80,7 +83,6 @@ function Dashboard() {
             request 
                 .get(`/api/v1/booking/@${searchResult}`, { headers: {token: `Beaer ${accessToken}`} })
                 .then(res => {
-                    // console.log(res)
                     setBookings(res)
                     if (res.length === 0) {
                         setFlag(false)
@@ -122,6 +124,8 @@ function Dashboard() {
         else {
             // Không lấy tất cả booking, chỉ lấy các booking trong khoàng được chọn
             // console.log(dateCheckIn)
+            // const checkIn = moment(dateCheckIn).format()
+            // const checkOut = moment(dateCheckOut).format()
             const checkIn = dateCheckIn.toISOString()
             const checkOut = dateCheckOut.toISOString()
             // console.log(checkIn, checkOut)
@@ -259,7 +263,7 @@ function Dashboard() {
         // text.style.display = 'flex'
     }
 
-    if (user.role === 'user') {
+    if (user?.role === 'user' || !user) {
         return <Navigate to='/'/>
     }
 
@@ -294,6 +298,7 @@ function Dashboard() {
                 <div className={cx('booking-heading')}>
                     <span className={cx('booking-heading__item')}>Time</span>
                     <span className={cx('booking-heading__item')}>Date</span>
+                    <span className={cx('booking-heading__item')}>Checkin</span>
                     <span className={cx('booking-heading__item')}>Guest</span>
                     <span className={cx('booking-heading__item')}></span>
                 </div>
@@ -341,6 +346,10 @@ function Dashboard() {
                                         <div className={cx('booking-date')}>
                                             {dateBooking[index]}
                                         </div>
+
+                                        <div className={cx('booking-checkin')}>
+                                            {booking.isCheckin ? <FontAwesomeIcon icon={faCheck} style={{color: 'green'}}/> : <FontAwesomeIcon icon={faXmark} style={{color: 'red'}}/>}
+                                        </div>
     
                                         <div className={cx('booking-guest')}>
                                             {/* Xử lý nếu khách hàng này không có trong db thì chỉ hiện tippy tên thôi, vì họ có thể đặt phòng trực tiếp nên không có tài khoản */}
@@ -349,7 +358,7 @@ function Dashboard() {
                                             </Link>
                                         </div>
     
-                                        <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
+                                        <div className={cx('booking-more-detail')} onClick={() => handleSeeDetail(index)}>
                                             More detail
                                         </div>
                                     </div>
@@ -533,25 +542,27 @@ function Dashboard() {
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>GUEST</h5>
                             <div className={cx('reservation-date')}>
-                                Maciej Kuropatwa
+                                {bookings[index]?.bookedBy.username}
                             </div>
                         </div>
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>CHECK-IN</h5>
                             <div className={cx('reservation-date')}>
-                                Sun, 22 May 2022
+                                {/* Sun, 22 May 2022 */}
+                                {moment([bookings[index]?.fromDate], "YYYY-MM-DDTHH:mm:ss Z").format('LL')}
                             </div>
                             <div className={cx('reservation-time')}>
-                                from 16:00
+                                from {bookings[index]?.fromTime}
                             </div>
                         </div>
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>CHECK-OUT</h5>
                             <div className={cx('reservation-date')}>
-                                Wed, 25 May 2022
+                                {/* Wed, 25 May 2022 */}
+                                {moment([bookings[index]?.toDate], "YYYY-MM-DDTHH:mm:ss Z").format('LL')}
                             </div>
                             <div className={cx('reservation-time')}>
-                                by 11:00
+                                by {bookings[index]?.toTime}
                             </div>
                         </div>
                     </div>
@@ -565,13 +576,13 @@ function Dashboard() {
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>PHONE</h5>
                             <div className={cx('reservation-date')}>
-                                0888380625
+                                {bookings[index]?.bookedBy.phone}
                             </div>
                         </div>
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>EMAIL</h5>
                             <div className={cx('reservation-date')}>
-                                nhatkhanhbk2202@gmail.com
+                                {bookings[index]?.bookedBy.email}
                             </div>
                         </div>
                     </div>
@@ -579,7 +590,7 @@ function Dashboard() {
                         <div className={cx('reservation-check-date__item')}>
                             <h5 className={cx('reservation-date__heading')}>BOOKING NUMBER</h5>
                             <div className={cx('reservation-date')}>
-                                #54237982
+                                #{bookings[index]?.bookingCode}
                             </div>
                         </div>
                     </div>

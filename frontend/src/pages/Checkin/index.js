@@ -1,4 +1,4 @@
-import { faImage, faImages, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faCircleCheck, faCircleXmark, faImage, faImages, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faCreditCard, faGlobe, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -14,8 +14,10 @@ import images from '~/assets/images';
 import config from '~/config';
 import * as request from '~/utils/request';
 import styles from './Checkin.module.scss'; 
+import moment from 'moment';
 
 const cx = classNames.bind(styles)
+moment().format()
 
 function Checkin() {
 
@@ -61,9 +63,36 @@ function Checkin() {
     }
 
     const [code, setCode] = useState()
+    const [decrData, setDecrData] = useState()
+    const [isCheckin, setIsCheckIn] = useState(false)
+    const [room, setRoom] = useState()
+    useEffect(() => {
+        const oriData = bookingCode.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=')
+        const bytes = AES.decrypt(oriData, process.env.REACT_APP_SECRET_PASS)
+        const realData = bytes.toString(enc.Utf8)
+        setDecrData(realData)
+
+        request
+            .get(`/api/v1/booking/${realData}`)
+            .then(res => {
+                const now = new Date()
+                const date = moment(res.fromDate).format('L')
+                const time = res.fromTime
+                const dateTime = moment(`${date} ${time}`, 'MM/DD/YYYY HH:mm').format()
+                if ((moment(dateTime).add(-2, 'hours')).diff(moment(now)) < 0 && moment(now).diff(dateTime) < 0) {
+                    console.log('được phép checkin')
+                    setIsCheckIn(true)
+                    setRoom(res)
+                }
+                else {
+                    console.log('chưa được checkin')
+                    setIsCheckIn(false)
+                }
+            })
+    },[])
     const handleSave = async () => {
         // setLoading(true)
-        if (!filesPhoto)
+        if (!filesPhoto[0])
             return
         const data = new FormData();
         data.append('upload_preset', 'checkin')
@@ -90,9 +119,7 @@ function Checkin() {
         //     roomNumbers.push(i + 1)
         // }
 
-        const oriData = bookingCode.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=')
-        const bytes = AES.decrypt(oriData, process.env.REACT_APP_SECRET_PASS)
-        const decrData = bytes.toString(enc.Utf8)
+        
         // console.log(decrData)
         // setDecrptedData(data);
         // Check có đúng mã booking hay ko
@@ -107,7 +134,7 @@ function Checkin() {
         }
 
         request
-            .put(`/api/v1/booking/image/${decrData}`, { imageCheckin: file.secure_url }, {
+            .put(`/api/v1/booking/image/${decrData}`, { imageCheckin: file.secure_url, isCheckin: true }, {
                 headers: {token: `Bearer ${accessToken}`}
             })
 
@@ -131,86 +158,99 @@ function Checkin() {
     
     return (
         <div className={cx('wrapper')}>
-            <div>
-                <Link to={user?.role === 'manager' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
-                    <img src={images.logo} alt="KQ" className={cx('logo-img')}/>
-                </Link>
-                <h2 className={cx('heading')}>Check-in room A11.11</h2>
-                <div className={cx('sub-heading')}>Please enter booking code that KQ has send to you</div>
-                <input className={cx('input')} placeholder='Booking Code' onChange={e => setCode(e.target.value)}/>
-                <div >
-                    <div className={cx('sub-heading2')}>Paper pictures (Identity card/Passport)</div>
-                    {/* <div className={cx('upload-photo-form')}> */}
-                        <form >
-                            <div style={{position: 'relative'}}>
-                                {photo && 
-                                    <>
-                                        <img id='output-cover' alt='' src={photo} className={cx('photo')}></img>
-                                        <span className={cx('badge-remove')} onClick={handleRemovePhoto}>X</span>
-                                    </>
-                                }
-                                {/* <label htmlFor='filePhotoInput' className={cx('label-upload-photo')}>
-                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', textAlign: 'center'}}>
-                                        <div>
-                                            <FontAwesomeIcon icon={faImages} className={cx('upload-photo-icon')}/>
-                                            <div className={cx('upload-photo-label')}>+ Add atleast 2 photos</div>
+            {isCheckin ? 
+                <div>
+                    <Link to={user?.role === 'manager' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
+                        <img src={images.logo} alt="KQ" className={cx('logo-img')}/>
+                    </Link>
+                    <h2 className={cx('heading')}>Check-in room {room.room.name}</h2>
+                    <div className={cx('sub-heading')}>Please enter booking code that KQ has send to you</div>
+                    <input className={cx('input')} placeholder='Booking Code' onChange={e => setCode(e.target.value)}/>
+                    <div>
+                        <div className={cx('sub-heading2')}>Paper pictures (Identity card/Passport)</div>
+                        {/* <div className={cx('upload-photo-form')}> */}
+                            <form >
+                                <div style={{position: 'relative'}}>
+                                    {photo && 
+                                        <>
+                                            <img id='output-cover' alt='' src={photo} className={cx('photo')}></img>
+                                            <span className={cx('badge-remove')} onClick={handleRemovePhoto}>X</span>
+                                        </>
+                                    }
+                                    {/* <label htmlFor='filePhotoInput' className={cx('label-upload-photo')}>
+                                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', textAlign: 'center'}}>
+                                            <div>
+                                                <FontAwesomeIcon icon={faImages} className={cx('upload-photo-icon')}/>
+                                                <div className={cx('upload-photo-label')}>+ Add atleast 2 photos</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </label>  */}
-                                <label htmlFor='filePhotoInput' className={cx('label-upload-photo')}>
-                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', textAlign: 'center'}}>
-                                        <div >
-                                            <FontAwesomeIcon icon={faImage} className={cx('upload-photo-icon')}/>
-                                            <div className={cx('upload-photo-label')}>Select a JPG file to upload</div>
-                                            {/* <div className={cx('upload-criteria')}>
-                                                <span className={cx('upload-criteria-item')}>
-                                                    . Aspect ratio 16:9
-                                                </span>
-                                                <span className={cx('upload-criteria-item')}>
-                                                    . Recommended size 1024x576
-                                                </span>
-                                            </div> */}
+                                    </label>  */}
+                                    <label htmlFor='filePhotoInput' className={cx('label-upload-photo')}>
+                                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', textAlign: 'center'}}>
+                                            <div >
+                                                <FontAwesomeIcon icon={faImage} className={cx('upload-photo-icon')}/>
+                                                <div className={cx('upload-photo-label')}>Select a JPG file to upload</div>
+                                                {/* <div className={cx('upload-criteria')}>
+                                                    <span className={cx('upload-criteria-item')}>
+                                                        . Aspect ratio 16:9
+                                                    </span>
+                                                    <span className={cx('upload-criteria-item')}>
+                                                        . Recommended size 1024x576
+                                                    </span>
+                                                </div> */}
+                                            </div>
                                         </div>
-                                    </div>
-                                </label>
-                            </div>
-                            <input id="filePhotoInput"
-                                type="file"
-                                name="filePhoto"
-                                onChange={uploadPhoto}
-                            />
-                        </form>
-                        {/* {photos.length !== 0 && photos.map((item, index) => (
-                            <div key={index} style={{position: 'relative'}}>
-                                <img id='output-photo' alt='' src={photo} className={cx('photo')}></img>
-                                <span className={cx('badge-remove')} onClick={() => handleRemovePhoto(index)}>X</span>
-                            </div>
-                        ))} */}
-                    {/* </div> */}
-                </div>
-                <div className={cx('btn')}>
-                    <div className={cx('submit-btn')} onClick={handleSave}>Save</div>
-                </div>
+                                    </label>
+                                </div>
+                                <input id="filePhotoInput"
+                                    type="file"
+                                    name="filePhoto"
+                                    onChange={uploadPhoto}
+                                />
+                            </form>
+                            {/* {photos.length !== 0 && photos.map((item, index) => (
+                                <div key={index} style={{position: 'relative'}}>
+                                    <img id='output-photo' alt='' src={photo} className={cx('photo')}></img>
+                                    <span className={cx('badge-remove')} onClick={() => handleRemovePhoto(index)}>X</span>
+                                </div>
+                            ))} */}
+                        {/* </div> */}
+                    </div>
+                    <div className={cx('btn')}>
+                        <div className={cx('submit-btn')} onClick={handleSave}>Save</div>
+                    </div>
 
-                <div className={cx('modal')}>
-                    <div className={cx('modal__overlay')}></div>
-                    <div className={cx('modal__body')}>
-                        Checkin failed
-                        <div className={cx('btn')}>
-                            <div className={cx('submit-btn')} onClick={handleCheckFail}>OK</div>
+                    <div className={cx('modal')}>
+                        <div className={cx('modal__overlay')}></div>
+                        <div className={cx('modal__body')}>
+                            <div className={cx('modal-heading')} style={{color: 'red'}}>
+                                <FontAwesomeIcon icon={faCircleXmark} style={{fontSize: '4rem'}}/>
+                                <h1>Checkin failed</h1>
+                            </div>
+                            <h2>Please entering the right booking code</h2>
+                            <div className={cx('btn')}>
+                                <div className={cx('submit-btn')} onClick={handleCheckFail}>OK</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className={cx('modal')}>
-                    <div className={cx('modal__overlay')}></div>
-                    <div className={cx('modal__body')}>
-                        Checkin successfully
-                        <div className={cx('btn')}>
-                            <div className={cx('submit-btn')} onClick={handleCheckSuccess}>OK</div>
+                    <div className={cx('modal')}>
+                        <div className={cx('modal__overlay')}></div>
+                        <div className={cx('modal__body')}>
+                            <div className={cx('modal-heading')} style={{color: 'green'}}>
+                                <FontAwesomeIcon icon={faCircleCheck} style={{fontSize: '4rem'}}/>
+                                <h1>Checkin successfully</h1>
+                            </div>
+                            <h2>Please go to the front desk to receive the room key</h2>
+                            <div className={cx('btn')}>
+                                <div className={cx('submit-btn')} onClick={handleCheckSuccess}>OK</div>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
-            </div>
+            : 
+                <h2>It is not time to check-in, please check-in within 2 hours before booking schedule</h2>
+            }
         </div>  
     )
 }

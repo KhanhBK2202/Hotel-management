@@ -10,12 +10,14 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import QRCode from "qrcode";
 import { AES } from "crypto-js";
+import moment from 'moment'
 
 import images from '~/assets/images';
 import { useStore } from '~/store';
 import * as request from '~/utils/request';
 import styles from './Checkout.module.scss'; 
 
+moment().format()
 const cx = classNames.bind(styles)
 
 function Checkout() {
@@ -108,28 +110,28 @@ function Checkout() {
     useEffect(() => {
         cart?.forEach((i) => {
             request
-                .get(`/api/v1/room/${i.roomId}/${i.hotelId}`)
+                .get(`/api/v1/roomType/${i.roomId}/${i.hotelId}`)
                 .then(res => setRoom(res))
                 .catch(err => console.error(err))
         })
     },[cart])
 
-    const [dateIn, setDateIn] = useState()
-    const [dateOut, setDateOut] = useState()
-    const [xDate, setXDate] = useState()
-    const [yDate, setYDate] = useState()
-    useEffect(() => {
-        let x,y
-        if (cart && cart.length !== 0) {
-            x = new Date(cart[0].dateCheckIn)
-            y = new Date(cart[0].dateCheckOut)
-            setXDate(x.toString())
-            setYDate(y.toString())
-            // console.log(x.toString().slice(4, 15))
-            setDateIn(x.toString().slice(4, 15))
-            setDateOut(y.toString().slice(4, 15))
-        }
-    },[cart])
+    // const [dateIn, setDateIn] = useState()
+    // const [dateOut, setDateOut] = useState()
+    // const [xDate, setXDate] = useState()
+    // const [yDate, setYDate] = useState()
+    // useEffect(() => {
+    //     let x,y
+    //     if (cart && cart.length !== 0) {
+    //         x = new Date(cart[0].dateCheckIn)
+    //         y = new Date(cart[0].dateCheckOut)
+    //         setXDate(x.toString())
+    //         setYDate(y.toString())
+    //         // console.log(x.toString().slice(4, 15))
+    //         setDateIn(x.toString().slice(4, 15))
+    //         setDateOut(y.toString().slice(4, 15))
+    //     }
+    // },[cart])
 
     const [ip, setIP] = useState('');
     
@@ -149,7 +151,8 @@ function Checkout() {
     const [url, setUrl] = useState('')
 	const [qr, setQr] = useState('')
     // const [filesCover, setFilesCover] = useState([])
-    const handleBook = async () => {
+    // const [availableRoom, setAvailableRoom] = useState()
+    const handleBook = () => {
         const modal = document.querySelector('.' + cx('modal'))
         modal.classList.add(cx('appear')) 
         modal.classList.remove(cx('disappear'))
@@ -161,7 +164,7 @@ function Checkout() {
         ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l')
 
         let qrCode = ''
-		QRCode.toDataURL(`http://192.168.0.10:3000/checkin/${data}`, {
+		QRCode.toDataURL(`/checkin/${data}`, {
 			width: 400,
 			margin: 2,
 			color: {
@@ -171,7 +174,6 @@ function Checkout() {
 		}, (err, url) => {
 			if (err) return console.error(err)
             qrCode = url
-			// console.log(url)
 			setQr(url)
 		})
 
@@ -198,46 +200,74 @@ function Checkout() {
         // })
         // const file = await res.json()
 
-        const result = request
-            .post('/api/v1/booking/post', 
-            {   
-                bookedBy: id, 
-                room: cart[0]?.roomId, 
-                bookingCode: text,
-                qr: qrCode,
-                qrURL: `http://192.168.0.10:3000/checkin/${data}`,
-                roomNumbers: ['01'], 
-                numberOfGuest: cart[0]?.traveller, 
-                hotel: cart[0]?.hotelId, 
-                price: totalPrice,
-                servicePrice: servicesPrice, 
-                isOverNight: cart[0]?.typeOfTime === 'Overnight' ? true : false,  
-                fromDate: cart[0]?.dateCheckIn,
-                toDate: cart[0]?.dateCheckOut,
-                fromTime: cart[0]?.timeCheckIn,
-                toTime: cart[0]?.timeCheckOut,
-                numOfHours: timeInterval,
-                numOfDays: cart[0]?.numOfDays
-            }, {
-                headers: {token: `Bearer ${accessToken}`}
-            })
-            .then(localStorage.removeItem('cart'))
-            .catch(err => console.log(err))
-        // if (result) {
-        //     console.log(result)
-        //     localStorage.removeItem('cart')
-        // }
-        const radios = document.querySelector('input[name="method"]:checked')
-        if (radios?.value === 'VNPAY-WALLET') {
-            const payment = request
-                .post('/api/v1/booking/create_payment_url', { amount: totalPrice*25000, orderInfo: 'Thanh toán đặt phòng', orderId: result._id }, {
-                    headers: {'x-forwarded-for': ip}
+        const date = moment(cart[0]?.dateCheckIn).format('L')
+        const time = cart[0]?.timeCheckIn
+        const dateTime = moment(`${date} ${time}`, 'MM/DD/YYYY HH:mm').format()
+        request
+            .get(`/api/v1/room/${cart[0]?.roomId}`)
+            .then(res => {
+                const r = res.find((room) => {
+                    return !room.bookedBy
                 })
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-    
-            window.location.replace(payment.data)
-        } 
+                if (r) {
+                    const result = request
+                        .post('/api/v1/booking/post', 
+                        {   
+                            bookedBy: id, 
+                            room: r._id, 
+                            bookingCode: text,
+                            qr: qrCode,
+                            qrURL: `/checkin/${data}`,
+                            // roomNumbers: ['01'], 
+                            numberOfGuest: cart[0]?.traveller, 
+                            hotel: cart[0]?.hotelId, 
+                            price: totalPrice,
+                            servicePrice: servicesPrice, 
+                            isOverNight: cart[0]?.typeOfTime === 'Overnight' ? true : false,  
+                            fromDate: dateTime,
+                            toDate: cart[0]?.dateCheckOut,
+                            fromTime: cart[0]?.timeCheckIn,
+                            toTime: cart[0]?.timeCheckOut,
+                            numOfHours: timeInterval,
+                            numOfDays: cart[0]?.numOfDays
+                        }, {
+                            headers: {token: `Bearer ${accessToken}`}
+                        })
+                        .then(res => {
+                            localStorage.removeItem('cart')
+                            request
+                                .put(`/api/v1/room/update/${r._id}`, { bookedBy: res._id }, {
+                                    headers: {token: `Bearer ${accessToken}`}
+                                })
+                                .then(res => console.log(res))
+                                .catch(err => console.log(err))
+
+                            const radios = document.querySelector('input[name="method"]:checked')
+                            if (radios?.value === 'VNPAY-WALLET') {
+                                const payment = request
+                                    .post('/api/v1/booking/create_payment_url', { amount: totalPrice*25000, orderInfo: 'Booking payment', orderId: res._id }, {
+                                        headers: {'x-forwarded-for': ip}
+                                    })
+                                    .then(res => console.log(res))
+                                    .catch(err => console.log(err))
+                        
+                                window.location = payment.data
+                            } 
+                        })
+                        .catch(err => console.log(err))
+                    // if (result) {
+                    //     console.log(result)
+                    //     localStorage.removeItem('cart')
+                    // }
+                    
+                }
+                else {
+                    console.log('Out of room')
+                    return
+                }
+            })
+            .catch(err => console.log(err))
+        
     }
 
     const handleClose = () => {
@@ -285,7 +315,7 @@ function Checkout() {
                             </div>
                             <div className={cx('order__delivery')}>
                                 <div className={cx('order__delivery-label')}>Dates</div>
-                                <h4 className={cx('order__delivery-price')}>{dateIn} - {dateOut}</h4>
+                                <h4 className={cx('order__delivery-price')}>{moment(item.dateCheckIn).format('LL')} - {moment(item.dateCheckOut).format('LL')}</h4>
                             </div>
                             <div className={cx('order__delivery')}>
                                 <div className={cx('order__delivery-label')}>Time</div>

@@ -21,7 +21,7 @@ function HorizontalCard({ info }) {
                 </div>
             </div>
             <div className={cx('price')}>
-                <strong>{info.priceOverNight}</strong>
+                <strong>${info.priceOverNight}</strong>
                 <span className={cx('night')}>/night</span>
             </div>
         </Link>

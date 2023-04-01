@@ -1,9 +1,9 @@
-const Room = require("../models/RoomModel");
+const RoomType = require("../models/RoomTypeModel");
 const Hotel = require("../models/HotelModel");
 const User = require("../models/UserModel");
 
-const RoomController = {
-      createRoom: async (req, res, next)=> {
+const RoomTypeController = {
+      createType: async (req, res, next)=> {
          // try{
             //   const newRoom = new Room({
             //    roomNumbers: req.body.roomNumbers,
@@ -14,16 +14,16 @@ const RoomController = {
             //    numOfPeople: req.body.numOfPeople
 
             //   });
-            const newRoom = new Room(req.body);
+            const newRoom = new RoomType(req.body);
             // newRoom 
             //    .save()
             //    .then(() => res.send('successfully'))
             //    .catch(next)
             const savedRoom = await newRoom.save();
-            // if (req.body.hotel){
-            //    const hotel = await Hotel.findById(req.body.hotel);
-            //    await hotel.updateOne( {$push: { rooms: savedRoom._id }});
-            // }
+            if (req.body.hotel){
+               const hotel = await Hotel.findById(req.body.hotel);
+               await hotel.updateOne( {$push: { rooms: savedRoom._id }});
+            }
             res.status(200).json(savedRoom);
 
          // } catch(err){
@@ -32,20 +32,17 @@ const RoomController = {
       },
     updateRoom: async (req, res)=> {
       try{
-         const room = await Room.findOneAndUpdate({ _id: req.params.id }, { $set: req.body });
-         res.status(200).json({
-            status: "Successfully",
-            data: {
-               room
-            }
-         });
+        const id = req.params.id;
+        const room = await RoomType.findById(id);
+        await room.updateOne({ $set: req.body })
+        res.status(200).json("Updated successfully");
       }catch(err){
          res.status(500).json(err);
       }
     },
    getAllRoom:  async (req, res)=> {
       try{
-         const rooms = await Room.find().populate('type').populate('bookedBy')
+         const rooms = await RoomType.find().populate('hotel')
          res.status(200).json(rooms);
       }catch(err){
          res.status(500).json(err);
@@ -53,25 +50,17 @@ const RoomController = {
    },
    getRoom: async (req, res) => {
       try {
-         const room = await Room.findById(req.params.roomId).populate('hotel')
+         const room = await RoomType.findById(req.params.roomId).populate('hotel')
          res.status(200).json(room);
       } catch(err){
          res.status(500).json(err);
       }
    },
-   getRoomByType: async (req, res) => {
-      try {
-         const room = await Room.find({ type: req.params.typeId }).populate('type')
-         res.status(200).json(room);
-      } catch(err){
-         res.status(500).json(err);
-      }
-   },
-   deleteRoom:  async (req, res)=> {
+    deleteRoom:  async (req, res)=> {
       try{
           await User.updateMany({ favRooms: req.params.id}, { $pull: { favRooms: req.params.id}})
           await Hotel.updateMany({ rooms: req.params.id}, { $pull: { rooms: req.params.id}})
-          await Room.findByIdAndDelete(req.params.id);
+          await RoomType.findByIdAndDelete(req.params.id);
           res.status(200).json("Deleted successfully");
       }catch(err){
          res.status(500).json(err);
@@ -81,4 +70,4 @@ const RoomController = {
    
 
 };
-module.exports = RoomController;
+module.exports = RoomTypeController;

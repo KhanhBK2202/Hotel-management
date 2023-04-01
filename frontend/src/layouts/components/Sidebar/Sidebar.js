@@ -1,5 +1,5 @@
 
-import { faBars, faClose, faCompass, faEdit, faGear, faHeart, faRightFromBracket, faRightToBracket, faMoon, faUpload, faSackDollar, faBellConcierge, faChalkboard, faChartLine, faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faClose, faCompass, faEdit, faGear, faHeart, faRightFromBracket, faRightToBracket, faMoon, faUpload, faSackDollar, faBellConcierge, faChalkboard, faChartLine, faHistory, faDoorOpen, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react';
@@ -122,6 +122,22 @@ function Sidebar() {
                                     <span className={cx('title')}>Earnings</span>
                                 </div>
                             </NavLink>
+                            <NavLink to='/rooms' className={({ isActive }) => isActive ? activeClassName : undefined}>
+                                <div className={cx('user-info-item')}>
+                                    <b></b>
+                                    <b></b>
+                                    <FontAwesomeIcon icon={faKey} className={cx('item-icon')}/>
+                                    <span className={cx('title')}>Rooms</span>
+                                </div>
+                            </NavLink>
+                            <NavLink to='/room-types' className={({ isActive }) => isActive ? activeClassName : undefined}>
+                                <div className={cx('user-info-item')}>
+                                    <b></b>
+                                    <b></b>
+                                    <FontAwesomeIcon icon={faDoorOpen} className={cx('item-icon')}/>
+                                    <span className={cx('title')}>Room Type</span>
+                                </div>
+                            </NavLink>
                         </>
                     ) : (
                         <>
@@ -182,12 +198,12 @@ function Sidebar() {
                     )}
 
                     {user && (
-                        <Link to='/signin'>
+                        <Link to='/signin' onClick={handleLogout}>
                             <div className={cx('user-info-item')}>
                                 <b></b>
                                 <b></b>
                                 <FontAwesomeIcon icon={faRightFromBracket} className={cx('item-icon')}/>
-                                <div className={cx('title')} onClick={handleLogout}>Log Out</div>
+                                <div className={cx('title')}>Log Out</div>
                             </div>
                         </Link>
                     )}

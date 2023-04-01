@@ -1,5 +1,5 @@
 const express = require("express");
-const RoomController = require('../controllers/RoomController');
+const RoomTypeController = require('../controllers/RoomTypeController');
 const SearchController = require('../controllers/SearchController');
 const MiddlewareController = require("../controllers/MiddlewareController.js");
 
@@ -15,21 +15,18 @@ router.get('/search/date', MiddlewareController.verifyToken, SearchController.se
 
 
 //upload
-router.post('/post', MiddlewareController.checkManager, RoomController.createRoom);
+router.post('/post', MiddlewareController.checkManager, RoomTypeController.createType);
 
 //update
-router.put('/update/:id', MiddlewareController.verifyToken, RoomController.updateRoom);
+router.put('/update/:id', MiddlewareController.checkManager,  RoomTypeController.updateRoom);
 
 //get specific room of a hotel
-router.get('/:roomId/:hotelId', RoomController.getRoom);
+router.get('/:roomId/:hotelId', RoomTypeController.getRoom);
 
 //get all room
-router.get('/', RoomController.getAllRoom);
-
-// get room by type
-router.get('/:typeId', RoomController.getRoomByType);
+router.get('/', RoomTypeController.getAllRoom);
 
 // delete 1 type of room
-router.delete('/:id', MiddlewareController.checkManager, RoomController.deleteRoom)
+router.delete('/:id', MiddlewareController.checkManager, RoomTypeController.deleteRoom)
 
 module.exports =  router

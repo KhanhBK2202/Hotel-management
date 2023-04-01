@@ -30,8 +30,8 @@ router.get('/:id/present', MiddlewareController.verifyToken, BookingController.g
 // Get booking by user (dùng để search)
 router.get('/@:username', MiddlewareController.checkManager, BookingController.getBookingByUser);
 
-// Get booking (dùng để hiện trong history của user)
-router.get('/:id', MiddlewareController.verifyToken, BookingController.getBooking);
+// Get booking by id
+router.get('/:id', BookingController.getBooking);
 
 //Delete by id
 router.delete('/:id', MiddlewareController.verifyToken, BookingController.deleteBooking);

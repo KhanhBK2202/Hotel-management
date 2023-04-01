@@ -1,5 +1,7 @@
 const Booking = require("../models/BookingModel");
 const User = require("../models/UserModel");
+const moment = require("moment");
+
 const BookingController = {
       createBooking: async (req,res) => {
                try {
@@ -53,7 +55,7 @@ const BookingController = {
       getBookingByDate: async (req, res) => {
             try{
                   // const date = new Date()
-                  const bookings = await Booking.find({ fromDate: { $gte: req.params.from, $lte: req.params.to }}).populate('bookedBy')
+                  const bookings = await Booking.find({ fromDate: { $gte: req.params.from, $lte: req.params.to }}).sort({ createdAt: -1 }).populate('bookedBy')
                   res.status(200).json(bookings);
             }catch(err){
                   res.status(500).json(err);
@@ -63,7 +65,7 @@ const BookingController = {
             try{
                   // const date = new Date()
                   const userId = await User.findOne({ username: req.params.username });
-                  const bookings = await Booking.find({ bookedBy: userId, fromDate: { $gte: req.params.from, $lte: req.params.to } }).populate('bookedBy')
+                  const bookings = await Booking.find({ bookedBy: userId, fromDate: { $gte: req.params.from, $lte: req.params.to } }).sort({ createdAt: -1 }).populate('bookedBy')
                   res.status(200).json(bookings);
             }catch(err){
                   res.status(500).json(err);
@@ -98,7 +100,7 @@ const BookingController = {
       },
       getBooking: async (req, res)=> {
             try{
-                  const booking = await Booking.find({ bookedBy: req.params.id });
+                  const booking = await Booking.findOne({ bookingCode: req.params.id }).populate('room')
                   res.status(200).json(booking);
       
             }catch(err){
@@ -108,7 +110,7 @@ const BookingController = {
       getBookingByUser: async (req,res)=> {
             try{
                   const userId = await User.findOne({ username: req.params.username });
-                  const booking = await Booking.find({ bookedBy: userId }).populate('bookedBy')
+                  const booking = await Booking.find({ bookedBy: userId }).sort({ createdAt: -1 }).populate('bookedBy')
                   res.status(200).json(booking);
             }catch(err){
                   res.status(500).json(err);

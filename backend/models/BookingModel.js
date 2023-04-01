@@ -28,7 +28,11 @@ const bookingSchema = new mongoose.Schema({
           type: Boolean,
           default: false
      },
-     roomNumbers: [Number],
+     isValid: {
+          type: Boolean,
+          default: false
+     },
+     // roomNumbers: [Number],
      numberOfGuest:{
           type: Number,
           required: true,

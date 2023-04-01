@@ -204,16 +204,23 @@ function Upload() {
             photoArray.push(photo.secure_url)
         }
 
-        let roomNumbers = []
-        for (let i = 0; i < numRooms; i++) {
-            roomNumbers.push(i + 1)
-        }
+
         request
-            .post('/api/v1/room/post', {type: roomType, roomNumbers, priceHour: priceHourly, priceNextHour, priceOverNight: priceOvernight, thumbnail: file.secure_url, images: photoArray, size, numOfPeople: numPeople, description, features: getAmenities}, {
+            .post('/api/v1/roomType/post', {type: roomType, priceHour: priceHourly, priceNextHour, priceOverNight: priceOvernight, thumbnail: file.secure_url, images: photoArray, size, numOfPeople: numPeople, description, features: getAmenities, hotel: user.hotelId}, {
                 headers: {token: `Bearer ${accessToken}`}
             })
-            .then(data => console.log(data))
+            .then(data => {
+                for (let i = 0; i < numRooms; i++) {
+                    request
+                        .post('/api/v1/room/post', {type: data._id, name: `${roomType}-${i+1}`}, {
+                            headers: {token: `Bearer ${accessToken}`}
+                        })
+                        .then(res => console.log(res))
+                        .catch(err => console.error(err))
+                }
+            })
             .catch(err => console.error(err))
+
 
         setLoading(false)
         navigate('/dashboard')

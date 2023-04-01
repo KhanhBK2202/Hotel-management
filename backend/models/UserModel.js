@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'https://res.cloudinary.com/des13gsgi/image/upload/v1658686670/avatar/a3yvp0a1gabjqwawgga8.webp'
     },
+    phone: {
+        type: String,
+    },
     slug: {
         type: String,
         slug: 'username',
@@ -43,7 +46,7 @@ const userSchema = new mongoose.Schema({
     // },
     favRooms: [{
         type: mongoose.Schema.Types.ObjectId ,
-        ref: "Room",
+        ref: "RoomType",
     }],
     bookings: [{
         type: mongoose.Schema.Types.ObjectId ,
