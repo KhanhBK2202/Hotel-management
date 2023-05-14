@@ -82,13 +82,13 @@ function Sidebar() {
 
     return (
         <div className={cx('wrapper')}>
-            <Link to={user?.role === 'manager' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
+            <Link to={user?.role === 'manager' || user?.role === 'admin' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
                 <img src={images.logo} alt="KQ" className={cx('logo-img')}/>
             </Link>
 
             <div className={cx('inner')}>
                 <div className={cx('user-info')}>
-                    {user?.role === 'manager' ? (
+                    {user?.role === 'manager' || user?.role === 'admin' ? (
                         <>
                             <NavLink to='/dashboard' className={({isActive}) => isActive ? activeClassName : undefined}>
                                 <div className={cx('user-info-item')}>

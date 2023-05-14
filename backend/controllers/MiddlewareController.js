@@ -35,7 +35,7 @@ const MiddlewareController = {
     checkManager: (req, res, next) => {
         MiddlewareController.verifyToken(req, res, () => {
             // var role = req.data.role;
-            if (req.user.role === 'manager'){
+            if (req.user.role === 'manager' || req.user.role === 'admin'){
                 next();
             } else {
                 res.status(403).json('No permission');

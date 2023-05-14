@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    job: {
+        type: String,
+    },
     slug: {
         type: String,
         slug: 'username',

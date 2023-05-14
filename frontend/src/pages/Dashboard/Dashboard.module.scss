@@ -72,14 +72,15 @@
     width: 100%;
     display: flex;
     margin-top: 20px;
+    padding-bottom: 10px;
 }
 
-.booking-no-reservation {
-    display: none;
-    justify-content: center;
-    // align-items: center;
-    margin-top: 20px;
-}
+// .booking-no-reservation {
+//     display: none;
+//     justify-content: center;
+//     // align-items: center;
+//     margin-top: 20px;
+// }
 
 .booking-no-result {
     display: flex;
@@ -100,6 +101,12 @@
 .booking-heading__item:nth-of-type(4),
 .booking-heading__item:nth-of-type(5) {
     width: 12%;
+}
+
+.guest-bookings {
+    height: 470px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
 }
 
 .line {
@@ -233,6 +240,117 @@
     }
 }
 
+// Comment
+.comment-heading {
+    display: flex;
+    padding: 15px 25px;
+}
+
+.comment-heading-item {
+    
+    &:nth-child(1) {
+        width: 40%;
+    }
+
+    &:nth-child(2) {
+        width: 15%;
+    }
+
+    &:nth-child(3) {
+        width: 20%;
+    }
+
+    &:nth-child(4) {
+        width: 15%;
+    }
+
+    &:nth-child(5) {
+        width: 10%;
+    }
+}
+
+.comment-row {
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.comment-item {
+    &:nth-child(1) {
+        width: 40%;
+        display: flex;
+        align-items: center;
+    }
+
+    &:nth-child(2) {
+        width: 15%;
+    }
+
+    &:nth-child(3) {
+        display: flex;
+        align-items: center;
+        width: 20%;
+    }
+
+    &:nth-child(4) {
+        width: 15%;
+    }
+
+    &:nth-child(5) {
+        width: 10%;
+        color: rgb(197, 0, 0);
+        cursor: pointer;
+    }
+}
+
+.comment-ava {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.comment-content-wrapper {
+    margin-left: 20px;
+}
+
+.comment-name-time {
+    display: flex;
+    align-items: center;
+}
+
+.comment-time {
+    color: #888;
+    margin-left: 20px;
+    font-size: 1.2rem;
+}
+
+.comment-content {
+    font-size: 1.2rem;
+    color: var(--grey);
+    margin-top: 10px;
+}
+
+.comment-score {
+    margin-right: 10px;
+    width: 25px;
+}
+
+.comment-detail {
+    width: 70%;
+    border-radius: 5px;
+    background-color: #f5f4f9;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+// Right dashboard
 .booking-utilities {
     width: 28%;
 }

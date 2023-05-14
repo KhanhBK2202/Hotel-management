@@ -47,7 +47,7 @@ function Header() {
                 <FontAwesomeIcon icon={faShieldHalved}/>
             </Link>} */}
     
-            {user?.role === 'manager' ? (
+            {user?.role === 'manager' || user?.role === 'admin' ? (
                 <Link to="/dashboard" className={cx('nav-item')}>Dashboard</Link>
             ) : (
                 <Link to="/" className={cx('nav-item')}>Home</Link>

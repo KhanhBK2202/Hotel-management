@@ -221,7 +221,9 @@ function DetailType() {
     // },[state.numOfDays, dispatch, price])
 
     const handleCheck = (e, i) => {
+        setServicePrice(0)
         if (e.target.checked){
+            // console.log(e.target.checked)
             // console.log(services)
             // const newServicesArray = [...services]
             setServices([...services, e.target.value])
@@ -229,38 +231,42 @@ function DetailType() {
             // services.push(e.target.id)
         }
         else {
+            // console.log(e.target.value)
+            
             const index = services.indexOf(e.target.value);
+            console.log(index)
             // const newServicesArray = [...services]
             setServices(services.splice(index, 1))
             setServicesPrice(servicesPrice.splice(index, 1))
             // services.splice(index, 1);
+            // console.log(services)
         }
     }
 
-    const [adultsValue, setAdultsValue] = useState(state.traveller)
+    // const [adultsValue, setAdultsValue] = useState(state.traveller)
 
-    const handleIncreaseAdults = () => {
-        const minus = document.querySelectorAll('.' + cx('minus-adults'))
-        minus[0].classList.remove(cx('inactive'))
-        setAdultsValue(prev => prev + 1)
-    }
-    const handleDecreaseAdults = () => {
-        const minus = document.querySelectorAll('.' + cx('minus-adults'))
-        if (adultsValue === 1)
-            minus[0].classList.add(cx('inactive'))
-        else setAdultsValue(prev => prev - 1)
-    }
+    // const handleIncreaseAdults = () => {
+    //     const minus = document.querySelectorAll('.' + cx('minus-adults'))
+    //     minus[0].classList.remove(cx('inactive'))
+    //     setAdultsValue(prev => prev + 1)
+    // }
+    // const handleDecreaseAdults = () => {
+    //     const minus = document.querySelectorAll('.' + cx('minus-adults'))
+    //     if (adultsValue === 1)
+    //         minus[0].classList.add(cx('inactive'))
+    //     else setAdultsValue(prev => prev - 1)
+    // }
 
     const [roomValue, setRoomValue] = useState(1)
     const handleIncreaseRooms = () => {
-        const minus = document.querySelectorAll('.' + cx('minus-adults'))
-        minus[1].classList.remove(cx('inactive'))
+        const minus = document.querySelector('.' + cx('minus-adults'))
+        minus.classList.remove(cx('inactive'))
         setRoomValue(prev => prev + 1)
     }
     const handleDecreaseRooms = () => {
-        const minus = document.querySelectorAll('.' + cx('minus-adults'))
+        const minus = document.querySelector('.' + cx('minus-adults'))
         if (roomValue === 1)
-            minus[1].classList.add(cx('inactive'))
+            minus.classList.add(cx('inactive'))
         else setRoomValue(prev => prev - 1)
     }
 
@@ -293,35 +299,37 @@ function DetailType() {
         // if (cart.length !== 0) {
             if (option === 'Hourly') {
                 // timeInterval = parseInt(cart[0].timeCheckOut.slice(0,2)) - parseInt(cart[0].timeCheckIn.slice(0,2))
-                setRoomPrice((parseInt(room?.priceHour) + parseInt(room?.priceNextHour)*(timeInterval - 1))*parseInt(roomValue))
+                setRoomPrice((parseInt(room?.priceHour) + parseInt(room?.priceNextHour)*(timeInterval - 1)))
             }
             else {
-                setRoomPrice(parseInt(room?.priceOverNight)*parseInt(state.numOfDays)*parseInt(roomValue))
+                setRoomPrice(parseInt(room?.priceOverNight)*parseInt(state.numOfDays))
             }
     
             // Calc service price
             for (let i = 0; i < services.length; i++) {
+            // if (services.length !== 0) {
                 if (services[i].includes('Breakfast')) {
                     // setBreakfastPrice(adultsValue*servicesPrice[i])
-                    setServicePrice(prevServicesPrice => parseInt(prevServicesPrice) + parseInt(adultsValue)*parseInt(servicesPrice[i]))
+                    setServicePrice(prevServicesPrice => parseInt(prevServicesPrice) + parseInt(room?.numOfPeople)*parseInt(servicesPrice[i])*parseInt(state.numOfDays))
                 }
                 else {
                     // console.log(servicesPrice + cart[0]?.servicePrice[i])
-                    setServicePrice(prevServicesPrice => parseInt(prevServicesPrice) + parseInt(servicesPrice[i]))
+                    setServicePrice(prevServicesPrice => parseInt(prevServicesPrice) + parseInt(servicesPrice[i])*parseInt(state.numOfDays))
                 }
+            // }
             } 
         // }
-    },[room, adultsValue, roomValue, option, servicesPrice])
+    },[room, option, servicesPrice, state.numOfDays])
 
     useEffect(() => {
-        setTotalPrice(roomPrice + servicePrice)
-    },[roomPrice, servicePrice])
+        setTotalPrice((parseInt(roomPrice) + parseInt(servicePrice))*parseInt(roomValue))
+    },[roomPrice, servicePrice, roomValue])
 
     useEffect(() => {
         dispatch(actions.setStorageHotel(hotelName))
-        dispatch(actions.setStorageTraveller(adultsValue))
+        dispatch(actions.setStorageTraveller(parseInt(roomValue)*parseInt(room?.numOfPeople)))
         dispatch(actions.addExtras(services))
-    },[dispatch, adultsValue, hotelName, services]);
+    },[dispatch, roomValue, hotelName, services, room]);
 
     const handleBooking = () => {
         // console.log(state.hotel, state.typeOfTime, state.dateCheckIn, state.dateCheckOut, state.timeCheckIn, state.timeCheckOut)
@@ -606,13 +614,13 @@ function DetailType() {
                         </div> */}
                         <div className={cx('line')} style={{ margin: '25px 0 20px 0'}}></div>
                         {/* <div className={cx('search-input')}> */}
-                            <h3 className={cx('search-input-title')}>Travelers</h3>
+                            {/* <h3 className={cx('search-input-title')}>Travelers</h3> */}
                             {/* <InputSelect data={input3} order='3' icon='location' placeholder='2' option={handleOption}/> */}
-                            <div className={cx('counter')}>
+                            {/* <div className={cx('counter')}>
                                 <FontAwesomeIcon icon={faMinus} className={cx('counter-button', 'minus-adults')} onClick={handleDecreaseAdults}/>
                                 <div className={cx('counter-value')}>{adultsValue}</div>
                                 <FontAwesomeIcon icon={faPlus} className={cx('counter-button')} onClick={handleIncreaseAdults}/>
-                            </div>
+                            </div> */}
                             <h3 className={cx('search-input-title')}>Number of rooms</h3>
                             {/* <InputSelect data={input3} order='3' icon='location' placeholder='2' option={handleOption}/> */}
                             <div className={cx('counter')}>
@@ -780,7 +788,7 @@ function DetailType() {
                 </div>
             </div>
 
-            <div className={cx('comments')}>
+            {/* <div className={cx('comments')}>
                 <div className={cx('available')}>
                     <h2 >From our guests</h2>
                     <span className={cx('viewAll')}>View All</span>
@@ -793,6 +801,9 @@ function DetailType() {
                 
                 <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
                 <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
+            </div> */}
+            <div className={cx('time-slot')}>
+                
             </div>
 
             <div className={cx('modal')}>

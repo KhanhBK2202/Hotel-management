@@ -25,7 +25,7 @@ import Services from '~/pages/Services';
 
 // Public Routes: dùng để ko đăng nhập vẫn có thể vào được những trang này
 const publicRoutes = [
-    { path: config.routes.home, component: Home, layout: DefaultLayoutWithSearch },
+    { path: config.routes.home, component: Home },
     { path: config.routes.detailType, component: DetailType },
     { path: config.routes.detailHotel, component: DetailHotel },
     { path: config.routes.detailBranch, component: DetailBranch, layout: DefaultLayoutWithSearch },

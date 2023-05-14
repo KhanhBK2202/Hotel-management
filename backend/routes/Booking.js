@@ -33,6 +33,9 @@ router.get('/@:username', MiddlewareController.checkManager, BookingController.g
 // Get booking by id
 router.get('/:id', BookingController.getBooking);
 
+// Check existing user
+router.get('/:userId/:hotelId', MiddlewareController.verifyToken, BookingController.checkExistUser);
+
 //Delete by id
 router.delete('/:id', MiddlewareController.verifyToken, BookingController.deleteBooking);
 

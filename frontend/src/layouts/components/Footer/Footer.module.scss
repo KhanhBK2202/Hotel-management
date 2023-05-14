@@ -1,0 +1,100 @@
+// .footer {
+//     position: relative;
+//     bottom: 0;
+//     margin-top: 60px;
+//     padding: 5px 20px;
+//     width: 100%;
+//     text-align: center;
+//     // background-image: -webkit-linear-gradient(0deg, #18216e 0%, #62bdfc 100%);
+//     // color: var(--white);
+// }
+
+// .logo {
+//     font-family: 'Pacifico', cursive;
+//     font-size: 2rem;
+//     // background-image: -webkit-linear-gradient(0deg, #eaebf6 0%, #e4ecf2 100%);
+//     // -webkit-background-clip: text;
+//     // -webkit-text-fill-color: transparent;
+// }
+
+// .description {
+//     font-size: 1.2rem;
+//     width: 500px;
+//     margin-top: 10px;
+//     padding-bottom: 10px;
+//     width: 100%;
+//     text-align: center;
+//     border-bottom: 1px solid #dbdada;
+// }
+
+// .copyright {
+//     margin: 20px 0;
+//     display: flex;
+//     justify-content: space-between;
+//     font-size: 1.4rem;
+// }
+
+// .copyright-list {
+//     display: flex;
+// }
+
+// .copyright-item {
+//     margin-left: 20px;
+//     cursor: pointer;
+//     list-style: none;
+// }
+
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+// max-w-7xl mx-auto py-6
+@import url('https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@1,900&display=swap');
+
+.wrapper-footer {
+    margin: 150px auto 0 auto;
+    /* font-family: 'Poppins', sans-serif; */
+    border-top: 1px solid #ccc;
+    padding: 15px 0;
+    width: calc(100% - 80px);
+}
+
+.brand-name {
+    font-size: 25px;
+    font-family: 'Taviraj', serif;
+    /* font-weight: 600; */
+}
+
+.brand-slogan {
+    color: #72747a;
+    margin: 30px 0;
+    // font-family: 'Poppins', sans-serif;
+}
+
+.brand-category {
+    display: flex;
+    gap: 40px;
+    font-weight: 800;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+.brand-privacy {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-copyright {
+    color: #72747a;
+    font-size: 12px;
+}
+
+.brand-media {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.media {
+    margin-left: 20px;
+    color: #394150;
+    font-size: 2rem;
+}

@@ -164,7 +164,7 @@ function Checkout() {
         ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l')
 
         let qrCode = ''
-		QRCode.toDataURL(`/checkin/${data}`, {
+		QRCode.toDataURL(`http://10.130.241.131:3000/checkin/${data}`, {
 			width: 400,
 			margin: 2,
 			color: {

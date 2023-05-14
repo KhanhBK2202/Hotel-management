@@ -2,10 +2,11 @@ import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+// import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import Chart from 'react-apexcharts';
 import * as request from '~/utils/request';
 import styles from './Earning.module.scss'; 
+import simpleSalesForecasting from 'simple-sales-forecasting';
 
 const cx = classNames.bind(styles)
 
@@ -127,6 +128,15 @@ function Earning() {
     //         // }
     //     ]
     // })
+    useEffect(() => {
+        const forecastedValuesObject = simpleSalesForecasting(
+            [13409, 29389, 128940, 490059, 290394, 1928904, 3892019, 2903945],
+            2,
+            4
+        );
+        // console.log(forecastedValuesObject)
+        
+    },[])
 
     if (user.role === 'user') {
         return <Navigate to='/'/>

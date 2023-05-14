@@ -44,33 +44,6 @@ function History() {
     
     return (
         <div className={cx('wrapper')}>
-            {/* <h3>Present</h3>
-            <div className={cx('title')}>
-                <h4 className={cx('title-item')}>ID</h4>
-                <h4 className={cx('title-item')}>QR</h4>
-                <h4 className={cx('title-item')}>Date</h4>
-            </div>
-            {presentBookings.map((booking, index) => (
-                <div key={index} className={cx('booking')}>
-                    <h3 className={cx('title-item')}>#{booking.bookingCode}</h3>
-                    <img className={cx('title-item')} src={booking?.qr} placeholder='QR'/>
-                    <div className={cx('title-item')}>{booking.createdAt}</div>
-                </div>
-            ))}
-            <h3>Upcoming</h3>
-            <div className={cx('title')}>
-                <h4 className={cx('title-item')}>ID</h4>
-                <h4 className={cx('title-item')}>QR</h4>
-                <h4 className={cx('title-item')}>Date</h4>
-            </div>
-            {upcomingBookings.map((booking, index) => (
-                <div key={index} className={cx('booking')}>
-                    <h3 className={cx('title-item')}>#{booking.bookingCode}</h3>
-                    <img className={cx('title-item')} src={booking?.qr} placeholder='QR'/>
-                    <div className={cx('title-item')}>{booking.createdAt}</div>
-                </div>
-            ))} */}
-            <h3>Upcoming</h3>
             <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
                 <h4 className={cx('title-item')}>QR</h4>
@@ -79,6 +52,33 @@ function History() {
                 <h4 className={cx('title-item')}>Arrival time</h4>
                 <h4 className={cx('title-item')}>Created date</h4>
             </div>
+            <h3>Present</h3>
+            {/* <div className={cx('title')}>
+                <h4 className={cx('title-item')}>ID</h4>
+                <h4 className={cx('title-item')}>QR</h4>
+                <h4 className={cx('title-item')}>Date</h4>
+            </div> */}
+            {presentBookings.map((booking, index) => (
+                <div key={index} className={cx('booking')}>
+                    <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
+                    <div className={cx('booking-item')}>
+                        <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                    </div>
+                    <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link>
+                    <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
+                    <div className={cx('booking-item')}>{booking.fromTime}</div>
+                    <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>
+                </div>
+            ))}
+            <h3>Upcoming</h3>
+            {/* <div className={cx('title')}>
+                <h4 className={cx('title-item')}>ID</h4>
+                <h4 className={cx('title-item')}>QR</h4>
+                <h4 className={cx('title-item')}>QR URL</h4>
+                <h4 className={cx('title-item')}>Arrival date</h4>
+                <h4 className={cx('title-item')}>Arrival time</h4>
+                <h4 className={cx('title-item')}>Created date</h4>
+            </div> */}
             {upcomingBookings.map((booking, index) => (
                 <div key={index} className={cx('booking')}>
                     <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
@@ -86,6 +86,24 @@ function History() {
                         <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
                     </div>
                     <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link>
+                    <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
+                    <div className={cx('booking-item')}>{booking.fromTime}</div>
+                    <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>
+                </div>
+            ))}
+            <h3>Past</h3>
+            {/* <div className={cx('title')}>
+                <h4 className={cx('title-item')}>ID</h4>
+                <h4 className={cx('title-item')}>QR</h4>
+                <h4 className={cx('title-item')}>Date</h4>
+            </div> */}
+            {pastBookings.map((booking, index) => (
+                <div key={index} className={cx('booking')}>
+                    <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
+                    <div className={cx('booking-item')}>
+                        <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                    </div>
+                    {/* <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link> */}
                     <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
                     <div className={cx('booking-item')}>{booking.fromTime}</div>
                     <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>

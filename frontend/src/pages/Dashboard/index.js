@@ -1,7 +1,8 @@
 import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faCloudMoon, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCloudMoon, faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 // import { faHotel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Rating } from '@mui/material';
 import classNames from 'classnames/bind'
 import moment from 'moment';
 import { useState } from 'react';
@@ -263,49 +264,59 @@ function Dashboard() {
         // text.style.display = 'flex'
     }
 
+    const [comments, setComments] = useState([])
+    useEffect(() => {
+        request
+            .get('/api/v1/comment')
+            .then(res => setComments(res))
+            .catch(err => console.log(err))
+    },[])
+
     if (user?.role === 'user' || !user) {
         return <Navigate to='/'/>
     }
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('all-bookings')}>
-                <div className={cx('all-bookings__heading')}>
-                    
-                    <h2 className={cx('')}>
-                        {getAll ? 'All Bookings' : fullDate}
-                    </h2>
-                    <div style={{display: 'flex'}}>
-                        <div className={cx('get-all-bookings')} onClick={() => setGetAll(true)}>
-                            All
-                        </div>
-                        <div className={cx('all-bookings__heading-select')}>
-                            {/* <select className={cx('form-select')} defaultValue='Month' >
-                                <option value='Month' disabled>
-                                    Month
-                                </option>
-                                
-                                {months.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
-                                ))}
-                            </select> */}
-                            {/* <div className={cx('form-select')}>Search guest name</div> */}
-                            <input className={cx('traveller-input')} placeholder='Search guest name' onChange={(e) => setSearchResult(e.target.value)}/>
+        <div className={cx('container')}>
+            <div className={cx('wrapper')}>
+                <div className={cx('all-bookings')}>
+                    <div className={cx('all-bookings__heading')}>
+                        
+                        <h2 className={cx('')}>
+                            {getAll ? 'All Bookings' : fullDate}
+                        </h2>
+                        <div style={{display: 'flex'}}>
+                            <div className={cx('get-all-bookings')} onClick={() => setGetAll(true)}>
+                                All
+                            </div>
+                            <div className={cx('all-bookings__heading-select')}>
+                                {/* <select className={cx('form-select')} defaultValue='Month' >
+                                    <option value='Month' disabled>
+                                        Month
+                                    </option>
+                                    
+                                    {months.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))}
+                                </select> */}
+                                {/* <div className={cx('form-select')}>Search guest name</div> */}
+                                <input className={cx('traveller-input')} placeholder='Search guest name' onChange={(e) => setSearchResult(e.target.value)}/>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className={cx('booking-heading')}>
-                    <span className={cx('booking-heading__item')}>Time</span>
-                    <span className={cx('booking-heading__item')}>Date</span>
-                    <span className={cx('booking-heading__item')}>Checkin</span>
-                    <span className={cx('booking-heading__item')}>Guest</span>
-                    <span className={cx('booking-heading__item')}></span>
-                </div>
+                    <div className={cx('booking-heading')}>
+                        <span className={cx('booking-heading__item')}>Time</span>
+                        <span className={cx('booking-heading__item')}>Date</span>
+                        <span className={cx('booking-heading__item')}>Checkin</span>
+                        <span className={cx('booking-heading__item')}>Guest</span>
+                        <span className={cx('booking-heading__item')}></span>
+                    </div>
 
-                <h2 className={cx('booking-no-reservation')}>
-                    No reservation today
-                </h2>
+                    {/* <h2 className={cx('booking-no-reservation')}>
+                        No reservation today
+                    </h2> */}
+                    <div className={cx('guest-bookings')}>
                         {flag ? <>
                             {/* map các reservation của guest đó */}
                             {bookings.map((booking, index) => (
@@ -325,7 +336,7 @@ function Dashboard() {
                                                     {booking.hotel.name}
                                                 </div> */}
                                             </div>
-    
+
                                             <div className={cx('booking-time-duration')}>
                                                 Duration: {booking.numOfHours > 0 ? (booking.numOfHours > 1 ? booking.numOfHours + ' hours' : booking.numOfHours + ' hour') :  (booking.numOfDays > 1 ? booking.numOfDays + ' days' : booking.numOfDays + ' day')}
                                                 <ul className={cx('booking-time-duration-bar')}>
@@ -333,16 +344,16 @@ function Dashboard() {
                                                     <li className={cx('booking-time-duration-point')}>{toDate[index]}</li>
                                                 </ul>
                                             </div>
-    
+
                                             <div className={cx('booking-time-detail')}>
                                                 <h3>{booking.toTime}</h3>
                                                 {/* <div className={cx('booking-time-place')}>
                                                     {booking.hotel.name}
                                                 </div> */}
                                             </div>
-    
+
                                         </div>
-    
+
                                         <div className={cx('booking-date')}>
                                             {dateBooking[index]}
                                         </div>
@@ -350,14 +361,14 @@ function Dashboard() {
                                         <div className={cx('booking-checkin')}>
                                             {booking.isCheckin ? <FontAwesomeIcon icon={faCheck} style={{color: 'green'}}/> : <FontAwesomeIcon icon={faXmark} style={{color: 'red'}}/>}
                                         </div>
-    
+
                                         <div className={cx('booking-guest')}>
                                             {/* Xử lý nếu khách hàng này không có trong db thì chỉ hiện tippy tên thôi, vì họ có thể đặt phòng trực tiếp nên không có tài khoản */}
                                             <Link to={`/profile/${booking.bookedBy._id}`}>
                                                 <Image className={cx('booking-guest-avatar')} src={booking.bookedBy.avatar} alt="avatar"/>
                                             </Link>
                                         </div>
-    
+
                                         <div className={cx('booking-more-detail')} onClick={() => handleSeeDetail(index)}>
                                             More detail
                                         </div>
@@ -369,163 +380,166 @@ function Dashboard() {
                                 No result
                             </h2>
                         )}
+                    </div>
+                        
+
+                            {/* <div className={cx('booking')}>
+                                <div className={cx('line')}></div>
+                                <div className={cx('booking-detail')}>
+                                    <div className={cx('booking-time')}>
+                                        <FontAwesomeIcon icon={faClock} className={cx('booking-icon')}/>
+                                        
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>10:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                        <div className={cx('booking-time-duration')}>
+                                            Duration: 3h
+                                            <ul className={cx('booking-time-duration-bar')}>
+                                                <li className={cx('booking-time-duration-point')}>Nov 19, 2022</li>
+                                                <li className={cx('booking-time-duration-point')}>Nov 19, 2022</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>13:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className={cx('booking-date')}>
+                                        Nov 08, 2022
+                                    </div>
+
+                                    <div className={cx('booking-guest')}>
+                                        <Link to='/profile'>
+                                            <Image className={cx('booking-guest-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1633332755192-727a05c4013d_e4tnou.jpg' alt="avatar"/>
+                                        </Link>
+                                    </div>
+
+                                    <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
+                                        More detail
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('booking')}>
+                                <div className={cx('line')}></div>
+                                <div className={cx('booking-detail')}>
+                                    <div className={cx('booking-time')}>
+                                        <FontAwesomeIcon icon={faClock} className={cx('booking-icon')}/>
+                                        
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>14:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                        <div className={cx('booking-time-duration')}>
+                                            Duration: 4h
+                                            <ul className={cx('booking-time-duration-bar')}>
+                                                <li className={cx('booking-time-duration-point')}>Nov 11, 2022</li>
+                                                <li className={cx('booking-time-duration-point')}>Nov 11, 2022</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>18:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className={cx('booking-date')}>
+                                        Nov 05, 2022
+                                    </div>
+
+                                    <div className={cx('booking-guest')}>
+                                        <Link to='/profile'>
+                                            <Image className={cx('booking-guest-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/640x530_zdlza7.jpg' alt="avatar"/>
+                                        </Link>
+                                    </div>
+
+                                    <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
+                                        More detail
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('booking')}>
+                                <div className={cx('line')}></div>
+                                <div className={cx('booking-detail')}>
+                                    <div className={cx('booking-time')}>
+                                        <FontAwesomeIcon icon={faCloudMoon} className={cx('booking-icon')}/>
+                                        
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>14:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                        <div className={cx('booking-time-duration')}>
+                                            Duration: 4 days
+                                            <ul className={cx('booking-time-duration-bar')}>
+                                                <li className={cx('booking-time-duration-point')}>Nov 06, 2022</li>
+                                                <li className={cx('booking-time-duration-point')}>Nov 10, 2022</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className={cx('booking-time-detail')}>
+                                            <h3>12:00</h3>
+                                            <div className={cx('booking-time-place')}>
+                                                KQ Vung Tau
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className={cx('booking-date')}>
+                                        Nov 01, 2022
+                                    </div>
+
+                                    <div className={cx('booking-guest')}>
+                                        <Link to='/profile'>
+                                            <Image className={cx('booking-guest-avatar')} src='' alt="avatar"/>
+                                        </Link>
+                                    </div>
+
+                                    <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
+                                        More detail
+                                    </div>
+                                </div>
+                            </div> */}
+                        
                     
-
-                        {/* <div className={cx('booking')}>
-                            <div className={cx('line')}></div>
-                            <div className={cx('booking-detail')}>
-                                <div className={cx('booking-time')}>
-                                    <FontAwesomeIcon icon={faClock} className={cx('booking-icon')}/>
-                                    
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>10:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                    <div className={cx('booking-time-duration')}>
-                                        Duration: 3h
-                                        <ul className={cx('booking-time-duration-bar')}>
-                                            <li className={cx('booking-time-duration-point')}>Nov 19, 2022</li>
-                                            <li className={cx('booking-time-duration-point')}>Nov 19, 2022</li>
-                                        </ul>
-                                    </div>
-
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>13:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className={cx('booking-date')}>
-                                    Nov 08, 2022
-                                </div>
-
-                                <div className={cx('booking-guest')}>
-                                    <Link to='/profile'>
-                                        <Image className={cx('booking-guest-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1633332755192-727a05c4013d_e4tnou.jpg' alt="avatar"/>
-                                    </Link>
-                                </div>
-
-                                <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
-                                    More detail
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={cx('booking')}>
-                            <div className={cx('line')}></div>
-                            <div className={cx('booking-detail')}>
-                                <div className={cx('booking-time')}>
-                                    <FontAwesomeIcon icon={faClock} className={cx('booking-icon')}/>
-                                    
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>14:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                    <div className={cx('booking-time-duration')}>
-                                        Duration: 4h
-                                        <ul className={cx('booking-time-duration-bar')}>
-                                            <li className={cx('booking-time-duration-point')}>Nov 11, 2022</li>
-                                            <li className={cx('booking-time-duration-point')}>Nov 11, 2022</li>
-                                        </ul>
-                                    </div>
-
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>18:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className={cx('booking-date')}>
-                                    Nov 05, 2022
-                                </div>
-
-                                <div className={cx('booking-guest')}>
-                                    <Link to='/profile'>
-                                        <Image className={cx('booking-guest-avatar')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/640x530_zdlza7.jpg' alt="avatar"/>
-                                    </Link>
-                                </div>
-
-                                <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
-                                    More detail
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={cx('booking')}>
-                            <div className={cx('line')}></div>
-                            <div className={cx('booking-detail')}>
-                                <div className={cx('booking-time')}>
-                                    <FontAwesomeIcon icon={faCloudMoon} className={cx('booking-icon')}/>
-                                    
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>14:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                    <div className={cx('booking-time-duration')}>
-                                        Duration: 4 days
-                                        <ul className={cx('booking-time-duration-bar')}>
-                                            <li className={cx('booking-time-duration-point')}>Nov 06, 2022</li>
-                                            <li className={cx('booking-time-duration-point')}>Nov 10, 2022</li>
-                                        </ul>
-                                    </div>
-
-                                    <div className={cx('booking-time-detail')}>
-                                        <h3>12:00</h3>
-                                        <div className={cx('booking-time-place')}>
-                                            KQ Vung Tau
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className={cx('booking-date')}>
-                                    Nov 01, 2022
-                                </div>
-
-                                <div className={cx('booking-guest')}>
-                                    <Link to='/profile'>
-                                        <Image className={cx('booking-guest-avatar')} src='' alt="avatar"/>
-                                    </Link>
-                                </div>
-
-                                <div className={cx('booking-more-detail')} onClick={handleSeeDetail}>
-                                    More detail
-                                </div>
-                            </div>
-                        </div> */}
                     
+                    {/* <h4 className={cx('booking-see-more')}>See more</h4> */}
+                    
+                </div>
                 
-                
-                {/* <h4 className={cx('booking-see-more')}>See more</h4> */}
+                <div className={cx('booking-utilities')}>
+                    {/* <div className={cx('booking-calendar')}> */}
+                    <Calendar />
+                    {/* </div> */}
 
-            </div>
-            
-            <div className={cx('booking-utilities')}>
-                {/* <div className={cx('booking-calendar')}> */}
-                <Calendar />
-                {/* </div> */}
-
-                <div className={cx('booking-create')} onClick={handleCreateReservation}>
-                    <h3>Create reservation</h3>
-                    <div className={cx('booking-create-desc')}>Create a new reservation for guests</div>
-                    <FontAwesomeIcon icon={faPlus} className={cx('create-icon')}/>
+                    <div className={cx('booking-create')} onClick={handleCreateReservation}>
+                        <h3>Create reservation</h3>
+                        <div className={cx('booking-create-desc')}>Create a new reservation for guests</div>
+                        <FontAwesomeIcon icon={faPlus} className={cx('create-icon')}/>
+                    </div>
                 </div>
             </div>
+
 
 
             <div className={cx('modal')}>
@@ -675,6 +689,44 @@ function Dashboard() {
                     </div>
                     
                 </div>
+            </div>
+            <h2>Comments</h2>
+            <div className={cx('comments')}>
+                <div className={cx('comment-heading')}>
+                    <div className={cx('comment-heading-item')}>Review</div>
+                    <div className={cx('comment-heading-item')}>Hotel</div>
+                    <div className={cx('comment-heading-item')}>Rating</div>
+                    <div className={cx('comment-heading-item')}>Details</div>
+                    <div className={cx('comment-heading-item')}>Action</div>
+                </div>
+                {comments.map((comment, index) => (
+                    <div key={index} className={cx('comment-row')}>
+                        <div className={cx('comment-item')}>
+                            <img className={cx('comment-ava')} src={comment.userId.avatar}/>
+                            <div className={cx('comment-content-wrapper')}>
+                                <div className={cx('comment-name-time')}>
+                                    <h4 className={cx('comment-name')}>{comment.userId.username}</h4>
+                                    <div className={cx('comment-time')}>{moment(comment.createdAt, "YYYY-MM-DDTHH:mm:ss Z").format('LLL')}</div>
+                                </div>
+                                <p className={cx('comment-content')}>{comment.comment}</p>
+                            </div>
+                        </div>
+                        <div className={cx('comment-item')}>{comment.hotelId.name}</div>
+                        <div className={cx('comment-item')}>
+                            <h2 className={cx('comment-score')}>{comment.rating}</h2>
+                            <Rating name="customized-10" defaultValue={comment.rating} max={10} readOnly/>
+                            {/* <div className={cx('comment-star')}></div> */}
+                        </div>
+                        <div className={cx('comment-item')}>
+                            <div className={cx('comment-detail')}>
+                                View details
+                            </div>
+                        </div>
+                        <div className={cx('comment-item')}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     )

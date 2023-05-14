@@ -36,7 +36,7 @@ export const loginUser = async(user, dispatch, navigate) => {
     try {
         const res = await request.post('/api/v1/auth/login', user)
         dispatch(loginSuccess(res.data))
-        if (res.data.role === 'manager')
+        if (res.data.role === 'manager' || res.data.role === 'admin')
             navigate('/dashboard')
         else navigate('/')
     } catch (err) {

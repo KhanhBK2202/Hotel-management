@@ -4,43 +4,255 @@
     margin-bottom: 200px;
 }
 
-.banner {
-    border-radius: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@1,900&display=swap');
+.about {
     width: 100%;
-    margin: 30px 0;
-    background-image: url('https://res.cloudinary.com/des13gsgi/image/upload/v1670774504/banner/geometric-dark-blue-texture-background-with-glowing-edges-and-shadows-vector_csqlul.jpg');
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-position: center;
-    height: 300px;
+    margin: 40px 0;
     display: flex;
-    justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-.banner-inner {
-    width: 41%;
+.about-pics {
+    // position: relative;
+    margin-bottom: 440px;
+    width: 50%;
 }
 
-.banner-heading {
-    color: var(--white);
+.pic {
+    border: 6px solid var(--white);
+    position: absolute;
+    object-fit: cover;
+}
+
+.pic:nth-child(1) {
+    border-radius: 160px;
+    width: 320px;
+    height: 400px;
+    right: 7%;
+}
+
+.pic:nth-child(2) {
+    border-radius: 160px;
+    width: 260px;
+    height: 350px;
+    right: 22%;
+    top: 100px;
+}
+
+.about-heading {
+    position: relative;
+    left: 5%;
+    flex: 1;
+
+    // align-items: flex-start;
+    // margin: 0 auto;
+}
+
+.about-book-now,
+.customer-heading {
+    color: #5dc9bc;
+    font-weight: 600;
+}
+
+.about-title {
+    width: 500px;
+    margin: 10px 0;
+    font-family: 'Taviraj', serif;
+    font-size: 3.6rem;
+}
+
+.about-description {
+    font-size: 1.4rem;
+    color: #888;
+    width: 500px;
+    margin: 25px 0;
+}
+
+.about-data {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.about-data-row {
+    display: flex;
+}
+
+.about-data-cell {
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    width: 180px;
     text-align: center;
+    margin: 0 15px 15px 0;
 }
 
-.banner-list {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 10px;
-    margin-top: 10px;
+.about-cell-num {
+    color: #72a5f1;
 }
 
-.banner-item {
-    border-radius: 30px;
-    padding: 6px 0;
+.about-cell-text {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.customer-data {
+    position: relative;
     text-align: center;
-    color: var(--white);
-    border: 1px solid var(--white);
+    // margin-top: 20px;
 }
+
+.customer-heading {
+
+}
+
+.customer-title {
+    // width: 500px;
+    margin: 10px 0;
+    font-family: 'Taviraj', serif;
+    font-size: 3.6rem;
+}
+
+.customer-description {
+    font-size: 1.4rem;
+    color: #888;
+    // width: 500px;
+    margin: 25px 0;
+}
+
+.world {
+    position: relative;
+}
+
+.map {
+    // margin: 0 auto;
+    width: 82%;
+    position: relative;
+}
+
+.customer-evaluation {
+    border-radius: 20px;
+    width: 40%;
+    text-align: center;
+    padding: 25px 50px;
+    position: absolute;
+    top: 24%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--white);
+}
+
+.quote {
+    font-size: 3.5rem;
+    color: #72a5f1;
+}
+
+.evaluation-content {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.customer-ava {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid var(--white);
+}
+
+.customer-ava:nth-child(1) {
+    width: 60px;
+    height: 60px;
+    top: 2%;
+    left: 20%;
+}
+
+.customer-ava:nth-child(2) {
+    width: 50px;
+    height: 50px;
+    top: 28%;
+    left: 22%;
+}
+
+.customer-ava:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    top: 40%;
+    left: 12%;
+}
+
+.customer-ava:nth-child(4) {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    left: 24%;
+}
+
+.customer-ava:nth-child(5) {
+    width: 100px;
+    height: 100px;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.customer-ava:nth-child(6) {
+    width: 60px;
+    height: 60px;
+    top: 20%;
+    right: 20%;
+}
+
+.customer-ava:nth-child(7) {
+    width: 50px;
+    height: 50px;
+    top: 35%;
+    right: 10%;
+}
+
+.customer-ava:nth-child(8) {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    right: 15%;
+}
+
+// .banner {
+//     border-radius: 20px;
+//     width: 100%;
+//     margin: 30px 0;
+//     background-image: url('https://res.cloudinary.com/des13gsgi/image/upload/v1670774504/banner/geometric-dark-blue-texture-background-with-glowing-edges-and-shadows-vector_csqlul.jpg');
+//     -webkit-background-size: cover;
+//     background-size: cover;
+//     background-position: center;
+//     height: 300px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// .banner-inner {
+//     width: 41%;
+// }
+
+// .banner-heading {
+//     color: var(--white);
+//     text-align: center;
+// }
+
+// .banner-list {
+//     display: grid;
+//     grid-template-columns: auto auto auto;
+//     gap: 10px;
+//     margin-top: 10px;
+// }
+
+// .banner-item {
+//     border-radius: 30px;
+//     padding: 6px 0;
+//     text-align: center;
+//     color: var(--white);
+//     border: 1px solid var(--white);
+// }
 
 .available {
     display: flex;

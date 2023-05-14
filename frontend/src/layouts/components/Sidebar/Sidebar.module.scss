@@ -19,11 +19,15 @@
     padding-left: var(--padding-left);
 }
 
+.user-info {
+    // overflow-y: scroll;
+}
+
 .user-info-item {
     position: relative;
     display: flex;
     align-items: center;
-    line-height: 60px;
+    line-height: 55px;
     margin: 10px 0;
     color: #8f8f8f;
     cursor: pointer;
@@ -42,6 +46,7 @@
     padding: 10px;
     margin-right: 40px;
     color: var(--primary);
+    // font-size: 2rem;
 }
 
 .title {

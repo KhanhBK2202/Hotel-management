@@ -1,4 +1,4 @@
-import { faHotel } from '@fortawesome/free-solid-svg-icons';
+import { faHotel, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HorizontalCard from '~/components/HorizontalCard';
 import VerticalCard from '~/components/VerticalCard';
+import Banner from '~/layouts/components/Banner';
 import Search from '~/layouts/components/Search';
 import * as request from '~/utils/request';
 import styles from './Home.module.scss'; 
@@ -48,6 +49,7 @@ function Home() {
     const [hotels, setHotels] = useState([])
     // const [popularHotels, setPopularHotels] = useState([])
     const [rooms, setRooms] = useState([])
+    const [comment, setComment] = useState([])
     useEffect(() => {
         request
             .get('/api/v1/hotel')
@@ -63,25 +65,89 @@ function Home() {
             .get('/api/v1/roomType/')
             .then(res => setRooms(res))
             .catch(err => console.log(err))
+
+        request
+            .get('/api/v1/comment/highestScore')
+            .then(res => setComment(res[0]))
+            .catch(err => console.log(err))
     },[])
 
     return (
         <div className={cx('wrapper')}>
             {/* <Search /> */}
-            <div className={cx('banner')}>
-                <div className={cx('banner-inner')}>
-                    <h1 className={cx('banner-heading')}>You can trust us with your choice of accommodation</h1>
-                    <ul className={cx('banner-list')}>
-                        <li className={cx('banner-item')}>
-                            . Modern
-                        </li>
-                        <li className={cx('banner-item')}>
-                            . Convenience
-                        </li>
-                        <li className={cx('banner-item')}>
-                            . Low prices
-                        </li>
-                    </ul>
+            <Banner/>
+            <Search/>
+            <div className={cx('about')}>
+                <div className={cx('about-heading')}>
+                    <div className={cx('about-book-now')}>
+                        About us
+                    </div>
+                    <h1 className={cx('about-title')}>
+                        The Perfect Travel Place For You & Your Family
+                    </h1>
+                    <p className={cx('about-description')}>
+                        Luxury redefined. Both contemporary and elegant, convenient and surprising, sustainable and luxurious. KQ Hotel is part of a new generation of hotel: inspired to be extraordinary.
+                    </p>
+                    <div className={cx('about-data')}>
+                        <div className={cx('about-data-row')}>
+                            <div className={cx('about-data-cell')}>
+                                <h2 className={cx('about-cell-num')}>10M+</h2>
+                                <span className={cx('about-cell-text')}>Visitors</span>
+                            </div>
+                            <div className={cx('about-data-cell')}>
+                                <h2 className={cx('about-cell-num')}>109</h2>
+                                <span className={cx('about-cell-text')}>Hotels</span>
+                            </div>
+                        </div>
+                        <div className={cx('about-data-row')}>
+                            <div className={cx('about-data-cell')}>
+                                <h2 className={cx('about-cell-num')}>29</h2>
+                                <span className={cx('about-cell-text')}>Food Shop</span>
+                            </div>
+                            <div className={cx('about-data-cell')}>
+                                <h2 className={cx('about-cell-num')}>10M+</h2>
+                                <span className={cx('about-cell-text')}>Visitors</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div className={cx('about-pics')}>
+                    <img className={cx('pic')} src='https://www.kevinandamanda.com/wp-content/uploads/2020/05/saigon-ho-chi-minh-city-34-720x1080.jpg'/>
+                    <img className={cx('pic')} src='https://mhotel.vn/wp-content/uploads/2022/12/MHOTEL_SOAIPHAM_240DPI-31-683x1024.jpg'/>
+                </div>
+            </div>
+
+            <div className={cx('customer-data')}>
+                <div className={cx('customer-heading')}>
+                    Testimonials
+                </div>
+                <h1 className={cx('customer-title')}>
+                    What Our Customer Say About Us
+                </h1>
+                <p className={cx('customer-description')}>
+                    What customers say about our service and guideline. 
+                </p>
+                
+                <div className={cx('world')}>
+                    <img className={cx('map')} src='https://www.pngall.com/wp-content/uploads/2017/05/World-Map-Free-PNG-Image.png'/>
+                    <div className={cx('customer-evaluation')}>
+                        <FontAwesomeIcon className={cx('quote')} icon={faQuoteRight}/>
+                        <p className={cx('evaluation-content')}>{comment.comment}</p>
+                        <h3 className={cx('evaluation-author')}>{comment.userId?.username}</h3>
+                        <span className={cx('evaluation-author')}>Student</span>
+                    </div>
+                    <div className={cx('customer-map')}>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598335/banner/photo-1525357816819-392d2380d821_jnzbn8.jpg'/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1535713875002-d1d0cf377fde_jeawcn.jpg'/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1586297135537-94bc9ba060aa_gsdi3c.jpg'/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1499887142886-791eca5918cd_tficqr.jpg'/>
+                        <img className={cx('customer-ava')} src={comment.userId?.avatar}/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/photo-1535931737580-a99567967ddc_g8ej5m.jpg'/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/original_wgwjec.jpg'/>
+                        <img className={cx('customer-ava')} src='https://res.cloudinary.com/des13gsgi/image/upload/v1659598336/banner/640x530_zdlza7.jpg'/>
+                    </div>
                 </div>
             </div>
 

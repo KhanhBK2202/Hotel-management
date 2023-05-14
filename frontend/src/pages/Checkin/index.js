@@ -160,7 +160,7 @@ function Checkin() {
         <div className={cx('wrapper')}>
             {isCheckin ? 
                 <div>
-                    <Link to={user?.role === 'manager' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
+                    <Link to={user?.role === 'manager' || user?.role === 'admin' ? config.routes.dashboard : config.routes.home} className={cx('logo-link')}>
                         <img src={images.logo} alt="KQ" className={cx('logo-img')}/>
                     </Link>
                     <h2 className={cx('heading')}>Check-in room {room.room.name}</h2>

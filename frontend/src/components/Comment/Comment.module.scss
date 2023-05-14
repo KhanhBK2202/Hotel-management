@@ -12,7 +12,18 @@
 
 .user-score {
     color: var(--primary);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+.user-score-adjust {
+    cursor: pointer;
+    margin: 0 5px;
 }
 
 .user-evaluation {
@@ -50,6 +61,9 @@
     // background-color: var(--search-btn-color);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
     background-color: var(--sidebar-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     // color: #fff;
 
     &::before {
@@ -61,5 +75,29 @@
         position: absolute;
         left: -40px;
         top: 6px;
+    }
+}
+
+.customer-input {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+}
+
+.save-btn {
+    color: #5dc9bc;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.comment-btn {
+    margin-left: 20px;
+    cursor: pointer;
+
+    &:nth-child(1) {
+        color: green;
+    }
+
+    &:nth-child(2) {
+        color: rgb(209, 1, 1);
     }
 }

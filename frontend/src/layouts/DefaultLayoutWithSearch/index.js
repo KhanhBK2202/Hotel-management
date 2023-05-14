@@ -6,6 +6,7 @@ import styles from './DefaultLayoutWithSearch.module.scss';
 import { useEffect, useState } from 'react';
 import Search from '../components/Search';
 import { actions, useStore } from '~/store';
+import Footer from '../components/Footer';
 
 const cx = classNames.bind(styles)
 
@@ -30,6 +31,7 @@ function DefaultLayoutWithSearch({ children }) {
                         <Search />
                         {children}
                     </div>
+                    <Footer/>
                 </div>
             </div>
         </div>

@@ -124,7 +124,19 @@ const BookingController = {
             } catch(err){
                   res.status(500).json(err)
             }
-      }
+      },
+      // [GET] /api/v1/booking/:userId/:hotelId
+      checkExistUser: async (req, res)=> {
+            try{
+                  const isBooked = await Booking.find({ bookedBy: req.params.userId, hotel: req.params.hotelId })
+                  let result = false
+                  if (isBooked.length !== 0)
+                        result = true
+                  res.status(200).json(result);
+            }catch(err){
+                  res.status(500).json(err);
+            }
+      },
 
 }
 module.exports = BookingController;
