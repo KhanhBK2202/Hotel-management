@@ -10,6 +10,7 @@ import Banner from '~/layouts/components/Banner';
 import Search from '~/layouts/components/Search';
 import * as request from '~/utils/request';
 import styles from './Home.module.scss'; 
+import KommunicateChat from '~/layouts/components/Chatbot/Chatbot';
 
 const cx = classNames.bind(styles)
 
@@ -204,6 +205,9 @@ function Home() {
                 <HorizontalCard img='https://lanrung.com.vn/wp-content/uploads/2020/03/Condo-Executive-Suite.jpg' name='Condo Executive Suite' price='$44'/>
                 <HorizontalCard img='https://lanrung.com.vn/wp-content/uploads/2020/03/Condo-Executive-Suite.jpg' name='Condo Executive Suite' price='$44'/>
                 <HorizontalCard img='https://lanrung.com.vn/wp-content/uploads/2020/03/Condo-Executive-Suite.jpg' name='Condo Executive Suite' price='$44'/> */}
+            </div>
+            <div>
+              <KommunicateChat/>
             </div>
             
         </div>
