@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 
 model = pickle.load(open("model.pkl", "rb"))
+model1 = pickle.load(open("model1.pkl", "rb"))
 
 
 def get_database():
@@ -41,6 +42,21 @@ def predict():
     future.columns = ['ds']
     future['ds']= to_datetime(future['ds'])
     prediction = model.predict(future)
+    result = prediction[['yhat']].to_json()
+    return jsonify({"Prediction": result})
+
+#Predict avarage daily rate ard ( total room revenue / room sold)
+@app.route("/predict1", methods= ["POST"])
+def predict1():
+    future = list()
+    djson = request.json
+    datetime = djson["datetime"]
+    for i in datetime:
+        future.append([i])
+    future = pd.DataFrame(future)
+    future.columns = ['ds']
+    future['ds']= to_datetime(future['ds'])
+    prediction = model1.predict(future)
     result = prediction[['yhat']].to_json()
     return jsonify({"Prediction": result})
 
