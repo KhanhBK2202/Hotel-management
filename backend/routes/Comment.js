@@ -13,8 +13,8 @@ router.post('/post', MiddlewareController.verifyToken, CommentController.uploadC
 // get all comments
 router.get('/', CommentController.getAllComment);
 
-// // get comment in a hotel
-// router.get('/hotel/:id', CommentController.getComment);
+// get comment in a hotel
+router.get('/hotel/:id', CommentController.getHotelComment);
 
 // get highest score comment
 router.get('/highestScore', CommentController.getHighestScoreComment);

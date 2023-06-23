@@ -75,7 +75,7 @@ const AuthController = {
                     path: "/",
                     sameSite: "strict", //dùng để ngăn chặn tấn công CSRF
                 });
-                const { password, ...others } = user._doc;
+                const { ...others } = user._doc;
                 res.status(200).json({ ...others, accessToken, refreshToken });
             }
         } catch (err) {

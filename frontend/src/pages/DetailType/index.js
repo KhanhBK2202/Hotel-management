@@ -1,8 +1,8 @@
-import { faCalendar, faCircleCheck, faHeart, faStar, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faBed, faCar, faCommentsDollar, faFan, faFaucet, faFireFlameCurved, faLocation, faLocationDot, faLocationPin, faMattressPillow, faMinus, faMoneyBill, faPlus, faShareNodes, faSoap, faTv, faUsers, faVault, faVectorSquare, faWater, faWaterLadder, faWifi, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleCheck, faCircleXmark, faClock, faHeart, faStar, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faBed, faCar, faCheck, faCommentsDollar, faFan, faFaucet, faFireFlameCurved, faLocation, faLocationDot, faLocationPin, faMattressPillow, faMinus, faMoneyBill, faPlus, faShareNodes, faSoap, faTv, faUsers, faVault, faVectorSquare, faWater, faWaterLadder, faWifi, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
-import { add, addDays, sub } from 'date-fns';
+import { add, addDays, format, formatISO, sub } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import Calendar from '~/components/Calendar';
 import Clock from '~/components/Clock';
 import Comment from '~/components/Comment/Comment';
 import DatePicker from '~/components/DatePicker';
+import HourlyCalendar from '~/components/HourlyCalendar';
 import Image from '~/components/Image';
 import InputSelect from '~/components/InputSelect';
 import { actions, useStore } from '~/store';
@@ -25,13 +26,6 @@ function DetailType() {
 
     const { roomId, hotelId } = useParams()
     const [room, setRoom] = useState()
-    // useEffect(() => {
-    //     const checkboxes = document.querySelectorAll('.' + cx('checkbox'))[5].childNodes[0]
-    //     // console.log(checkboxes)
-    //     if (checkboxes.checked === true) {
-    //         console.log('hello')
-    //     }
-    // },[])
     const [option, setOption] = useState()
     // const [order, setOrder] = useState()
     // var options = []
@@ -43,18 +37,18 @@ function DetailType() {
     // }, [options, option, order]);
 
     // const [option1, setOption1] = useState()
-    useEffect(() => {
-        const modal = document.querySelectorAll('.' + cx('modal'))
-        let l = modal.length
-        if (option === 'Hourly') {
-            modal[l-2].classList.remove(cx('disappear'))
-            modal[l-2].classList.add(cx('appear'))
-        }
-        else if (option === 'Overnight') {
-            modal[l-1].classList.remove(cx('disappear'))
-            modal[l-1].classList.add(cx('appear'))
-        }
-    },[option]);
+    // useEffect(() => {
+    //     const modal = document.querySelectorAll('.' + cx('modal'))
+    //     let l = modal.length
+    //     if (option === 'Hourly') {
+    //         modal[l-2].classList.remove(cx('disappear'))
+    //         modal[l-2].classList.add(cx('appear'))
+    //     }
+    //     else if (option === 'Overnight') {
+    //         modal[l-1].classList.remove(cx('disappear'))
+    //         modal[l-1].classList.add(cx('appear'))
+    //     }
+    // },[option]);
 
     // Choose time for hourly
     // var timeInterval = []
@@ -158,7 +152,8 @@ function DetailType() {
     // const [dateLeave, setDateLeave] = useState(state.dateCheckOut)
     // let dateForHourly = new Date()
     const getDate = (date) => {
-        // console.log(typeof date)
+        console.log( date)
+
         let dateCustom = date.toString().slice(4, 10) + ', ' + date.toString().slice(11, 15)
         setDateArrive(dateCustom)
         dispatch(actions.setStorageDate([date, date]))
@@ -166,49 +161,49 @@ function DetailType() {
     
     // const [timeCheckIn, setTimeCheckIn] = useState()
     // const [timeCheckOut, setTimeCheckOut] = useState()
-    useEffect(() => {
-        let timeCheckIn, timeCheckOut
-        if (option === 'Hourly') {
-            if (hours || min) {
-                timeCheckIn = hours + ':' + min
-                let hourLeave = addZero(parseInt(hours) + parseInt(timeHourly))
-                if (hourLeave > 23)
-                    hourLeave = hourLeave - 24
-                timeCheckOut = hourLeave + ':' + min
-                // console.log(timeCheckIn, timeCheckOut)
-                dispatch(actions.setStorageTimeIn(timeCheckIn))
-                dispatch(actions.setStorageTimeOut(timeCheckOut))
-            }
-        }
-        else {
-            if (order === '2') {
-                if (hours || min) {
-                    timeCheckIn = hours + ':' + min
-                    // console.log(timeCheckIn)
-                    dispatch(actions.setStorageTimeIn(timeCheckIn))
-                }
-            }
-            else if (order === '3') {
-                if (hours || min) {
-                    timeCheckOut = hours + ':' + min
-                    // console.log(timeCheckOut)
-                    dispatch(actions.setStorageTimeOut(timeCheckOut))
-                }
-            }
-        }
-        
-    },[dispatch, hours, min, timeHourly, option, order]);
-
-    // const handleChange = (e) => {
-    //     if (e.target.checked === true) {
-    //         const modal = document.querySelectorAll('.' + cx('modal'))
-    //         modal[2].classList.add(cx('appear'))
+    // useEffect(() => {
+    //     let timeCheckIn, timeCheckOut
+    //     if (option === 'Hourly') {
+    //         if (hours || min) {
+    //             timeCheckIn = hours + ':' + min
+    //             let hourLeave = addZero(parseInt(hours) + parseInt(timeHourly))
+    //             if (hourLeave > 23)
+    //                 hourLeave = hourLeave - 24
+    //             timeCheckOut = hourLeave + ':' + min
+    //             // console.log(timeCheckIn, timeCheckOut)
+    //             dispatch(actions.setStorageTimeIn(timeCheckIn))
+    //             dispatch(actions.setStorageTimeOut(timeCheckOut))
+    //         }
     //     }
-    // }
+    //     else {
+    //         if (order === '2') {
+    //             if (hours || min) {
+    //                 timeCheckIn = hours + ':' + min
+    //                 // console.log(timeCheckIn)
+    //                 dispatch(actions.setStorageTimeIn(timeCheckIn))
+    //             }
+    //         }
+    //         else if (order === '3') {
+    //             if (hours || min) {
+    //                 timeCheckOut = hours + ':' + min
+    //                 // console.log(timeCheckOut)
+    //                 dispatch(actions.setStorageTimeOut(timeCheckOut))
+    //             }
+    //         }
+    //     }
+        
+    // },[dispatch, hours, min, timeHourly, option, order]);
 
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const Time = (e) => {
+        if (e.target.checked === true) {
+            const modal = document.querySelectorAll('.' + cx('modal'))
+            modal[2].classList.add(cx('appear'))
+        }
+    }
+
+    // const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const tomorrowFns = addDays(new Date(), 1)
-    const tomorrow = '23:59 on ' + months[tomorrowFns.getMonth()] + ' ' + tomorrowFns.getDate() + ', ' + tomorrowFns.getFullYear()
+    const tomorrow = '23:59 on ' + format(tomorrowFns, "PPP")
 
     const [services, setServices] = useState([])
     const [servicesPrice, setServicesPrice] = useState([])
@@ -234,7 +229,7 @@ function DetailType() {
             // console.log(e.target.value)
             
             const index = services.indexOf(e.target.value);
-            console.log(index)
+            // console.log(index)
             // const newServicesArray = [...services]
             setServices(services.splice(index, 1))
             setServicesPrice(servicesPrice.splice(index, 1))
@@ -281,10 +276,39 @@ function DetailType() {
     },[roomId, hotelId])
 
     const [hotelName, setHotelName] = useState()
+    const [isFull, setIsFull] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    const [timeSlot, setTimeSlot] = useState([])
     useEffect(() => {
         request
             .get('/api/v1/hotel/all-services')
             .then(res => setGetServices(res))
+            .catch(err => console.log(err))
+        
+        request
+            .get(`/api/v1/room/${roomId}`)
+            .then(res => {
+                const r = res.find((room) => {
+                    return !room.bookedBy
+                })
+                if (!r) {
+                    setIsFull(true)
+                    setDisabled(true)
+                    const bookBtn = document.querySelector('.' + cx('booking-btn'))
+                    const slotBtn = document.querySelectorAll('.' + cx('slot-book-btn'))
+                    bookBtn.style.opacity = '0.7'
+                    bookBtn.style.cursor = 'not-allowed'
+                    slotBtn.forEach((item, index) => {
+                        slotBtn[index].style.opacity = '0.7'
+                        slotBtn[index].style.cursor = 'not-allowed'
+                    })
+                }
+            })
+            .catch(err => console.log(err))
+
+        request
+            .get('/api/v1/timeSlot')
+            .then(res => setTimeSlot(res))
             .catch(err => console.log(err))
     },[])
 
@@ -297,13 +321,13 @@ function DetailType() {
     // const [room, setRoom] = useState([])
     useEffect(() => {
         // if (cart.length !== 0) {
-            if (option === 'Hourly') {
-                // timeInterval = parseInt(cart[0].timeCheckOut.slice(0,2)) - parseInt(cart[0].timeCheckIn.slice(0,2))
-                setRoomPrice((parseInt(room?.priceHour) + parseInt(room?.priceNextHour)*(timeInterval - 1)))
-            }
-            else {
-                setRoomPrice(parseInt(room?.priceOverNight)*parseInt(state.numOfDays))
-            }
+            // if (option === 'Hourly') {
+            //     // timeInterval = parseInt(cart[0].timeCheckOut.slice(0,2)) - parseInt(cart[0].timeCheckIn.slice(0,2))
+            //     setRoomPrice((parseInt(room?.priceHour) + parseInt(room?.priceNextHour)*(timeInterval - 1)))
+            // }
+            // else {
+            setRoomPrice(parseInt(room?.priceOverNight)*parseInt(state.numOfDays))
+            // }
     
             // Calc service price
             for (let i = 0; i < services.length; i++) {
@@ -319,7 +343,7 @@ function DetailType() {
             // }
             } 
         // }
-    },[room, option, servicesPrice, state.numOfDays])
+    },[room, servicesPrice, state.numOfDays])
 
     useEffect(() => {
         setTotalPrice((parseInt(roomPrice) + parseInt(servicePrice))*parseInt(roomValue))
@@ -343,6 +367,9 @@ function DetailType() {
             copyState.hotelId = room.hotel._id
             copyState.numRooms = roomValue
             copyState.servicePrice = servicesPrice
+            copyState.typeOfTime = 'Overnight'
+            copyState.timeCheckIn = '14:00'
+            copyState.timeCheckOut = '12:00'
             prevState.push(copyState)
             localStorage.setItem('cart', JSON.stringify(prevState))
         }
@@ -353,12 +380,74 @@ function DetailType() {
             copyState.hotelId = room.hotel._id
             copyState.numRooms = roomValue
             copyState.servicePrice = servicesPrice
+            copyState.typeOfTime = 'Overnight'
+            copyState.timeCheckIn = '14:00'
+            copyState.timeCheckOut = '12:00'
             const arrayState = [copyState]
             localStorage.setItem('cart', JSON.stringify(arrayState))
         }
+        window.location.href = '/checkout'
     }
 
-    // const [total, setTotal] = useState(0)
+    const [isHide, setIsHide] = useState(true)
+    const [defaultDate, setDefaultDate] = useState('When?')
+    const [alternateDate, setAlternateDate] = useState()
+    const handleChangeTime = (e = alternateDate || new Date()) => {
+        const commaIndex = format(e, "PPP").search(',')
+        setAlternateDate(e)
+        setDefaultDate(format(e, "PPP").substring(0, commaIndex))
+    }
+
+    const handleBookingHourly = (item, price) => {
+        // console.log(state.hotel, state.typeOfTime, state.dateCheckIn, state.dateCheckOut, state.timeCheckIn, state.timeCheckOut)
+        // dispatch(actions.setStorageTraveller(adultsValue))
+        if (JSON.parse(localStorage.getItem('cart')))
+        {
+            const prevState = JSON.parse(localStorage.getItem('cart'))
+            let copyState = {...state}
+            delete copyState.toggle
+            copyState.roomId = room._id
+            copyState.hotelId = room.hotel._id
+            copyState.numRooms = roomValue
+            copyState.servicePrice = []
+            copyState.typeOfTime = 'Hourly'
+            copyState.timeCheckIn = item.from
+            copyState.timeCheckOut = item.to
+            copyState.dateCheckIn = alternateDate
+            copyState.dateCheckOut = alternateDate
+            copyState.numOfHours = 6
+            copyState.price = price.toFixed(0)
+            copyState.scale = item.scale
+            prevState.push(copyState)
+            localStorage.setItem('cart', JSON.stringify(prevState))
+        }
+        else {
+            let copyState = {...state}
+            delete copyState.toggle
+            copyState.roomId = room._id
+            copyState.hotelId = room.hotel._id
+            copyState.numRooms = roomValue
+            copyState.servicePrice = []
+            copyState.typeOfTime = 'Hourly'
+            copyState.timeCheckIn = item.from
+            copyState.timeCheckOut = item.to
+            copyState.dateCheckIn = alternateDate
+            copyState.dateCheckOut = alternateDate
+            copyState.numOfHours = 6
+            copyState.price = price.toFixed(0)
+            copyState.scale = item.scale
+            const arrayState = [copyState]
+            localStorage.setItem('cart', JSON.stringify(arrayState))
+        }
+        window.location.href = '/checkout'
+    }
+
+    // useEffect(() => {
+    //     request
+    //         .get('/api/v1/booking/abc')
+    //         .then(res => console.log(res))
+    //         .catch(err => console.log(err))
+    // },[])
 
     return (
         <div className={cx('wrapper')}>
@@ -375,7 +464,8 @@ function DetailType() {
             </div>
             <div className={cx('imgs')}>
                 <div className={cx('imgs-left')}>
-                    <img className={cx('img-left')} src={room?.thumbnail} alt=''/>
+                    {/* <img className={cx('img-left')} src={room?.thumbnail} alt=''/> */}
+                    <iframe className={cx('img-left')} src='https://windy-order.surge.sh/'/>
                 </div>
                 <div className={cx('imgs-right')}>
                     {room?.images.map((image, index) => (
@@ -395,23 +485,6 @@ function DetailType() {
                 
                     <h2 className={cx('heading')}>Details</h2>
                     <div className={cx('detail')}>
-                        {/* <div className={cx('detail-item')}>
-                            <FontAwesomeIcon icon={faUser} />
-                            <div className={cx('accordion__')}>2 Adults</div>
-                        </div>
-                        <div className={cx('detail-item')}>
-                            <FontAwesomeIcon icon={faVectorSquare} />
-                            <div className={cx('accordion__')}>49 m2</div>
-                        </div>
-                        <div className={cx('detail-item')}>
-                            <FontAwesomeIcon icon={faBed} />
-                            <div className={cx('accordion__')}>1 Bedroom</div>
-                        </div>
-                        <div className={cx('detail-item')}>
-                            <FontAwesomeIcon icon={faStar} />
-                            <div className={cx('content')}>4</div>
-                        </div> */}
-
                         <div className={cx('detail-item')}>
                             <FontAwesomeIcon icon={faUser} />
                             <div className={cx('content')}>{room?.numOfPeople} Adults</div>
@@ -422,11 +495,11 @@ function DetailType() {
                         </div>
                         <div className={cx('detail-item')}>
                             <FontAwesomeIcon icon={faBed} />
-                            <div className={cx('content')}>1 Bedroom</div>
+                            <div className={cx('content')}>{room?.numOfBeds} {room?.numOfBeds > 1 ? 'Bedrooms' : 'Bedroom'}</div>
                         </div>
                         <div className={cx('detail-item')}>
-                            <FontAwesomeIcon icon={faStar} />
-                            <div className={cx('content')}>4</div>
+                            {isFull ? <FontAwesomeIcon style={{color: 'red'}} icon={faCircleXmark} /> : <FontAwesomeIcon style={{color: 'green'}} icon={faCircleCheck} />}  
+                            <div className={cx('content')}>{isFull ? <span style={{color: 'red'}}>Out of room</span> : <span style={{color: 'green'}}>Available</span>}</div>
                         </div>
                     </div>
                     <p className={cx('description')} dangerouslySetInnerHTML={{__html: room?.description}}/>
@@ -486,116 +559,12 @@ function DetailType() {
                     <h2 className={cx('heading')}>What this room offers</h2>
 
                     <div className={cx('room-offer')}>
-                        {/* <div className={cx('room-offer__left')}>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faWifi}/>
-                                Wifi
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faFan}/>
-                                Air conditioning
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faWater}/>
-                                Sea view
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faWaterLadder}/>
-                                Shared pool
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faFireFlameCurved}/>
-                                Smoke alarm
-                            </div>
-                        </div>
-                        <div className={cx('room-offer__right')}>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faVault}/>
-                                Safe
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faTv}/>
-                                TV
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faFaucet}/>
-                                Hot water
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faSoap}/>
-                                Essentials
-                            </div>
-                            <div className={cx('room-offer__item')}>
-                                <FontAwesomeIcon style={{marginRight: '10px', width: '50px'}} icon={faMattressPillow}/>
-                                Bed linens
-                            </div>
-                        </div> */}
                         {room?.features.map((feature, index) => (
                             <div key={index} className={cx('room-offer__item')}>
                                 <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
                                 {feature}
                             </div>
                         ))}
-                        {/* <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            IOT Drapes
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Mini-Bar
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            A/C
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            ADA Room
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            IOT TV
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Large Closet
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Black-out Curtains
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Small Room
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            IOT Lights
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Bath Tub
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Private Pool
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Living Room
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Door Locks On-Line
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Free Wi-Fi
-                        </div>
-                        <div className={cx('room-offer__item')}>
-                            <FontAwesomeIcon className={cx('room-offer__icon')} icon={faCircleCheck}/>
-                            Security Safe
-                        </div> */}
                     </div>
                 </div>
                 <div className={cx('right')}>
@@ -603,8 +572,9 @@ function DetailType() {
                     <div className={cx('line')}></div>
 
                     <div className={cx('booking')}>
-                        <InputSelect className={cx('date-select')} data={['Hourly', 'Overnight']} order='0' placeholder={state.typeOfTime} option={handleOption}/>
-                        <div className={cx('warn-text')}>Cannot book for hourly. Please booking for overnight</div>
+                        <Calendar className={cx('')}/>
+                        {/* <InputSelect className={cx('date-select')} data={['Hourly', 'Overnight']} order='0' placeholder={state.typeOfTime} option={handleOption}/>
+                        <div className={cx('warn-text')}>Cannot book for hourly. Please booking for overnight</div> */}
                         {/* <div className={cx('calendar')}>
                             <Calendar/>
                         </div> */}
@@ -671,7 +641,7 @@ function DetailType() {
                             </div>
                             <div className={cx('checkbox-item')}>
                                 <div className={cx('checkbox')}>
-                                    <input type="checkbox" id="extra6" name="extra6" value="car" onChange={handleChange}/>
+                                    <input type="checkbox" id="extra6" name="extra6" value="car" onChange={Time}/>
                                     <label className={cx('label')} htmlFor="extra6"> Car service</label>
                                 </div>
                                 <span className={cx('')}></span> 
@@ -777,11 +747,11 @@ function DetailType() {
                             <span className={cx('')}>${totalPrice}</span>
                         </div>
 
-                        <Link to='/checkout'>
-                            <div className={cx('booking-btn')} onClick={handleBooking}>
+                        {/* <Link to='/checkout'> */}
+                            <div className={cx('booking-btn')} onClick={disabled ? () => {} : handleBooking}>
                                 Book now
                             </div>
-                        </Link>
+                        {/* </Link> */}
 
                         <div className={cx('extra-sentence')}>You will not get charged yet</div>
                     </div>
@@ -802,11 +772,59 @@ function DetailType() {
                 <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
                 <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='9' content='Great people, friendly, you can ask for anything you want and they will help you, great view and great place.' />
             </div> */}
-            <div className={cx('time-slot')}>
-                
+            <br/>
+            <div className={cx('time-selected-heading')}>
+                <h2 className={cx('heading')}>Select your time (for Hourly booking)</h2>
+                <div className={cx('hourly-calendar')}>
+                    <div className={cx('hourly-calendar-label')} onClick={() => setIsHide(!isHide)}>
+                        <FontAwesomeIcon icon={faCalendar}/>
+                        <span style={{marginLeft: '10px'}}>{defaultDate}</span>
+                    </div>
+                    {!isHide && 
+                        <div className={cx('calendar-hourly')}>
+                            <HourlyCalendar onChange={handleChangeTime}/>
+                        </div>
+                    }
+                </div>
             </div>
 
-            <div className={cx('modal')}>
+            <div className={cx('time-slot')}>
+                {timeSlot.map((item, index) => (
+                    <div key={index} className={cx('slot')}>
+                        <div className={cx('slot-time')}>
+                            <FontAwesomeIcon icon={faClock} style={{fontSize: '3rem'}}/>
+                            <h2 style={{marginLeft: '15px'}}>{item.from} - {item.to}</h2>
+                        </div>
+                        <div className={cx('price-and-book')}>
+                            <div className={cx('slot-offer')}>
+                                <h4>Included in the offer</h4>
+                                <div className={cx('offer-item')}>
+                                    <FontAwesomeIcon icon={faCheck}/>
+                                    <span className={cx('offer-item__text')}>Outdoor pool access</span>
+                                </div>
+                                <div className={cx('offer-item')}>
+                                    <FontAwesomeIcon icon={faCheck}/>
+                                    <span className={cx('offer-item__text')}>Fitness access</span>
+                                </div>
+                                <div className={cx('offer-item')}>
+                                    <FontAwesomeIcon icon={faCheck}/>
+                                    <span className={cx('offer-item__text')}>Free parking</span>
+                                </div>
+                            </div>
+                            <div style={{textAlign: 'center'}}>
+                                <h1 className={cx('slot-price')}>${(room?.priceHour*6*item.scale).toFixed(0)}</h1>
+                                <div className={cx('promo')}>
+                                    <div className={cx('promo-percent')}>-{((1.0 - item.scale)*100).toFixed(0)}%</div>
+                                    <div className={cx('real-price')}>${room?.priceHour*6}</div>
+                                </div>
+                                <div className={cx('slot-book-btn')} onClick={disabled ? () => {} : () => handleBookingHourly(item, room?.priceHour*6*item.scale)}>Book</div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* <div className={cx('modal')}>
                 <div className={cx('modal__overlay')}></div>
                 <div className={cx('modal__body')}>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -815,37 +833,8 @@ function DetailType() {
                             <FontAwesomeIcon icon={faXmark}/>
                         </div>
                     </div>
-                    {/* <div className={cx('close-btn')} onClick={handleClose}>
-                        <FontAwesomeIcon icon={faXmark}/>
-                    </div>
-                    <div className={cx('wrapper-inner')}> */}
-                        {/* <select className={cx('form-select')} defaultValue='default' onChange={handleChangeTime}>
-                            <option value='default' disabled>
-                                Start at
-                            </option>
-
-                            {timeInterval.map((item, index) => (
-                                <option key={index} value={item}>{item}</option>
-                            ))}
-                        </select>
-
-                        <select className={cx('form-select')} defaultValue='default' onChange={handleTimeIntervalHourly}>
-                            <option value='default' disabled>
-                                Hours
-                            </option>
-                            
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                        </select> */}
-
-                    {/* </div> */}
-                    {/* <h3 style={{textAlign: 'center', marginTop: '10px'}}>{dateArrive}</h3> */}
+                    
                     <DatePicker getDate={getDate}/>
-                    {/* {dateForHourly} */}
                     <h2 className={cx('')}>Choose time arrive</h2>
                     <Clock getTime={getTime} order='1'/>
                     <h2 className={cx('')}>Choose the length of stay (hour)</h2>
@@ -869,9 +858,9 @@ function DetailType() {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
 
-            <div className={cx('modal')}>
+            {/* <div className={cx('modal')}>
                 <div className={cx('modal__overlay')}></div>
                 <div className={cx('modal__body')}>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -880,40 +869,17 @@ function DetailType() {
                             <FontAwesomeIcon icon={faXmark} />
                         </div>
                     </div>
-                    {/* <div className={cx('wrapper-inner')}> */}
-                        {/* <div className={cx('calendar-check-in')}> */}
-                            
-                            <Calendar className={cx('')}/>
-                            <h2 className={cx('')}>Choose time arrive</h2>
-                            <Clock getTime={getTime} order='2'/>
-                            <h2 className={cx('')}>Choose time leave</h2>
-                            <Clock getTime={getTime} order='3'/>
-                        {/* </div> */}
-                        {/* <div className={cx('calendar-check-out')}>
-                            <h2 className={cx('')}>Check out</h2>
-                            <Calendar className={cx('calendar')} getDate={getDateCheckOut} diff={1}/>
-                        </div> */}
-
-                        {/* <select className={cx('form-select')} defaultValue='default' onChange={handleTotalDays}>
-                            <option value='default' disabled>
-                                Days
-                            </option>
-                            
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                        </select> */}
-
-                    {/* </div> */}
+                    <Calendar className={cx('')}/>
+                    <h2 className={cx('')}>Choose time arrive</h2>
+                    <Clock getTime={getTime} order='2'/>
+                    <h2 className={cx('')}>Choose time leave</h2>
+                    <Clock getTime={getTime} order='3'/>
                     <div className={cx('confirm-button')} onClick={handleClose}>
                         Confirm
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

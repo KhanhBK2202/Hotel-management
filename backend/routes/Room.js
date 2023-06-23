@@ -24,6 +24,9 @@ router.put('/update/:id', MiddlewareController.verifyToken, RoomController.updat
 router.get('/:roomId/:hotelId', RoomController.getRoom);
 
 //get all room
+router.get('/:roomtypeId', RoomController.getRoomHotel);
+
+//get all room
 router.get('/', RoomController.getAllRoom);
 
 // get room by type

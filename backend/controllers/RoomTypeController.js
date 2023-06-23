@@ -48,6 +48,15 @@ const RoomTypeController = {
          res.status(500).json(err);
       }
    },
+   // [GET] /api/v1/roomType/:hotelId
+   getRoomHotel: async (req, res) => {
+      try {
+         const room = await RoomType.find({ hotel: req.params.hotelId }).populate('hotel')
+         res.status(200).json(room);
+      } catch(err){
+         res.status(500).json(err);
+      }
+   },
    getRoom: async (req, res) => {
       try {
          const room = await RoomType.findById(req.params.roomId).populate('hotel')

@@ -10,6 +10,7 @@ import Image from '~/components/Image';
 import { useEffect, useState } from 'react';
 import * as request from '~/utils/request';
 import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 const cx = classNames.bind(styles)
 
@@ -70,10 +71,16 @@ function Profile() {
     }
 
     const [guest, setGuest] = useState()
+    const [bookingLength, setBookingLength] = useState([])
     useEffect(() => {
         request
             .get(`/api/v1/user/${id}`, {headers: {token: `Beaer ${accessToken}`}})
             .then(res => setGuest(res))
+            .catch(err => console.log(err))
+
+        request 
+            .get(`/api/v1/booking/${id}/all`, {headers: {token: `Beaer ${accessToken}`}})
+            .then(res => setBookingLength(res))
             .catch(err => console.log(err))
     },[])
 
@@ -82,7 +89,7 @@ function Profile() {
         let x
         if (guest){
             x = new Date(guest.createdAt)
-            setDateJoin(x.toString().slice(8, 10) + '/' + x.toString().slice(11, 15))
+            setDateJoin(format(x, 'PPP'))
         }
     })
     
@@ -98,9 +105,9 @@ function Profile() {
                     <span className={cx('join')}>Joined in {dateJoin}</span>
 
                     <h1 className={cx('total-bookings')}>
-                        4
+                        {bookingLength.length}
                     </h1>
-                    Bookings
+                    {bookingLength.length > 1 ? 'Bookings' : 'Booking'}
                 </div>
                 
                 <div className={cx('user-wrapper')}>

@@ -9,14 +9,23 @@ router.post('/post', MiddlewareController.verifyToken, BookingController.createB
 // Upload booking id card/passport
 router.put('/image/:bookingCode', MiddlewareController.verifyToken, BookingController.uploadImage);
 
+// // Get All booking
+// router.get('/abc', BookingController.getExpiredBooking);
+
 // Get All booking
-router.get('/', MiddlewareController.checkManager, BookingController.getAllBooking);
+router.get('/hotel/:hotelId', MiddlewareController.checkManager, BookingController.getAllBooking);
+
+// Get distinct users
+router.get('/hotel/:hotelId/distinct', MiddlewareController.checkManager, BookingController.getDistinctUser);
+
+// Get revenue by date
+router.get('/hotel/:hotelId/:type/:code/:year/revenue', MiddlewareController.checkManager, BookingController.getRevenueByDate);
 
 // Get booking by date and name
-router.get('/byDate/@:username/:from/:to', MiddlewareController.checkManager, BookingController.getBookingByDateByName);
+router.get('/byDate/@:username/:from/:to/:hotelId', MiddlewareController.checkManager, BookingController.getBookingByDateByName);
 
 // Get booking by date
-router.get('/byDate/:from/:to', MiddlewareController.checkManager, BookingController.getBookingByDate);
+router.get('/byDate/:from/:to/:hotelId', MiddlewareController.checkManager, BookingController.getBookingByDate);
 
 // Get past booking
 router.get('/:id/past', MiddlewareController.verifyToken, BookingController.getPastBooking);
@@ -28,10 +37,13 @@ router.get('/:id/upcoming', MiddlewareController.verifyToken, BookingController.
 router.get('/:id/present', MiddlewareController.verifyToken, BookingController.getPresentBooking);
 
 // Get booking by user (dùng để search)
-router.get('/@:username', MiddlewareController.checkManager, BookingController.getBookingByUser);
+router.get('/@:username/:hotelId', MiddlewareController.checkManager, BookingController.getBookingByUser);
 
-// Get booking by id
+// Get booking by booking code
 router.get('/:id', BookingController.getBooking);
+
+// Get all booking of user
+router.get('/:userId/all', MiddlewareController.verifyToken, BookingController.getAllBookingByUser);
 
 // Check existing user
 router.get('/:userId/:hotelId', MiddlewareController.verifyToken, BookingController.checkExistUser);

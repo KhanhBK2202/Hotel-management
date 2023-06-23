@@ -62,18 +62,18 @@ function Header() {
     }, [options, option, order]);
 
     const [option1, setOption1] = useState()
-    useEffect(() => {
-        if (options[1] === 'Hourly') {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[0].classList.remove(cx('disappear'))
-            modal[0].classList.add(cx('appear'))
-        }
-        else if (options[1] === 'Overnight') {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[1].classList.remove(cx('disappear'))
-            modal[1].classList.add(cx('appear'))
-        }
-    },[option1]);
+    // useEffect(() => {
+    //     if (options[1] === 'Hourly') {
+    //         const modal = document.querySelectorAll('.' + cx('modal'))
+    //         modal[0].classList.remove(cx('disappear'))
+    //         modal[0].classList.add(cx('appear'))
+    //     }
+    //     else if (options[1] === 'Overnight') {
+    //         const modal = document.querySelectorAll('.' + cx('modal'))
+    //         modal[1].classList.remove(cx('disappear'))
+    //         modal[1].classList.add(cx('appear'))
+    //     }
+    // },[option1]);
 
     // Choose time for hourly
     var timeInterval = []
@@ -123,24 +123,24 @@ function Header() {
         setTimeHourly(e.target.value)
     }
 
-    const handleSubmitHourly = () => {
-        // localStorage.removeItem('option6', 'option7')
-        const modal = document.querySelectorAll('.' + cx('modal'))
-        modal[0].classList.remove(cx('appear'))
-        modal[0].classList.add(cx('disappear'))
-    }
+    // const handleSubmitHourly = () => {
+    //     // localStorage.removeItem('option6', 'option7')
+    //     const modal = document.querySelectorAll('.' + cx('modal'))
+    //     modal[0].classList.remove(cx('appear'))
+    //     modal[0].classList.add(cx('disappear'))
+    // }
 
     // const handleTotalDays = (e) => {
     //     localStorage.setItem('option7', e.target.value)
     // }
 
-    const handleSubmitOvernight = () => {
-        // localStorage.removeItem('option4', 'option5')
-        const modal = document.querySelectorAll('.' + cx('modal'))
-        // modal[1].style.display = 'none';
-        modal[1].classList.remove(cx('appear'))
-        modal[1].classList.add(cx('disappear'))
-    }
+    // const handleSubmitOvernight = () => {
+    //     // localStorage.removeItem('option4', 'option5')
+    //     const modal = document.querySelectorAll('.' + cx('modal'))
+    //     // modal[1].style.display = 'none';
+    //     modal[1].classList.remove(cx('appear'))
+    //     modal[1].classList.add(cx('disappear'))
+    // }
 
     const handleOption = (op, order) => {
         setOption(op)
@@ -181,18 +181,18 @@ function Header() {
         setDateLeave(date.toString().slice(4, 15))
     }
 
-    const handleClose = () => {
-        if (options[1] === 'Hourly') {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[0].classList.remove(cx('appear'))
-            modal[0].classList.add(cx('disappear'))
-        }
-        else if (options[1] === 'Overnight') {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[1].classList.remove(cx('appear'))
-            modal[1].classList.add(cx('disappear'))
-        }
-    }
+    // const handleClose = () => {
+    //     if (options[1] === 'Hourly') {
+    //         const modal = document.querySelectorAll('.' + cx('modal'))
+    //         modal[0].classList.remove(cx('appear'))
+    //         modal[0].classList.add(cx('disappear'))
+    //     }
+    //     else if (options[1] === 'Overnight') {
+    //         const modal = document.querySelectorAll('.' + cx('modal'))
+    //         modal[1].classList.remove(cx('appear'))
+    //         modal[1].classList.add(cx('disappear'))
+    //     }
+    // }
 
     const [state, dispatch] = useStore()
 
@@ -225,7 +225,7 @@ function Header() {
                 if (hourLeave > 23)
                     hourLeave = hourLeave - 24
                 timeCheckOut = hourLeave + ':' + min
-                console.log(timeCheckIn, timeCheckOut)
+                // console.log(timeCheckIn, timeCheckOut)
                 dispatch(actions.setStorageTimeIn(timeCheckIn))
                 dispatch(actions.setStorageTimeOut(timeCheckOut))
             }
@@ -293,10 +293,10 @@ function Header() {
                     {province.length !== 0 && <InputSelect data={province} order='1' icon='faLocationArrow' placeholder='Thành phố Hồ Chí Minh' option={handleOption}/>}
                     
                 </div>
-                <div className={cx('search-input')}>
+                {/* <div className={cx('search-input')}>
                     <h3 className={cx('search-input-title')}>Type of time</h3>
                     <InputSelect data={input2} order='2' icon='location' placeholder='Overnight' option={handleOption}/>
-                </div>
+                </div> */}
                 {/* <div className={cx('search-input')}>
                     <h3 className={cx('search-input-title')}>Check out</h3>
                     <InputSelect icon='location' placeholder='Add date'/>
@@ -327,7 +327,7 @@ function Header() {
                 </div>
             </div>
 
-            <div className={cx('modal')}>
+            {/* <div className={cx('modal')}>
                 <div className={cx('modal__overlay')}></div>
                 <div className={cx('modal__body')}>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -335,7 +335,7 @@ function Header() {
                         <div className={cx('close-btn')} onClick={handleClose}>
                             <FontAwesomeIcon icon={faXmark}/>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className={cx('close-btn')} onClick={handleClose}>
                         <FontAwesomeIcon icon={faXmark}/>
                     </div>
@@ -364,7 +364,7 @@ function Header() {
                         </select> */}
 
                     {/* </div> */}
-                    <h3 style={{textAlign: 'center', marginTop: '10px'}}>{dateArrive}</h3>
+                    {/* <h3 style={{textAlign: 'center', marginTop: '10px'}}>{dateArrive}</h3>
                     <DatePicker getDate={getDate}/>
                     <h2 className={cx('')}>Choose time arrive</h2>
                     <Clock getTime={getTime}/>
@@ -388,9 +388,9 @@ function Header() {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
 
-            <div className={cx('modal')}>
+            {/* <div className={cx('modal')}>
                 <div className={cx('modal__overlay')}></div>
                 <div className={cx('modal__body')}>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -398,15 +398,15 @@ function Header() {
                         <div className={cx('close-btn')} onClick={handleClose}>
                             <FontAwesomeIcon icon={faXmark} />
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className={cx('wrapper-inner')}> */}
                         {/* <div className={cx('calendar-check-in')}> */}
                             
-                            <Calendar className={cx('')}/>
+                            {/* <Calendar className={cx('')}/>
                             <h2 className={cx('')}>Choose time arrive</h2>
                             <Clock getTime={getTime}/>
-                            <h2 className={cx('')}>Choose time leave</h2>
-                            <Clock getTime={getTime}/>
+                            <h2 className={cx('')}>Choose time leave</h2> */}
+                            {/* <Clock getTime={getTime}/> */}
                         {/* </div> */}
                         {/* <div className={cx('calendar-check-out')}>
                             <h2 className={cx('')}>Check out</h2>
@@ -427,12 +427,12 @@ function Header() {
                         </select> */}
 
                     {/* </div> */}
-                    <div className={cx('hourly-button')} onClick={handleSubmitOvernight}>
+                    {/* <div className={cx('hourly-button')} onClick={handleSubmitOvernight}>
                         Confirm
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -53,6 +53,9 @@ const bookingSchema = new mongoose.Schema({
           type: Number,
           required: true,
      },
+     methodPayment: {
+          type: String,   
+     },
      statusPayment: {
           type: String,   
      },

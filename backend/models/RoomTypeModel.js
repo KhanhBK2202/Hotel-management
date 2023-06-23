@@ -40,6 +40,10 @@ const roomTypeSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    numOfBeds: {
+        type: Number,
+        required: true,
+    },
     numOfPeople: {
         type: Number,
         required: true // Just 2 or 4 or 6 

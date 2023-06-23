@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    margin: 15px 0;
 }
 
 .bookingCode-item {
@@ -43,8 +44,40 @@
     width: 70%;
 }
 
+.input-item {
+    padding: 10px;
+    font-size: 1.4rem;
+    border-radius: 10px;
+    width: 20%;
+    margin-left: 15px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .url-item {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    font-size: 1.4rem;
+    // width: 80%;
+}
+
+.required-warn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 10px;
+    width: 90%;
+    height: 100px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.save-btn {
+    margin-left: 20px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #83999b;
 }

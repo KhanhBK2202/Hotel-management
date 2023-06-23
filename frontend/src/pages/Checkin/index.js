@@ -123,21 +123,21 @@ function Checkin() {
         // console.log(decrData)
         // setDecrptedData(data);
         // Check có đúng mã booking hay ko
-        if (decrData !== code) {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[0].style.display = 'flex'
-            return
-        }
-        else {
-            const modal = document.querySelectorAll('.' + cx('modal'))
-            modal[1].style.display = 'flex'
-        }
-
-        request
+        // if (decrData !== code) {
+        //     const modal = document.querySelectorAll('.' + cx('modal'))
+        //     modal[0].style.display = 'flex'
+        //     return
+        // }
+        // else {
+        //     const modal = document.querySelectorAll('.' + cx('modal'))
+        //     modal[1].style.display = 'flex'
+        // }
+        const result = await request
             .put(`/api/v1/booking/image/${decrData}`, { imageCheckin: file.secure_url, isCheckin: true }, {
                 headers: {token: `Bearer ${accessToken}`}
             })
-
+        const modal = document.querySelectorAll('.' + cx('modal'))
+        modal[1].style.display = 'flex'
         // setLoading(false)
         // navigate('/dashboard')
     }
@@ -164,8 +164,8 @@ function Checkin() {
                         <img src={images.logo} alt="KQ" className={cx('logo-img')}/>
                     </Link>
                     <h2 className={cx('heading')}>Check-in room {room.room.name}</h2>
-                    <div className={cx('sub-heading')}>Please enter booking code that KQ has send to you</div>
-                    <input className={cx('input')} placeholder='Booking Code' onChange={e => setCode(e.target.value)}/>
+                    {/* <div className={cx('sub-heading')}>Please enter booking code that KQ has send to you</div>
+                    <input className={cx('input')} placeholder='Booking Code' onChange={e => setCode(e.target.value)}/> */}
                     <div>
                         <div className={cx('sub-heading2')}>Paper pictures (Identity card/Passport)</div>
                         {/* <div className={cx('upload-photo-form')}> */}

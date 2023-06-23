@@ -5,8 +5,8 @@ const Branch =  require("../models/BranchModel");
 const UserController = {
     getTimeSlot: async(req, res) => {
         try {
-            const user = await TimeSlot.find();
-            res.status(200).json(user);
+            const slot = await TimeSlot.find();
+            res.status(200).json(slot);
         } catch(err) {
             res.status(500).json(err);
         }

@@ -98,14 +98,16 @@ function Sidebar() {
                                     <span className={cx('title')}>Dashboard</span>
                                 </div>
                             </NavLink>
-                            <NavLink to='/upload' className={({ isActive }) => isActive ? activeClassName : undefined}>
-                                <div className={cx('user-info-item')}>
-                                    <b></b>
-                                    <b></b>
-                                    <FontAwesomeIcon icon={faUpload} className={cx('item-icon')}/>
-                                    <span className={cx('title')}>Upload</span>
-                                </div>
-                            </NavLink>
+                            {user?.role === 'manager' && 
+                                <NavLink to='/upload' className={({ isActive }) => isActive ? activeClassName : undefined}>
+                                    <div className={cx('user-info-item')}>
+                                        <b></b>
+                                        <b></b>
+                                        <FontAwesomeIcon icon={faUpload} className={cx('item-icon')}/>
+                                        <span className={cx('title')}>Upload</span>
+                                    </div>
+                                </NavLink>
+                            }
                             {/* <NavLink to='/services' className={({ isActive }) => isActive ? activeClassName : undefined}>
                                 <div className={cx('user-info-item')}>
                                     <b></b>

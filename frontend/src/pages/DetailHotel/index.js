@@ -202,9 +202,9 @@ function DetailHotel() {
                 </div>
             </div>}
 
-            {userComment && <Comment userComment={userComment} commentId={userComment._id} userId={userComment.userId._id} loading={handleLoading} img={userComment.userId.avatar} name={userComment.userId.username} createdAt={moment(userComment.createdAt).fromNow()} score={userComment.rating} content={userComment.comment}/>}
+            {userComment && <Comment userComment={userComment} commentId={userComment._id} userId={userComment.userId._id} loading={handleLoading} img={userComment.userId.avatar} name={userComment.userId.username} createdAt={moment(userComment.updatedAt).fromNow()} score={userComment.rating} content={userComment.comment}/>}
             {hotelComment?.map((comment, index) => (
-                <Comment key={index} commentId={comment._id} userId={comment.userId._id} loading={handleLoading} img={comment.userId.avatar} name={comment.userId.username} createdAt={moment(comment.createdAt).fromNow()} score={comment.rating} content={comment.comment}/>
+                <Comment key={index} commentId={comment._id} userId={comment.userId._id} loading={handleLoading} img={comment.userId.avatar} name={comment.userId.username} createdAt={moment(comment.updatedAt).fromNow()} score={comment.rating} content={comment.comment}/>
             ))}
             {/* <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='8' content='Great people, friendly,'/>
             <Comment img='' name='Phillip Martin' createdAt='6 days ago' score='7' content='Great people, friendly,'/> */}

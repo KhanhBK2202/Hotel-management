@@ -4,6 +4,9 @@
     // display: flex;
     // justify-content: space-between;
     margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .input-spending {
@@ -33,4 +36,187 @@
     &:hover {
         opacity: 0.8;
     }
+}
+
+
+// Dropdown
+.header__search-select {
+    // border-left: 1px solid #E8E8E8;
+    // padding-left: 16px;
+    position: relative;
+    cursor: pointer;
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 42px;
+    width: 160px;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+}
+
+.header__search-select-label {
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.header__search-select-icon {
+    font-size: 1.4rem;
+    color: rgb(131, 131, 131);
+    // margin: 0 16px 0 8px;
+    // position: relative;
+    // top: 1px;
+}
+
+.header__search-btn {
+    background-color: var(--primary-color);
+    border: none;
+    height: 34px;
+    width: 60px;
+    border-radius: 2px;
+    margin-right: 3px;
+    outline: none; /* outline là khi mình bấm vào hiện viền xanh */
+}
+
+.header__search-btn:hover {
+    cursor: pointer;
+    background-color: #fb6445;
+}
+
+.header__search-btn-icon {
+    font-size: 1.4rem;
+    color: var(--white-color);
+}
+
+.header__search-select:hover .header__search-option {
+    display: block;
+}
+
+.header__search-option {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 3px);
+    width: 160px;
+    list-style: none;
+    box-shadow: 0 1px 2px #e0e0e0; /* dùng để đổ bóng (shadow) */
+    padding-left: 0;
+    border-radius: 10px;
+    display: none;
+    animation: fadeIn ease-in 0.2s;
+    z-index: 1;
+    background-color: var(--white);
+}
+
+.header__search-option::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 14px;
+    position: absolute;
+    top: -13px;
+    left: 0;
+}
+
+.header__search-option-item {
+    background-color: var(--white);
+    padding: 8px 8px;
+}
+
+.header__search-option-item:first-child { /* bo lại 2 góc nhọn trên của item đầu tiên trong option */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.header__search-option-item:last-child { /* bo lại 2 góc nhọn dưới của item cuối cùng trong option */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.header__search-option-item:hover {
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+.header__search-option-item span {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-left: 8px;
+}
+
+.header__search-option-item .icon {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-left: 12px;
+    display: none;
+}
+
+.header__search-option-item--active .icon {
+    display: inline-block;
+}
+
+.goal-input {
+    width: 100%;
+    // border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 1px;
+    // box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.4rem;
+    background-color: var(--sidebar-color);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    line-height: 20px;
+
+    &:focus {
+        border: 1px solid var(--primary);
+    }
+}
+
+.save-btn {
+    margin-left: 20px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #83999b;
+}
+
+// analytic
+.analytic {
+    flex: 1;
+    margin-left: 30px;
+}
+
+.analytic-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.analytic-card {
+    border-radius: 15px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 48%;
+    background-color: var(--white);
+}
+
+.card-icon {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.icon {
+    color: var(--white);
+    font-size: 2rem;
+}
+
+.card-text {
+    color: var(--grey);
 }

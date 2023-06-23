@@ -24,6 +24,9 @@ router.put('/update/:id', MiddlewareController.checkManager,  RoomTypeController
 router.get('/:roomId/:hotelId', RoomTypeController.getRoom);
 
 //get all room
+router.get('/:hotelId', RoomTypeController.getRoomHotel);
+
+//get all room
 router.get('/', RoomTypeController.getAllRoom);
 
 // delete 1 type of room

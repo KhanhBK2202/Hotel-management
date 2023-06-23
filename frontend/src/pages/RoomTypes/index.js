@@ -17,10 +17,19 @@ function RoomTypes() {
 
     const [rooms, setRooms] = useState([])
     useEffect(() => {
-        request
-            .get('/api/v1/roomType', { headers: {token: `Beaer ${accessToken}`}})
-            .then(res => setRooms(res))
-            .catch(err => console.log(err))
+
+        if (user?.role === 'manager') {
+            request
+                .get(`/api/v1/roomType/${user?.hotelId}`, { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => setRooms(res))
+                .catch(err => console.log(err))
+        }
+        else if (user?.role === 'admin') {
+            request
+                .get('/api/v1/roomType', { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => setRooms(res))
+                .catch(err => console.log(err))
+        }
     }, [])
 
     return (
@@ -36,13 +45,13 @@ function RoomTypes() {
             </div>
             {rooms.map((room, index) => (
                 <div key={index} className={cx('content')} style={{backgroundColor: index % 2 === 0 ? 'var(--sidebar-color)' : 'var(--clear-button-color)', boxShadow: index % 2 === 0 && '4px 4px 10px var(--box-shadow-color)'}}>
-                    <div className={cx('content-item')}>{room.roomId}</div>
+                    <div className={cx('content-item')}>{index + 1}</div>
                     <div className={cx('content-item')}>{room.type}</div>
                     <div dangerouslySetInnerHTML={{ __html: room.description }} className={cx('content-item')}></div>
                     <div style={{width: '10%', display: 'flex', alignItems: 'center'}}>
                         <img className={cx('thumbnail-item')} src={room.thumbnail} />
                     </div>
-                    <div className={cx('content-item')}>{room.isActive === 1 ? 'Active' : 'Inactive'}</div>
+                    <div className={cx('content-item')}>{room.isActive === true ? 'Active' : 'Inactive'}</div>
                     <div className={cx('content-item')}>
                         <FontAwesomeIcon icon={faEdit}/>
                     </div>

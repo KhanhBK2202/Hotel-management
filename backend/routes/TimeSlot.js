@@ -6,7 +6,7 @@ const MiddlewareController = require("../controllers/MiddlewareController.js");
 const router = express.Router()
 
 //Get all time slot
-router.get('/', MiddlewareController.checkManager, TimeSlotController.getTimeSlot);
+router.get('/', TimeSlotController.getTimeSlot);
 
 //Update time slot
 router.put('/update/:id', MiddlewareController.checkManager, TimeSlotController.updateTimeSlot);

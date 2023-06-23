@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './History.module.scss'
 import moment from 'moment'
+import bcrypt from 'bcryptjs'
 
 moment().format()
 const cx = classNames.bind(styles)
@@ -41,9 +42,27 @@ function History() {
     //     x = new Date(booking.createdAt)
     //     dateBooking.push(x.toString().slice(4, 15))
     // })
+
+    const [isValid, setIsValid] = useState(false)
+    const handleValidPassword = async (e) => {
+        await bcrypt.compare(e, user?.password, function(err, res) {
+            if (res) {
+                setIsValid(true)
+            }
+        });        
+    }
+
+    const handleHide = () => {
+        setIsValid(false)
+    }
     
     return (
         <div className={cx('wrapper')}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                <h1>History bookings</h1>
+                <input className={cx('input-item')} type='password' placeholder='Please enter your password' onChange={e => handleValidPassword(e.target.value)}/>
+                {isValid && <span className={cx('save-btn')} onClick={handleHide}>Hide</span>}
+            </div>
             <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
                 <h4 className={cx('title-item')}>QR</h4>
@@ -52,6 +71,7 @@ function History() {
                 <h4 className={cx('title-item')}>Arrival time</h4>
                 <h4 className={cx('title-item')}>Created date</h4>
             </div>
+            <hr/>
             <h3>Present</h3>
             {/* <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
@@ -62,14 +82,24 @@ function History() {
                 <div key={index} className={cx('booking')}>
                     <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
                     <div className={cx('booking-item')}>
-                        <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        {isValid ? 
+                            <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        : <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        }
                     </div>
-                    <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link>
+                    <div className={cx('url-item')}>
+                        {isValid ? 
+                            <Link to={booking?.qrURL}>http://localhost:3000{booking?.qrURL}</Link>
+                        : 
+                            <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        } 
+                    </div>
                     <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
                     <div className={cx('booking-item')}>{booking.fromTime}</div>
                     <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>
                 </div>
             ))}
+            <hr/>
             <h3>Upcoming</h3>
             {/* <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
@@ -83,14 +113,25 @@ function History() {
                 <div key={index} className={cx('booking')}>
                     <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
                     <div className={cx('booking-item')}>
-                        <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        {isValid ? 
+                            <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        : 
+                            <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        }
                     </div>
-                    <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link>
+                    <div className={cx('url-item')}>
+                        {isValid ? 
+                            <Link to={booking?.qrURL}>http://localhost:3000{booking?.qrURL}</Link>
+                        :
+                            <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        }
+                    </div>
                     <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
                     <div className={cx('booking-item')}>{booking.fromTime}</div>
                     <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>
                 </div>
             ))}
+            <hr/>
             <h3>Past</h3>
             {/* <div className={cx('title')}>
                 <h4 className={cx('title-item')}>ID</h4>
@@ -101,9 +142,19 @@ function History() {
                 <div key={index} className={cx('booking')}>
                     <h4 className={cx('bookingCode-item')}>#{booking.bookingCode}</h4>
                     <div className={cx('booking-item')}>
-                        <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        {isValid ? 
+                            <img className={cx('qr-item')} src={booking?.qr} placeholder='QR'/>
+                        :  
+                            <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        }
                     </div>
-                    {/* <Link to={booking?.qrURL} className={cx('url-item')}>http://localhost:3000{booking?.qrURL}</Link> */}
+                    <div className={cx('url-item')}>
+                        {isValid ? 
+                            <Link to={booking?.qrURL || ''}>http://localhost:3000{booking?.qrURL || ''}</Link>
+                        : 
+                            <div className={cx('required-warn')}>Enter password above to see QR Code</div>
+                        }
+                    </div>
                     <div className={cx('booking-item')}>{moment(booking.fromDate).format('LL')}</div>
                     <div className={cx('booking-item')}>{booking.fromTime}</div>
                     <div className={cx('booking-item')}>{moment(booking.createdAt).format('LL')}</div>

@@ -16,19 +16,19 @@ const CommentController = {
             res.status(500).json(err);
         }
     },
-    // // [GET] /api/v1/comment/hotel/:id
-    // getComment: async (req, res)=> {
-    //     try{
-    //         const result = await Comment.find({ hotelId: req.params.id}).sort({ createdAt: -1 }).populate('userId');
-    //         res.status(200).json(result);
-    //     }catch(err){
-    //         res.status(500).json(err);
-    //     }
-    // },
+    // [GET] /api/v1/comment/hotel/:id
+    getHotelComment: async (req, res)=> {
+        try{
+            const result = await Comment.find({ hotelId: req.params.id}).sort({ createdAt: -1 }).populate('userId').populate('hotelId');
+            res.status(200).json(result);
+        }catch(err){
+            res.status(500).json(err);
+        }
+    },
     // [GET] /api/v1/comment/highestScore
     getHighestScoreComment: async (req, res)=> {
         try{
-            const result = await Comment.find().sort({ rating: -1, createdAt: -1 }).populate('userId');
+            const result = await Comment.find().sort({ rating: -1, updatedAt: -1 }).populate('userId');
             res.status(200).json(result);
         }catch(err){
             res.status(500).json(err);

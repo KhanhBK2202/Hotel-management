@@ -1,0 +1,21 @@
+
+.calendar {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+    width: max-content;
+    background-color: var(--white);
+    border-radius: 30px;
+    // padding-top: 20px;
+    // position: relative;
+    overflow: hidden;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    scale: 1;
+    padding: 10px;
+    // padding-top: 100%; /* 1:1 Aspect Ratio */
+}
+
+.shrink {
+    scale: 1;
+    transition: scale 0.5s;
+}

@@ -18,7 +18,7 @@
 
 .search {
     display: grid;
-    grid-template-columns: auto auto auto 12%;
+    grid-template-columns: auto auto auto;
     gap: 30px;
     // width: 100%;
     margin: 15px 0;
@@ -49,20 +49,20 @@
 
 .counter-button {
     color: #888;
-    padding: 12px;
+    padding: 12px 30px;
     font-size: 1.6rem;
     cursor: pointer;
     background-color: var(--sidebar-color);
+    border-radius: 20px;
+    // &:first-child {
+    //     border-top-left-radius: 20px;
+    //     border-bottom-left-radius: 20px;
+    // }
 
-    &:first-child {
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-    }
-
-    &:last-child {
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
+    // &:last-child {
+    //     border-top-right-radius: 20px;
+    //     border-bottom-right-radius: 20px;
+    // }
 
     &:hover {
         background-color: rgb(230, 229, 229);
@@ -92,7 +92,7 @@
     // background-color: var(--search-btn-color);
     // border: 1px solid var(--primary);
     background-image: linear-gradient(to left, #a9d0eb, var(--primary));
-    color: #fff;
+    color: var(--sidebar-color);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 

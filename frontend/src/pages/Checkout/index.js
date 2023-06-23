@@ -164,7 +164,7 @@ function Checkout() {
         ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l')
 
         let qrCode = ''
-		QRCode.toDataURL(`http://10.130.241.131:3000/checkin/${data}`, {
+		QRCode.toDataURL(`http://10.128.156.53/checkin/${data}`, {
 			width: 400,
 			margin: 2,
 			color: {
@@ -200,9 +200,12 @@ function Checkout() {
         // })
         // const file = await res.json()
 
-        const date = moment(cart[0]?.dateCheckIn).format('L')
-        const time = cart[0]?.timeCheckIn
-        const dateTime = moment(`${date} ${time}`, 'MM/DD/YYYY HH:mm').format()
+        const dateCin = moment(cart[0]?.dateCheckIn).format('L')
+        const timeCin = cart[0]?.timeCheckIn
+        const dateTimeCin = moment(`${dateCin} ${timeCin}`, 'MM/DD/YYYY HH:mm').format()
+        const dateCout = moment(cart[0]?.dateCheckOut).format('L')
+        const timeCout = cart[0]?.timeCheckOut
+        const dateTimeCout = moment(`${dateCout} ${timeCout}`, 'MM/DD/YYYY HH:mm').format()
         request
             .get(`/api/v1/room/${cart[0]?.roomId}`)
             .then(res => {
@@ -221,15 +224,15 @@ function Checkout() {
                             // roomNumbers: ['01'], 
                             numberOfGuest: cart[0]?.traveller, 
                             hotel: cart[0]?.hotelId, 
-                            price: totalPrice,
+                            price: cart[0]?.price !== 0 ? (cart[0]?.price*1.1).toFixed(0) : totalPrice,
                             servicePrice: servicesPrice, 
                             isOverNight: cart[0]?.typeOfTime === 'Overnight' ? true : false,  
-                            fromDate: dateTime,
-                            toDate: cart[0]?.dateCheckOut,
+                            fromDate: dateTimeCin,
+                            toDate: dateTimeCout,
                             fromTime: cart[0]?.timeCheckIn,
                             toTime: cart[0]?.timeCheckOut,
-                            numOfHours: timeInterval,
-                            numOfDays: cart[0]?.numOfDays
+                            numOfHours: cart[0]?.typeOfTime === 'Overnight' ? 0 : timeInterval,
+                            numOfDays: cart[0]?.typeOfTime === 'Overnight' ? cart[0]?.numOfDays : 0
                         }, {
                             headers: {token: `Bearer ${accessToken}`}
                         })
@@ -315,11 +318,11 @@ function Checkout() {
                             </div>
                             <div className={cx('order__delivery')}>
                                 <div className={cx('order__delivery-label')}>Dates</div>
-                                <h4 className={cx('order__delivery-price')}>{moment(item.dateCheckIn).format('LL')} - {moment(item.dateCheckOut).format('LL')}</h4>
+                                <h4 className={cx('order__delivery-price')}>{item.dateCheckIn === item.dateCheckOut ? moment(item.dateCheckIn).format('LL') : moment(item.dateCheckIn).format('LL') + ' - ' + moment(item.dateCheckOut).format('LL')}</h4>
                             </div>
                             <div className={cx('order__delivery')}>
                                 <div className={cx('order__delivery-label')}>Time</div>
-                                <h4 className={cx('order__delivery-price')}>from {item.timeCheckIn} - by {item.timeCheckOut}</h4>
+                                <h4 className={cx('order__delivery-price')}>{cart[0].typeOfTime === 'Overnight' ? 'Checkin ' + item.timeCheckIn + ' - Checkout ' + item.timeCheckOut : 'from ' + item.timeCheckIn + ' - by ' + item.timeCheckOut}</h4>
                             </div>
                             <div className={cx('order__delivery')}>
                                 <div className={cx('order__delivery-label')}>Guests</div>
@@ -332,8 +335,8 @@ function Checkout() {
                                     <h3>Price details</h3>
                                 </div>
                                 <div className={cx('order__delivery')}>
-                                    <div className={cx('order__delivery-label')}>${item.typeOfTime === 'Hourly' ? room?.priceHour + ' x ' + timeInterval + ' hours' : room?.priceOverNight + ' x ' + item.numOfDays + ' nights'} x {item.numRooms} {item.numRooms > 1 ? 'rooms' : 'room'} </div>
-                                    <h4 className={cx('order__delivery-price')}>${roomPrice}</h4>
+                                    <div className={cx('order__delivery-label')}>${item.typeOfTime === 'Hourly' ? room?.priceHour + ' x ' + timeInterval + ' hours x ' + item.scale*100 + '% (promo)': room?.priceOverNight + ' x ' + item.numOfDays + ' nights'} x {item.numRooms} {item.numRooms > 1 ? 'rooms' : 'room'} </div>
+                                    <h4 className={cx('order__delivery-price')}>${cart[0].price !== 0 ? cart[0].price : roomPrice}</h4>
                                 </div>
                                 {cart[0]?.servicePrice.map((service, index) => (
                                     <div key={index} className={cx('order__delivery')}>
@@ -356,7 +359,7 @@ function Checkout() {
                                 <div className={cx('order__total')}>
                                     <h2 className={cx('order__total-label')}>Total</h2>
                                     <h2 className={cx('order__total-price')}>$
-                                        <span>{roomPrice + servicesPrice}</span>
+                                        <span>{cart[0].price !== 0 ? cart[0].price : roomPrice + servicesPrice}</span>
                                     </h2>
                                 </div>
                             </div>
@@ -400,15 +403,15 @@ function Checkout() {
                             <h2 style={{margin: '10px 0'}}>Your price summary</h2>
                             <div className={cx('title-summary')}>
                                 <span>Rooms and Services</span>
-                                <h4>${roomPrice + servicesPrice}</h4>
+                                <h4>${cart[0]?.price !== 0 ? cart[0]?.price : roomPrice + servicesPrice}</h4>
                             </div>
                             <div className={cx('title-summary')}>
                                 <span>10% Tax</span>
-                                <h4>${taxPrice}</h4>
+                                <h4>${cart[0]?.price !== 0 ? (cart[0]?.price*0.1).toFixed(0) : taxPrice}</h4>
                             </div>
                             <div className={cx('title-summary')}>
                                 <h2 className={cx('summary-color')}>Total price</h2>
-                                <h2 className={cx('summary-color')}>${totalPrice}</h2>
+                                <h2 className={cx('summary-color')}>${cart[0]?.price !== 0 ? (cart[0]?.price*1.1).toFixed(0) : totalPrice}</h2>
                             </div>
                             <div className={cx('payment')}>
                                 <div className={cx('payment__label')}>

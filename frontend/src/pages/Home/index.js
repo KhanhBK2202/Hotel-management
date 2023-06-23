@@ -1,23 +1,26 @@
 import { faHotel, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HorizontalCard from '~/components/HorizontalCard';
 import VerticalCard from '~/components/VerticalCard';
 import Banner from '~/layouts/components/Banner';
 import Search from '~/layouts/components/Search';
+import KommunicateChat from '~/layouts/components/Chatbot/Chatbot';
 import * as request from '~/utils/request';
 import styles from './Home.module.scss'; 
 
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 const cx = classNames.bind(styles)
 
 function Home() {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const accessToken = user?.accessToken
     const id = user?._id
-
+    const pdfRef = useRef()
     useEffect(() => {
         const line = document.querySelector('.' + cx('line'))
         const activeSection = document?.querySelector('.' + cx('active-section'))
@@ -72,6 +75,23 @@ function Home() {
             .catch(err => console.log(err))
     },[])
 
+    const downloadPDF = () => {
+        const input = pdfRef.current
+        html2canvas(input).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png')
+            const pdf = new jsPDF('p', 'mm', 'a4', true)
+            const pdfWidth = pdf.internal.pageSize.getWidth()
+            const pdfHeight = pdf.internal.pageSize.getHeight()
+            const imgWidth = canvas.width
+            const imgHeight = canvas.height
+            const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight) 
+            const imgX = (pdfWidth - imgWidth*ratio)/2
+            const imgY = 30
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth*ratio, imgHeight*ratio)
+            pdf.save('cv.pdf')
+        })
+    }
+
     return (
         <div className={cx('wrapper')}>
             {/* <Search /> */}
@@ -113,11 +133,12 @@ function Home() {
 
                     
                 </div>
-                <div className={cx('about-pics')}>
+                <div  ref={pdfRef} className={cx('about-pics')}>
                     <img className={cx('pic')} src='https://www.kevinandamanda.com/wp-content/uploads/2020/05/saigon-ho-chi-minh-city-34-720x1080.jpg'/>
                     <img className={cx('pic')} src='https://mhotel.vn/wp-content/uploads/2022/12/MHOTEL_SOAIPHAM_240DPI-31-683x1024.jpg'/>
                 </div>
             </div>
+            {/* <button className={cx('')} onClick={downloadPDF}>Download PDF</button> */}
 
             <div className={cx('customer-data')}>
                 <div className={cx('customer-heading')}>
@@ -205,7 +226,9 @@ function Home() {
                 <HorizontalCard img='https://lanrung.com.vn/wp-content/uploads/2020/03/Condo-Executive-Suite.jpg' name='Condo Executive Suite' price='$44'/>
                 <HorizontalCard img='https://lanrung.com.vn/wp-content/uploads/2020/03/Condo-Executive-Suite.jpg' name='Condo Executive Suite' price='$44'/> */}
             </div>
-            
+            <div>
+                <KommunicateChat/>
+            </div>
         </div>
     )
 }

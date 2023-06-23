@@ -18,10 +18,25 @@ function Rooms() {
 
     const [rooms, setRooms] = useState([])
     useEffect(() => {
-        request
-            .get('/api/v1/room', { headers: {token: `Beaer ${accessToken}`}})
-            .then(res => setRooms(res))
-            .catch(err => console.log(err))
+        if (user?.role === 'manager') {
+            request
+                .get(`/api/v1/roomType/${user?.hotelId}`, { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => {
+                    res.forEach(room => {
+                        request
+                            .get(`/api/v1/room/${room._id}`, { headers: {token: `Beaer ${accessToken}`}})
+                            .then(res => setRooms(prev => [...prev, ...res]))
+                            .catch(err => console.log(err))
+                    });
+                })
+                .catch(err => console.log(err))
+        }
+        else if (user?.role === 'admin') {
+            request
+                .get('/api/v1/room', { headers: {token: `Beaer ${accessToken}`}})
+                .then(res => setRooms(res))
+                .catch(err => console.log(err))
+        }
     }, [])
 
     return (

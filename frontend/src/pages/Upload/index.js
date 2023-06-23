@@ -245,7 +245,10 @@ function Upload() {
             <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
                 <div className={cx('type-and-num')}>
                     <div className={cx('title')}>Room Type</div>
-                    <select className={cx('form-select')} defaultValue='default' onChange={(e) => setRoomType(e.target.value)}>
+                    <div className={cx('form-input')}>
+                        <input className={cx('input-inner')} placeholder='' onChange={(e) => setRoomType(e.target.value)}/>  
+                    </div>
+                    {/* <select className={cx('form-select')} defaultValue='default' onChange={(e) => setRoomType(e.target.value)}>
                         <option value='default' disabled>
                             Standard
                         </option>
@@ -256,7 +259,7 @@ function Upload() {
                         <option value='Deluxe'>Deluxe</option>
                         <option value='Deluxe Twin'>Deluxe Twin</option>
                         <option value='Studio'>Studio</option>
-                    </select>
+                    </select> */}
                 </div>
                 <div className={cx('type-and-num')}>
                     <div className={cx('title')}>Number of rooms</div>

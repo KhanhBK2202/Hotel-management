@@ -1,5 +1,5 @@
 import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faCloudMoon, faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faCheck, faCloudMoon, faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 // import { faHotel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Rating } from '@mui/material';
@@ -61,7 +61,8 @@ function Dashboard() {
     // const [userBookings, setUserBookings] = useState([])
     const [searchResult, setSearchResult] = useState('')
     const [flag, setFlag] = useState(false)
-    useEffect(() => {
+    const fetchBooking = (id) => {
+
         // for (const item of bookings) {
         //     // console.log(getAll)
         //     if (item.bookedBy.username.toLowerCase() === searchResult.toLowerCase()) {
@@ -82,7 +83,7 @@ function Dashboard() {
         if (getAll && searchResult) {
             // console.log('get các reservation theo tên')
             request 
-                .get(`/api/v1/booking/@${searchResult}`, { headers: {token: `Beaer ${accessToken}`} })
+                .get(`/api/v1/booking/@${searchResult}/${id}`, { headers: {token: `Beaer ${accessToken}`} })
                 .then(res => {
                     setBookings(res)
                     if (res.length === 0) {
@@ -96,7 +97,7 @@ function Dashboard() {
         }
         else if (getAll && !searchResult)  {
             request
-                .get('/api/v1/booking', { headers: {token: `Beaer ${accessToken}`}})
+                .get(`/api/v1/booking/hotel/${id}`, { headers: {token: `Beaer ${accessToken}`}})
                 .then(res => {
                     setBookings(res)
                     setFlag(true)
@@ -107,12 +108,10 @@ function Dashboard() {
             // console.log('get các reservation theo tên và ngày đến trong khoảng của lịch')
             const checkIn = dateCheckIn.toISOString()
             const checkOut = dateCheckOut.toISOString()
-            // console.log(checkIn, checkOut)
             request
-                .get(`/api/v1/booking/byDate/@${searchResult}/${checkIn}/${checkOut}`, { headers: {token: `Beaer ${accessToken}`}})
+                .get(`/api/v1/booking/byDate/@${searchResult}/${checkIn}/${checkOut}/${id}`, { headers: {token: `Beaer ${accessToken}`}})
                 .then(res => {
                     setBookings(res)
-                    // console.log(res)
                     if (res.length === 0) {
                         setFlag(false)
                     }
@@ -124,14 +123,13 @@ function Dashboard() {
         }
         else {
             // Không lấy tất cả booking, chỉ lấy các booking trong khoàng được chọn
-            // console.log(dateCheckIn)
             // const checkIn = moment(dateCheckIn).format()
             // const checkOut = moment(dateCheckOut).format()
             const checkIn = dateCheckIn.toISOString()
             const checkOut = dateCheckOut.toISOString()
             // console.log(checkIn, checkOut)
             request
-                .get(`/api/v1/booking/byDate/${checkIn}/${checkOut}`, { headers: {token: `Beaer ${accessToken}`}})
+                .get(`/api/v1/booking/byDate/${checkIn}/${checkOut}/${id}`, { headers: {token: `Beaer ${accessToken}`}})
                 .then(res => {
                     // console.log(res)
                     setBookings(res)
@@ -144,8 +142,16 @@ function Dashboard() {
                 })
                 .catch(err => console.log(err))
         }
-
-    },[searchResult, getAll, dateCheckIn, dateCheckOut])
+    }
+    const [selectedHotel, setSelectedHotel] = useState('All')
+    const [selectedHotelId, setSelectedHotelId] = useState(user?.hotelId || 'ad')
+    useEffect(() => {
+        if (user.hotelId)
+            setSelectedHotelId(user?.hotelId)
+        if (user?.role === 'admin' && selectedHotel === 'All') 
+            setSelectedHotelId('ad')
+        fetchBooking(selectedHotelId)
+    },[searchResult, getAll, dateCheckIn, dateCheckOut, selectedHotelId])
 
     const handleCreateReservation = () => {
         const modal = document.querySelectorAll('.' + cx('modal')) 
@@ -249,7 +255,6 @@ function Dashboard() {
         // const text = document.querySelector('.' + cx('booking-no-reservation'))
         // text.style.display = 'none'
         bookings.forEach((booking, index) => {
-            // console.log('hello')
             x = new Date(booking.fromDate)
             y = new Date(booking.toDate)
             z = new Date(booking.createdAt)
@@ -265,12 +270,48 @@ function Dashboard() {
     }
 
     const [comments, setComments] = useState([])
+    const [allHotels, setAllHotels] = useState([])
     useEffect(() => {
-        request
-            .get('/api/v1/comment')
-            .then(res => setComments(res))
-            .catch(err => console.log(err))
+        let listHotelId = []
+        listHotelId.push(user?.hotelId)
+        const fetchData = async () => {
+            if (user?.role === 'admin') {
+                await request 
+                    .get('/api/v1/hotel')
+                    .then(res => {
+                        setAllHotels(res)
+                        listHotelId.pop()
+                        res.forEach((item, index) => {
+                            listHotelId.push(item._id)
+                        })
+                    })
+                    .catch(err => console.log(err))
+            }
+            listHotelId.forEach((id, index) => {
+                request
+                    .get(`/api/v1/comment/hotel/${id}`)
+                    .then(res => setComments(prev => [...prev, ...res]))
+                    .catch(err => console.log(err))
+            })
+        }
+        fetchData()
     },[])
+
+    const handleSubmitHotel = (id) => {
+        if (id === 'all') {
+            setSelectedHotel('All')
+            // setSelectedHotelId(id)
+            fetchBooking('ad')
+        }
+        else {
+            const r = allHotels.find((hotel) => {
+                return hotel._id === id
+            })
+            setSelectedHotel(r.name)
+            setSelectedHotelId(id)
+            fetchBooking(id)
+        }
+    }
 
     if (user?.role === 'user' || !user) {
         return <Navigate to='/'/>
@@ -285,10 +326,33 @@ function Dashboard() {
                         <h2 className={cx('')}>
                             {getAll ? 'All Bookings' : fullDate}
                         </h2>
-                        <div style={{display: 'flex'}}>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
                             <div className={cx('get-all-bookings')} onClick={() => setGetAll(true)}>
                                 All
                             </div>
+
+                            {user.role === 'admin' && 
+                                <div className={cx('header__search-select')}>
+                                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', lineHeight: '20px'}}>
+                                        <span className={cx('header__search-select-label')}>{selectedHotel}</span>
+                                        <FontAwesomeIcon icon={faAngleDown} className={cx('header__search-select-icon')}/>
+                                    </div>
+
+                                    {/* <li className={cx('header__search-option-item', 'header__search-option-item--active')}></li> */}
+                                    <ul className={cx('header__search-option')}>    
+                                        <li className={cx('header__search-option-item')} onClick={() => handleSubmitHotel('all')}>
+                                            <span>All</span>
+                                            <FontAwesomeIcon className={cx('icon')} icon={faCheck}/>
+                                        </li>
+                                        {allHotels.map((hotel, index) => (
+                                            <li key={index} className={cx('header__search-option-item')} onClick={() => handleSubmitHotel(hotel._id)}>
+                                                <span>{hotel.name}</span>
+                                                <FontAwesomeIcon className={cx('icon')} icon={faCheck}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }   
                             <div className={cx('all-bookings__heading-select')}>
                                 {/* <select className={cx('form-select')} defaultValue='Month' >
                                     <option value='Month' disabled>
@@ -301,7 +365,7 @@ function Dashboard() {
                                 </select> */}
                                 {/* <div className={cx('form-select')}>Search guest name</div> */}
                                 <input className={cx('traveller-input')} placeholder='Search guest name' onChange={(e) => setSearchResult(e.target.value)}/>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
 
@@ -332,9 +396,9 @@ function Dashboard() {
                                             
                                             <div className={cx('booking-time-detail')}>
                                                 <h3>{booking.fromTime}</h3>
-                                                {/* <div className={cx('booking-time-place')}>
+                                                <div className={cx('booking-time-place')}>
                                                     {booking.hotel.name}
-                                                </div> */}
+                                                </div>
                                             </div>
 
                                             <div className={cx('booking-time-duration')}>
@@ -347,9 +411,9 @@ function Dashboard() {
 
                                             <div className={cx('booking-time-detail')}>
                                                 <h3>{booking.toTime}</h3>
-                                                {/* <div className={cx('booking-time-place')}>
+                                                <div className={cx('booking-time-place')}>
                                                     {booking.hotel.name}
-                                                </div> */}
+                                                </div>
                                             </div>
 
                                         </div>
@@ -614,6 +678,14 @@ function Dashboard() {
                             <div className={cx('reservation-date')}>
                                 King bed stylish Apartment with Loft style family room
                             </div>
+                        </div>
+                    </div>
+                    <div className={cx('reservation-check-date')}>
+                        <div className={cx('reservation-check-date__item')}>
+                            <h5 className={cx('reservation-date__heading')}>Identity card/passport</h5>
+                            <img className={cx('reservation-card')} src={bookings[index]?.imageCheckin} placeholder='identity'/>
+                            {/* <div className={cx('')}>
+                            </div> */}
                         </div>
                     </div>
                 </div>
